@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PIRMĀ MOBILĀ AUTO TĪRĪŠANA VENTSPILĪ • AutoGlancis</title>
+    <meta name="description" content="Mēs nevedam Jūsu auto uz tīrītavu – mēs paši braucam pie Jums! Pirmā un vienīgā mobilā auto tīrīšana Ventspilī un apkārtnē.">
+    
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Playfair+Display:wght@700&amp;display=swap');
+        
+        :root {
+            --accent: #0ea5e9;
+        }
+        
+        body {
+            font-family: 'Inter', system_ui, sans-serif;
+        }
+        
+        .heading-font {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+        }
+
+        .premium-dark {
+            background-color: #0a0a0a;
+            color: #f1f5f9;
+        }
+
+        .section-dark {
+            background-color: #111111;
+        }
+
+        .card {
+            background-color: #171717;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            border-color: #334155;
+        }
+
+        .service-card {
+            cursor: pointer;
+        }
+
+        .service-card.selected {
+            border-color: #0ea5e9;
+            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+        }
+
+        .nav-link {
+            position: relative;
+            transition: color 0.2s ease;
+        }
+        
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #0ea5e9;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover:after {
+            width: 100%;
+        }
+
+        .hero-bg {
+            background: linear-gradient(135deg, #0a0a0a 30%, #1a2634 100%);
+        }
+
+        .glossy-btn {
+            background: linear-gradient(to right, #0ea5e9, #0284c8);
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 15px -3px rgb(14 165 233 / 0.3);
+        }
+        
+        .glossy-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 25px -5px rgb(14 165 233 / 0.4);
+        }
+
+        .stat-number {
+            font-variant-numeric: tabular-nums;
+        }
+
+        .clean-icon {
+            color: #0ea5e9;
+        }
+
+        .section-header {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-header:after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(to right, #0ea5e9, transparent);
+            border-radius: 3px;
+        }
+
+        .detail-grid {
+            background-image: 
+                linear-gradient(rgba(15, 23, 42, 0.6) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(15, 23, 42, 0.6) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .car-shadow {
+            filter: drop-shadow(0 25px 25px rgb(0 0 0 / 0.4));
+        }
+
+        .booking-input {
+            background-color: #171717;
+            border: 1px solid #334155;
+            color: #f1f5f9;
+            transition: all 0.2s ease;
+        }
+        
+        .booking-input:focus {
+            border-color: #0ea5e9;
+            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.15);
+            outline: none;
+        }
+
+        .service-pill {
+            font-size: 0.75rem;
+            padding: 1px 10px;
+            border-radius: 9999px;
+            background-color: #1e2937;
+            color: #94a3b8;
+        }
+
+        .success-check {
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .mobile-badge {
+            background: #052e16;
+            color: #4ade80;
+            font-size: 0.75rem;
+            padding: 2px 10px;
+            border-radius: 9999px;
+            font-weight: 600;
+            letter-spacing: -.5px;
+        }
+    </style>
+</head>
+<body class="premium-dark text-slate-200">
+    <!-- NAVBAR -->
+    <nav class="sticky top-0 z-50 bg-[#0a0a0a]/95 backdrop-blur-lg border-b border-slate-800">
+        <div class="max-w-screen-2xl mx-auto">
+            <div class="px-6 lg:px-10 py-4 flex items-center justify-between">
+                <div class="flex items-center gap-x-3">
+                    <!-- Logo -->
+                    <a href="#" class="flex items-center gap-x-3">
+                        <img src="reels/AG1.png" 
+                             alt="AutoGlancis Logo" 
+                             class="h-9 w-auto rounded-lg"
+                             onerror="this.src='https://images.unsplash.com/photo-1607860108855-64acf2078d6c?w=120&amp;h=48&amp;fit=crop'; this.onerror=null;">
+                        <div>
+                            <div class="font-bold text-2xl tracking-tighter">AUTOGLANCIS</div>
+                            <div class="text-[10px] text-slate-500 -mt-1 font-medium">VENTSPILS</div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center gap-x-8 text-sm font-medium">
+                    <a href="#services" class="nav-link text-slate-300 hover:text-white px-1">Pakalpojumi</a>
+                    <a href="#how" class="nav-link text-slate-300 hover:text-white px-1">Kā tas strādā</a>
+                    <a href="#gallery" class="nav-link text-slate-300 hover:text-white px-1">Galerija</a>
+                    <a href="#book" class="nav-link text-slate-300 hover:text-white px-1">Rezervēt</a>
+                </div>
+
+                <div class="flex items-center gap-x-3">
+                    <!-- Phone -->
+                    <a href="tel:+37125689885" 
+                       class="hidden sm:flex items-center gap-x-2 text-sm font-semibold px-4 py-2 rounded-2xl border border-slate-700 hover:bg-slate-900 transition-colors">
+                        <i class="fa-solid fa-phone text-emerald-400"></i>
+                        <span class="font-mono">+371 2568 9885</span>
+                    </a>
+
+                    <!-- Book CTA -->
+                    <a href="https://cal.com/auto-glancis-tz36dk" target="_blank" 
+                       class="glossy-btn text-white text-sm font-semibold px-6 py-2.5 rounded-2xl flex items-center gap-x-2 hover:scale-[1.02]">
+                        <span>Rezervēt tagad</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </a>
+
+                    <!-- Mobile menu -->
+                    <button id="mobile-menu-btn"
+                            class="md:hidden w-10 h-10 flex items-center justify-center text-xl text-slate-400 hover:text-white">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MOBILE MENU -->
+    <div id="mobile-menu" class="hidden md:hidden bg-[#0a0a0a] border-b border-slate-800">
+        <div class="px-6 py-4 flex flex-col gap-y-1 text-sm">
+            <a href="#services" class="py-2.5 px-3 mobile-nav-link">Pakalpojumi</a>
+            <a href="#how" class="py-2.5 px-3 mobile-nav-link">Kā tas strādā</a>
+            <a href="#gallery" class="py-2.5 px-3 mobile-nav-link">Galerija</a>
+            <a href="#book" class="py-2.5 px-3 mobile-nav-link">Rezervēt</a>
+            <div class="pt-2 border-t border-slate-800 mt-1">
+                <a href="tel:+37125689885" class="flex items-center gap-2 py-2.5 px-3 font-medium">
+                    <i class="fa-solid fa-phone text-emerald-400"></i>
+                    <span>+371 2568 9885</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- HERO -->
+    <header class="relative pt-8 pb-16 lg:pt-12 lg:pb-20 overflow-hidden">
+        <div class="max-w-screen-2xl mx-auto px-6 lg:px-10">
+            <div class="grid lg:grid-cols-12 gap-10 items-center">
+                
+                <!-- Text -->
+                <div class="lg:col-span-7 xl:col-span-7 max-w-2xl">
+                    <div class="inline-flex items-center gap-2 mb-5 px-4 h-8 rounded-3xl bg-slate-900 border border-slate-800">
+                        <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+                        <span class="uppercase tracking-[2px] text-xs font-semibold text-emerald-400">Pirmā Ventspilī</span>
+                    </div>
+
+                    <h1 class="text-6xl lg:text-7xl xl:text-7xl leading-[0.96] font-bold tracking-tighter heading-font">
+                        PIRMĀ MOBILĀ<br>AUTO TĪRĪŠANA<br><span class="text-slate-400">VENTSPILĪ</span>
+                    </h1>
+                    
+                    <p class="mt-6 max-w-lg text-xl text-slate-400 leading-relaxed">
+                        Mēs atbraucam pie Jums — mājās, darbā, stāvvietā vai garāžā.<br>
+                        Bez rindām. Bez liekas braukšanas.
+                    </p>
+
+                    <div class="mt-8 flex flex-wrap items-center gap-4">
+                        <a href="https://cal.com/auto-glancis-tz36dk" target="_blank"
+                           class="glossy-btn inline-flex items-center justify-center gap-x-3 text-white text-base font-semibold px-8 h-14 rounded-3xl">
+                            <span>Rezervēt pakalpojumu</span>
+                        </a>
+                        
+                        <a href="#services" 
+                           class="inline-flex items-center justify-center gap-x-2 border border-slate-700 hover:bg-slate-900 transition px-6 h-14 rounded-3xl font-medium">
+                            <span>Skatīt pakalpojumus</span>
+                        </a>
+                    </div>
+
+                    <div class="flex items-center gap-x-8 mt-9">
+                        <div>
+                            <div class="flex -space-x-2">
+                                <div class="w-8 h-8 rounded-full ring-2 ring-[#0a0a0a] overflow-hidden"><img src="https://images.unsplash.com/photo-1618843479313-40f8c3a0a0f0?w=64&amp;h=64&amp;fit=crop" class="object-cover"></div>
+                                <div class="w-8 h-8 rounded-full ring-2 ring-[#0a0a0a] overflow-hidden"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=64&amp;h=64&amp;fit=crop" class="object-cover"></div>
+                                <div class="w-8 h-8 rounded-full ring-2 ring-[#0a0a0a] overflow-hidden"><img src="https://images.unsplash.com/photo-1607860108855-64acf2078d6c?w=64&amp;h=64&amp;fit=crop" class="object-cover"></div>
+                            </div>
+                        </div>
+                        <div class="text-xs leading-tight">
+                            <span class="font-semibold text-emerald-400">5.0</span> 
+                            <span class="text-slate-400">no 100+ klientiem</span><br>
+                            <span class="text-slate-500">Ventspilī un apkārtnē</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero visual -->
+                <div class="lg:col-span-5 xl:col-span-5 relative">
+                    <div class="relative rounded-[3rem] overflow-hidden aspect-[16/13] lg:aspect-auto lg:h-[520px] border border-slate-800 shadow-2xl">
+                        <a href="https://earth.google.com/web/@57.37387033,21.6632577,12.04285732a,37244.5524133d,35y,298.63167378h,0t,0r/data=CgRCAggBQgIIAEoNCP___________wEQAA" 
+   target="_blank" 
+   rel="noopener noreferrer"
+   class="absolute inset-0 block group"
+   title="Skatīt Ventspili Google Earth">
+    <img src="reels/Ventspils_map.png" 
+         class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.02]" 
+         alt="Ventspils karte - AutoGlancis darbības teritorija">
+</a>
+                        
+                        <!-- Availability badge with Ventspils map as background -->
+                        <div class="absolute bottom-6 right-6 w-44 h-20 rounded-2xl overflow-hidden border border-slate-700 shadow-xl">
+                            <!-- Map as background -->
+                            <img src="reels/Ventspils_map.png" 
+                                 alt="Ventspils" 
+                                 class="absolute inset-0 w-full h-full object-cover">
+                            
+                            <!-- Dark overlay for text readability -->
+                            <div class="absolute inset-0 bg-black/65"></div>
+                            
+                            <!-- Text content -->
+                            <div class="absolute inset-0 flex items-center px-4">
+                                <div>
+                                    <div class="text-emerald-400 text-[10px] tracking-[1.5px] font-semibold">PIEEJAMS ŠODIEN</div>
+                                    <div class="text-white text-sm font-semibold leading-none mt-0.5">2 brīvas vietas</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="absolute top-6 left-6">
+                            <div class="mobile-badge flex items-center gap-1.5">
+                                <i class="fa-solid fa-truck"></i>
+                                <span class="font-bold">MOBILĀ SERVISS</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- TRUST BAR -->
+    <div class="border-y border-slate-800 py-4">
+        <div class="max-w-screen-2xl mx-auto px-6 lg:px-10">
+            <div class="flex flex-wrap justify-center md:justify-between items-center gap-x-10 gap-y-4 text-center text-xs uppercase tracking-[1.5px] text-slate-500 font-medium">
+                <div class="flex items-center gap-2"><i class="fa-solid fa-shield-halved text-emerald-400"></i> <span>5 gadu pieredze</span></div>
+                <div>Profesionāla tehnika un ķīmija</div>
+                <div>100% mobilais serviss</div>
+                <div class="hidden md:block">Ventspils • Piltene • Vārve • Pope • Cirpstene</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SERVICES -->
+    <section id="services" class="max-w-screen-2xl mx-auto px-6 lg:px-10 pt-16 pb-12">
+        <div class="flex justify-between items-end mb-9">
+            <div>
+                <div class="uppercase tracking-[3px] text-xs text-sky-400 font-semibold mb-2">PAKALPOJUMI</div>
+                <h2 class="text-5xl heading-font tracking-tight">Mūsu pakalpojumi</h2>
+            </div>
+            <a href="#book" class="hidden md:flex items-center text-sm text-sky-400 hover:text-sky-300 font-medium">
+                Rezervēt jebkuru pakalpojumu <i class="ml-2 fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-5">
+            
+            <!-- Service 1: STANDARTA SALONA ĀTRĀ TĪRĪŠANA -->
+            <div onclick="selectService(0, this)" class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <div class="service-pill mb-4 inline-block">POPULĀRĀKAIS</div>
+                        <h3 class="font-semibold text-xl leading-none tracking-tight">Standarta salona<br>ātrā tīrīšana</h3>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-3xl font-semibold tabular-nums">35€</div>
+                    </div>
+                </div>
+                <div class="mt-auto pt-4 text-xs text-slate-300 leading-snug">
+                    Ātra un efektīva salona tīrīšana, kas atsvaidzina auto interjeru. Ideāli piemērota regulārai apkopei vai viegli netīram salonam.<br><br>
+                    • Visaptveroša tīrīšana ar putekļusūcēju<br>
+                    • Virsmu noslaucīšana ar profesionāliem līdzekļiem<br>
+                    • Stiklu tīrīšana no iekšpuses<br>
+                    • Sliekšņu un durvju apakšējo daļu tīrīšana<br>
+                    <span class="text-slate-400">(~ 2h 30min)</span>
+                </div>
+            </div>
+
+            <!-- Service 2: AUTO SALONA TĪRĪŠANA -->
+            <div onclick="selectService(1, this)" class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="font-semibold text-xl leading-none tracking-tight">Auto salona<br>tīrīšana</h3>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-3xl font-semibold tabular-nums">60€</div>
+                    </div>
+                </div>
+                <div class="mt-auto pt-4 text-xs text-slate-300 leading-snug">
+                    Rūpīga un padziļināta salona tīrīšana. Ideāli piemērota vidēji netīriem saloniem.<br><br>
+                    • Detalizēta putekļu sūcēja tīrīšana<br>
+                    • Virsmu mazgāšana ar neitrāliem līdzekļiem<br>
+                    • Traipu apstrāde uz sēdekļiem un paklājiem<br>
+                    • Durvju iekšējo paneļu un sliekšņu padziļināta tīrīšana<br>
+                    • Stiklu un priekšējā paneļa tīrīšana
+                </div>
+            </div>
+
+            <!-- Service 3: DETALIZĒTĀ AUTO TĪRĪŠANA + ĶĪMISKĀ APSTRĀDE -->
+            <div onclick="selectService(2, this)" class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="font-semibold text-xl leading-none tracking-tight">Detalizētā auto tīrīšana<br>+ ķīmiskā apstrāde</h3>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-3xl font-semibold tabular-nums">120€</div>
+                    </div>
+                </div>
+                <div class="mt-auto pt-4 text-xs text-slate-300 leading-snug">
+                    Pilnīga dziļā salona ķīmiskā apstrāde. Visaptverošākais pakalpojums — noņem vecus traipus, baktērijas un smakas.<br><br>
+                    • Dziļā putekļu sūcēja tīrīšana<br>
+                    • Ķīmiskā ekstrakcijas mazgāšana<br>
+                    • Ventilācijas sistēmas tīrīšana<br>
+                    • Ādas kondicionēšana + plastmasu atjaunošana<br>
+                    • Augstas kvalitātes aromatizēšana<br>
+                    <span class="text-amber-400 text-[10px]">Nepieciešama klienta elektrība</span>
+                </div>
+            </div>
+
+            <!-- Service 4: STANDARTA AUTO ĀRPUSES TĪRĪŠANA -->
+            <div onclick="selectService(3, this)" class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="font-semibold text-xl leading-none tracking-tight">Standarta auto<br>ārpuses tīrīšana</h3>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-3xl font-semibold tabular-nums">15€</div>
+                    </div>
+                </div>
+                <div class="mt-auto pt-4 text-xs text-slate-300 leading-snug">
+                    Tikai privātīpašumā. Ātra un efektīva virsbūves mazgāšana.<br><br>
+                    • Rūpīga virsbūves mazgāšana ar profesionālām šampūniem<br>
+                    • Disku un riepu tīrīšana<br>
+                    • Stiklu tīrīšana<br>
+                    • Sliekšņu un durvju ārējo daļu mazgāšana<br>
+                    • Noskalošana un nosusināšana
+                </div>
+            </div>
+
+            <!-- Service 5: AUTO ĀRPUSES DETALIZĒTA TĪRĪŠANA -->
+            <div onclick="selectService(4, this)" class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="font-semibold text-xl leading-none tracking-tight">Auto ārpuses<br>detalizēta tīrīšana</h3>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-3xl font-semibold tabular-nums">45€</div>
+                    </div>
+                </div>
+                <div class="mt-auto pt-4 text-xs text-slate-300 leading-snug">
+                    Tikai privātīpašumā. Padziļināta virsbūves mazgāšana ar papildu kopšanu.<br><br>
+                    • Kontaktmazgāšana ar putām<br>
+                    • Rūpīga disku, riepu un arku tīrīšana<br>
+                    • Plastmasas un gumijas atjaunošana<br>
+                    • Ātrā vaskošana + pilna žāvēšana<br>
+                    • Logu un sliekšņu tīrīšana
+                </div>
+            </div>
+
+            <!-- Service 6: MĒBEĻU ĶĪMISKĀ TĪRĪŠANA -->
+            <div onclick="selectService(5, this)" class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="font-semibold text-xl leading-none tracking-tight">Mēbeļu<br>ķīmiskā tīrīšana</h3>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-3xl font-semibold tabular-nums">no 35€</div>
+                    </div>
+                </div>
+                <div class="mt-auto pt-4 text-xs text-slate-300 leading-snug">
+                    Matrača, paklāju un dīvānu ķīmiskā tīrīšana.<br><br>
+                    • Matrača ķīmiskā tīrīšana – no 35€<br>
+                    • Paklāju ķīmiskā tīrīšana – no 35€<br>
+                    • Dīvānu ķīmiskā tīrīšana – no 35€
+                </div>
+            </div>
+
+            <!-- Service 7: Augstspiediena virsmu tīrīšana -->
+            <div onclick="selectService(6, this)" class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="font-semibold text-xl leading-none tracking-tight">Augstspiediena<br>virsmu tīrīšana</h3>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-lg font-semibold tabular-nums">1.5–4€/m²</div>
+                    </div>
+                </div>
+                <div class="mt-auto pt-4 text-xs text-slate-300 leading-snug">
+                    Bruģa, terases, fasādes, žoga, dārza mēbeļu, bērnu rotaļu laukumu, betona un akmens tīrīšana.<br><br>
+                    ✅ Bez ķīmijas vai videi draudzīgi līdzekļi<br>
+                    ✅ Ideāli privātmāju pagalmiem un komerciālām teritorijām
+                </div>
+            </div>
+
+            <!-- Service 8: Automašīnu Diagnostika -->
+            <div onclick="selectService(7, this)" class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="font-semibold text-xl leading-none tracking-tight">Automašīnu<br>Diagnostika</h3>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-3xl font-semibold tabular-nums">20€</div>
+                    </div>
+                </div>
+                <div class="mt-auto pt-4 text-xs text-slate-300 leading-snug">
+                    Diagnostika ar mūsdienīgu iekārtu. Ātri un precīzi nolasām kļūdu kodus.<br><br>
+                    • Pilna OBD diagnostika<br>
+                    • Kļūdu kodu nolasīšana un dzēšana<br>
+                    • Reāllaika datu monitorings<br>
+                    • Ieteikumi turpmākajām darbībām<br>
+                    • Protokola izdruka vai nosūtīšana uz e-pastu
+                </div>
+            </div>
+        </div>
+
+        <p class="text-xs text-center text-slate-500 mt-6">Cenas orientējošas. Precīza cena atkarīga no auto stāvokļa un izmēra.</p>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section id="how" class="section-dark py-14 border-y border-slate-800">
+        <div class="max-w-screen-2xl mx-auto px-6 lg:px-10">
+            <div class="text-center mb-10">
+                <div class="uppercase tracking-[3px] text-xs text-sky-400 font-semibold">PROCESS</div>
+                <h2 class="text-5xl heading-font tracking-tighter mt-1">Kā tas strādā?</h2>
+            </div>
+
+            <div class="grid md:grid-cols-4 gap-5 max-w-6xl mx-auto">
+                <div class="text-center px-5">
+                    <div class="mx-auto w-14 h-14 rounded-2xl bg-slate-800 flex items-center justify-center mb-5 text-3xl">
+                        <i class="fa-solid fa-calendar text-sky-400"></i>
+                    </div>
+                    <div class="font-semibold text-lg mb-1.5">1. Rezervējiet</div>
+                    <p class="text-sm text-slate-400">Izvēlieties pakalpojumu un ērtu laiku. Mēs apstiprināsim īsziņā vai zvanā.</p>
+                </div>
+                <div class="text-center px-5">
+                    <div class="mx-auto w-14 h-14 rounded-2xl bg-slate-800 flex items-center justify-center mb-5 text-3xl">
+                        <i class="fa-solid fa-car-side text-sky-400"></i>
+                    </div>
+                    <div class="font-semibold text-lg mb-1.5">2. Mēs atbraucam</div>
+                    <p class="text-sm text-slate-400">Atbraucam uz Jūsu norādīto adresi ar visu nepieciešamo aprīkojumu.</p>
+                </div>
+                <div class="text-center px-5">
+                    <div class="mx-auto w-14 h-14 rounded-2xl bg-slate-800 flex items-center justify-center mb-5 text-3xl">
+                        <i class="fa-solid fa-magic text-sky-400"></i>
+                    </div>
+                    <div class="font-semibold text-lg mb-1.5">3. Tīrām auto</div>
+                    <p class="text-sm text-slate-400">Profesionāla tīrīšana tieši tur, kur auto atrodas. Jūs varat palikt mājās vai strādāt.</p>
+                </div>
+                <div class="text-center px-5">
+                    <div class="mx-auto w-14 h-14 rounded-2xl bg-slate-800 flex items-center justify-center mb-5 text-3xl">
+                        <i class="fa-solid fa-check-double text-sky-400"></i>
+                    </div>
+                    <div class="font-semibold text-lg mb-1.5">4. Gatavs!</div>
+                    <p class="text-sm text-slate-400">Samaksājiet skaidrā vai ar karti. Saņemiet tīru un svaigu auto.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="max-w-screen-2xl mx-auto px-6 lg:px-10 py-14">
+        <div class="mb-8">
+            <div class="uppercase tracking-[3px] text-xs text-sky-400 font-semibold">ATSĀUKSMES</div>
+            <h2 class="text-4xl heading-font tracking-tight">Ko saka mūsu klienti</h2>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-5">
+            <div class="card border border-slate-700 rounded-3xl p-6">
+                <div class="flex gap-x-1 text-amber-400 mb-4">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+                <p class="text-lg leading-tight">"Izdarīja visu no A līdz Z perfekti. Auto izskatās kā no salona. Ļoti iesaku!"</p>
+                <div class="mt-6 flex items-center gap-3">
+                    <div class="text-sm">
+                        <div class="font-medium">Līna Indriksone</div>
+                        <div class="text-slate-400 text-xs">Ventspils</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card border border-slate-700 rounded-3xl p-6">
+                <div class="flex gap-x-1 text-amber-400 mb-4">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+                </div>
+                <p class="text-lg leading-tight">"Mobilais serviss ir īsta ērtība. Nācās tikai atslēgt auto. Rezultāts pārspēja cerības."</p>
+                <div class="mt-6 flex items-center gap-3">
+                    <div class="text-sm">
+                        <div class="font-medium">Māris Bērziņš</div>
+                        <div class="text-slate-400 text-xs">Piltene</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card border border-slate-700 rounded-3xl p-6">
+                <div class="flex gap-x-1 text-amber-400 mb-4">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+                <p class="text-lg leading-tight">"Ķīmiskā tīrīšana izvilka visus traipus no bērnu sēdeklīšiem. Auto smaržo brīnišķīgi jau 3 nedēļas."</p>
+                <div class="mt-6 flex items-center gap-3">
+                    <div class="text-sm">
+                        <div class="font-medium">Ilze Kalniņa</div>
+                        <div class="text-slate-400 text-xs">Ventspils</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- REELS GALLERY -->
+    <section id="gallery" class="section-dark border-y border-slate-800 py-14">
+        <div class="max-w-screen-2xl mx-auto px-6 lg:px-10">
+            <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
+                <div>
+                    <div class="flex items-center gap-3">
+                        <i class="fa-brands fa-instagram text-3xl text-pink-500"></i>
+                        <div>
+                            <div class="uppercase tracking-[3px] text-xs text-sky-400 font-semibold">MŪSU REELS</div>
+                            <h2 class="text-4xl heading-font tracking-tight">@autoglancis Instagram</h2>
+                        </div>
+                    </div>
+                </div>
+                <a href="https://www.instagram.com/autoglancis" target="_blank" 
+                   class="inline-flex items-center gap-x-2 bg-white text-black text-sm font-semibold px-6 py-2.5 rounded-2xl hover:bg-slate-200 transition">
+                    <i class="fa-brands fa-instagram"></i> 
+                    <span>Skatīt visus Reels Instagram</span>
+                </a>
+            </div>
+
+            <!-- Clean Video Reels Grid (only videos - no old Pirms/Pēc images) -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+                
+                <!-- Reel 1 -->
+                <div class="group relative rounded-2xl overflow-hidden border border-slate-700 bg-black aspect-[9/16] cursor-pointer" onclick="playReel('reels/autoglancis_at_customer.mp4.mp4', 'Mobilais serviss pie klienta')">
+                    <video class="w-full h-full object-cover" muted loop playsinline preload="metadata">
+                        <source src="reels/autoglancis_at_customer.mp4.mp4" type="video/mp4">
+                    </video>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                    <div class="absolute bottom-3 left-3 right-3 text-white">
+                        <div class="text-xs bg-emerald-600 inline-block px-2 py-0.5 rounded mb-1">PIE KLIENTA</div>
+                        <div class="font-semibold text-sm leading-tight">Mēs strādājam pie Jums</div>
+                    </div>
+                    <div class="absolute top-3 right-3 bg-black/60 rounded-full p-2">
+                        <i class="fa-solid fa-play text-white text-sm"></i>
+                    </div>
+                </div>
+
+                <!-- Reel 2: Camper -->
+                <div class="group relative rounded-2xl overflow-hidden border border-slate-700 bg-black aspect-[9/16] cursor-pointer" onclick="playReel('reels/camper-before-after.mp4.mp4', 'Kemperis - Pirms un pēc')">
+                    <video class="w-full h-full object-cover" muted loop playsinline preload="metadata">
+                        <source src="reels/camper-before-after.mp4.mp4" type="video/mp4">
+                    </video>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                    <div class="absolute bottom-3 left-3 right-3 text-white">
+                        <div class="text-xs bg-black/70 inline-block px-2 py-0.5 rounded mb-1">PIRMS / PĒC</div>
+                        <div class="font-semibold text-sm leading-tight">Kemperis • Pilna tīrīšana</div>
+                    </div>
+                    <div class="absolute top-3 right-3 bg-black/60 rounded-full p-2">
+                        <i class="fa-solid fa-play text-white text-sm"></i>
+                    </div>
+                </div>
+
+                <!-- Reel 3: Hilux -->
+                <div class="group relative rounded-2xl overflow-hidden border border-slate-700 bg-black aspect-[9/16] cursor-pointer" onclick="playReel('reels/hillux-before-after.mp4.mp4', 'Toyota Hilux - Pirms un pēc')">
+                    <video class="w-full h-full object-cover" muted loop playsinline preload="metadata">
+                        <source src="reels/hillux-before-after.mp4.mp4" type="video/mp4">
+                    </video>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                    <div class="absolute bottom-3 left-3 right-3 text-white">
+                        <div class="text-xs bg-black/70 inline-block px-2 py-0.5 rounded mb-1">PIRMS / PĒC</div>
+                        <div class="font-semibold text-sm leading-tight">Toyota Hilux • Detailing</div>
+                    </div>
+                    <div class="absolute top-3 right-3 bg-black/60 rounded-full p-2">
+                        <i class="fa-solid fa-play text-white text-sm"></i>
+                    </div>
+                </div>
+
+                <!-- Reel 4: John Deere -->
+                <div class="group relative rounded-2xl overflow-hidden border border-slate-700 bg-black aspect-[9/16] cursor-pointer" onclick="playReel('reels/john_deere-before-after.mp4.mp4', 'John Deere - Pirms un pēc')">
+                    <video class="w-full h-full object-cover" muted loop playsinline preload="metadata">
+                        <source src="reels/john_deere-before-after.mp4.mp4" type="video/mp4">
+                    </video>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                    <div class="absolute bottom-3 left-3 right-3 text-white">
+                        <div class="text-xs bg-black/70 inline-block px-2 py-0.5 rounded mb-1">PIRMS / PĒC</div>
+                        <div class="font-semibold text-sm leading-tight">John Deere • Ķīmiskā tīrīšana</div>
+                    </div>
+                    <div class="absolute top-3 right-3 bg-black/60 rounded-full p-2">
+                        <i class="fa-solid fa-play text-white text-sm"></i>
+                    </div>
+                </div>
+
+                <!-- Reel 5: Tesla -->
+                <div class="group relative rounded-2xl overflow-hidden border border-slate-700 bg-black aspect-[9/16] cursor-pointer" onclick="playReel('reels/tesla-before-after.mp4.mp4', 'Tesla - Pirms un pēc')">
+                    <video class="w-full h-full object-cover" muted loop playsinline preload="metadata">
+                        <source src="reels/tesla-before-after.mp4.mp4" type="video/mp4">
+                    </video>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                    <div class="absolute bottom-3 left-3 right-3 text-white">
+                        <div class="text-xs bg-black/70 inline-block px-2 py-0.5 rounded mb-1">PIRMS / PĒC</div>
+                        <div class="font-semibold text-sm leading-tight">Tesla • Salona atjaunošana</div>
+                    </div>
+                    <div class="absolute top-3 right-3 bg-black/60 rounded-full p-2">
+                        <i class="fa-solid fa-play text-white text-sm"></i>
+                    </div>
+                </div>
+
+                <!-- Reel 6: VW -->
+                <div class="group relative rounded-2xl overflow-hidden border border-slate-700 bg-black aspect-[9/16] cursor-pointer" onclick="playReel('reels/wv-before-after.mp4.mp4', 'Volkswagen - Pirms un pēc')">
+                    <video class="w-full h-full object-cover" muted loop playsinline preload="metadata">
+                        <source src="reels/wv-before-after.mp4.mp4" type="video/mp4">
+                    </video>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                    <div class="absolute bottom-3 left-3 right-3 text-white">
+                        <div class="text-xs bg-black/70 inline-block px-2 py-0.5 rounded mb-1">PIRMS / PĒC</div>
+                        <div class="font-semibold text-sm leading-tight">Volkswagen • Pilna tīrīšana</div>
+                    </div>
+                    <div class="absolute top-3 right-3 bg-black/60 rounded-full p-2">
+                        <i class="fa-solid fa-play text-white text-sm"></i>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="text-center mt-6">
+                <p class="text-xs text-slate-500">Reāli darbi no Ventspils un apkārtnes • Skatiet vairāk video <a href="https://www.instagram.com/autoglancis" target="_blank" class="text-pink-400 hover:underline">@autoglancis</a></p>
+            </div>
+
+            <!-- Video Modal -->
+            <div id="video-modal" onclick="closeReelModal()" class="hidden fixed inset-0 bg-black/90 z-[90] flex items-center justify-center p-4">
+                <div onclick="event.stopImmediatePropagation()" class="relative max-w-3xl w-full">
+                    <button onclick="closeReelModal()" class="absolute -top-10 right-0 text-white text-2xl hover:text-pink-400">
+                        <i class="fa-solid fa-times"></i>
+                    </button>
+                    <video id="modal-video" class="w-full rounded-2xl" controls autoplay playsinline>
+                        Your browser does not support the video tag.
+                    </video>
+                    <div id="modal-caption" class="text-center text-white mt-3 text-lg font-medium"></div>
+                </div>
+            </div>
+
+
+
+
+
+            </div>
+
+            <div class="text-center mt-6">
+                <p class="text-xs text-slate-500">Visas fotogrāfijas un video no mūsu reāliem darbiem • Skatiet vairāk <a href="https://www.instagram.com/autoglancis" target="_blank" class="text-pink-400 hover:underline">@autoglancis</a></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- BOOKING SECTION -->
+    <section id="book" class="max-w-screen-2xl mx-auto px-6 lg:px-10 pt-16 pb-20">
+        <div class="max-w-4xl mx-auto">
+            
+            <!-- Header -->
+            <div class="text-center mb-10">
+                <div class="inline-block px-4 py-1 rounded-3xl bg-sky-900/20 text-sky-400 text-xs tracking-widest font-semibold mb-4">REZERVĀCIJA</div>
+                <h2 class="text-5xl heading-font tracking-tighter">Rezervējiet savu laiku</h2>
+                <p class="mt-3 text-lg text-slate-400">Aizpildiet formu un mēs sazināsimies ar Jums 15 minūšu laikā</p>
+            </div>
+
+            <!-- Status -->
+            <div class="mb-8 flex justify-center">
+                <div class="inline-flex items-center bg-emerald-950 border border-emerald-900 text-emerald-400 rounded-3xl text-sm px-5 py-2">
+                    <div class="flex items-center gap-x-2">
+                        <div class="w-2.5 h-2.5 bg-emerald-400 rounded-full animate-pulse"></div>
+                        <span class="font-medium">Live availability in our calendar</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BOOK VIA CALENDAR -->
+            <div class="card border border-slate-700 rounded-3xl p-8 lg:p-10 text-center">
+                <div class="max-w-xl mx-auto">
+                    <div class="inline-flex items-center gap-2 mb-4 px-4 py-1 rounded-full bg-emerald-900/30 text-emerald-400 text-sm">
+                        <i class="fa-solid fa-calendar-check"></i>
+                        <span>Live Availability</span>
+                    </div>
+                    
+                    <h3 class="text-3xl font-semibold tracking-tight mb-3">Book directly from our calendar</h3>
+                    <p class="text-slate-400 mb-8">
+                        See real-time available slots and book instantly. 
+                        We require at least <strong>1 day notice</strong> to prepare properly.
+                    </p>
+
+                    <a href="https://cal.com/auto-glancis-tz36dk" 
+                       target="_blank"
+                       class="glossy-btn inline-flex items-center justify-center gap-x-3 text-white text-lg font-semibold px-10 h-16 rounded-3xl mx-auto">
+                        <span>Open Booking Calendar</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+
+                    <div class="mt-8 text-sm text-slate-400">
+                        Or contact us directly:
+                        <a href="https://wa.me/37125689885" target="_blank" class="text-emerald-400 hover:underline ml-1">WhatsApp +371 2568 9885</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alternative contact -->
+            <div class="mt-8 text-center text-sm">
+                <span class="text-slate-400">Vai vēlaties ātrāk?</span> 
+                <a href="tel:+37125689885" class="font-semibold underline hover:no-underline ml-1">Zvaniet +371 2568 9885</a>
+                <span class="mx-2 text-slate-600">•</span>
+                <a href="mailto:autoglancis@gmail.com" class="font-semibold underline hover:no-underline">autoglancis@gmail.com</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <div class="border-t border-slate-800 bg-black py-9">
+        <div class="max-w-screen-2xl mx-auto px-6 lg:px-10 text-center">
+            <div class="text-xl font-medium mb-3">Gatavi padarīt savu auto spožu?</div>
+            <a href="#book" class="glossy-btn inline-block text-white px-10 py-3.5 rounded-3xl font-semibold">Rezervēt tagad</a>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-slate-800 py-12 text-sm">
+        <div class="max-w-screen-2xl mx-auto px-6 lg:px-10 grid grid-cols-1 md:grid-cols-12 gap-y-10">
+            <div class="md:col-span-5">
+                <div class="flex items-center gap-x-3 mb-4">
+                    <img src="reels/AG1.png" 
+                         class="h-8 rounded" alt="AutoGlancis" onerror="this.src='https://images.unsplash.com/photo-1607860108855-64acf2078d6c?w=120&amp;h=48&amp;fit=crop'; this.onerror=null;">
+                    <div class="font-bold text-xl tracking-tighter">AUTOGLANCIS</div>
+                </div>
+                <div class="max-w-xs text-slate-400">
+                    Pirmā un vienīgā mobilā auto tīrīšana Ventspilī un apkārtnē.<br>
+                    Mēs braucam pie Jums.
+                </div>
+            </div>
+
+            <div class="md:col-span-3">
+                <div class="font-semibold mb-3 tracking-wide text-xs text-slate-400">KONTAKTI</div>
+                <div class="space-y-1.5">
+                    <a href="tel:+37125689885" class="flex items-center gap-2 hover:text-white"><i class="fa-solid fa-phone w-4"></i> +371 2568 9885</a>
+                    <a href="https://wa.me/37125689885" target="_blank" class="flex items-center gap-2 hover:text-white"><i class="fa-brands fa-whatsapp w-4"></i> WhatsApp</a>
+                    <a href="mailto:autoglancis@gmail.com" class="flex items-center gap-2 hover:text-white"><i class="fa-solid fa-envelope w-4"></i> autoglancis@gmail.com</a>
+                </div>
+            </div>
+
+            <div class="md:col-span-4">
+                <div class="font-semibold mb-3 tracking-wide text-xs text-slate-400">DARBA LAIKS</div>
+                <div class="space-y-1 text-slate-300">
+                    <div>Pirmdiena – Piektdiena: <span class="font-medium">09:00 – 18:00</span></div>
+                    <div class="text-slate-400">Sestdiena un svētdiena: pēc vienošanās</div>
+                </div>
+                
+                <div class="mt-6 flex gap-x-4 text-xl">
+                    <a href="https://www.instagram.com/autoglancis" target="_blank" class="hover:text-white"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://www.facebook.com/profile.php?id=61578196715962" target="_blank" class="hover:text-white"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="https://www.tiktok.com/@auto.glancis" target="_blank" class="hover:text-white"><i class="fa-brands fa-tiktok"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center text-[10px] text-slate-500 mt-12 tracking-wider">
+            © 2026 AutoGlancis • Ventspils, Latvija • Mobilā auto tīrīšana un detailing
+        </div>
+    </footer>
+
+    <!-- SUCCESS MODAL -->
+    <div id="success-modal" onclick="if (event.target.id === 'success-modal') hideSuccessModal()" 
+         class="hidden fixed inset-0 bg-black/70 z-[80] flex items-center justify-center p-6">
+        <div onclick="event.stopImmediatePropagation()" 
+             class="card border border-slate-600 rounded-3xl max-w-md w-full p-8 text-center">
+            
+            <div class="mx-auto w-20 h-20 rounded-full bg-emerald-500/10 flex items-center justify-center mb-6">
+                <i class="fa-solid fa-check-circle text-emerald-400 text-6xl success-check"></i>
+            </div>
+            
+            <h3 class="text-3xl font-semibold tracking-tight">Paldies!</h3>
+            <p class="mt-3 text-slate-300">Jūsu rezervācijas pieprasījums ir nosūtīts.<br>Mēs sazināsimies ar Jums tuvāko 15–30 minūšu laikā.</p>
+            
+            <div class="mt-6 bg-slate-900 rounded-2xl p-4 text-sm">
+                <div class="font-medium mb-2">Vēlaties paātrināt?</div>
+                <a id="whatsapp-confirm-btn" href="#" target="_blank"
+                   class="inline-flex items-center justify-center gap-2 w-full bg-emerald-500 hover:bg-emerald-600 transition text-white font-semibold rounded-2xl py-3">
+                    <i class="fa-brands fa-whatsapp text-xl"></i>
+                    <span>Atvērt WhatsApp ar sagatavotu ziņu</span>
+                </a>
+            </div>
+
+            <button onclick="hideSuccessModal()" 
+                    class="mt-6 text-sm font-medium text-slate-400 hover:text-white">Aizvērt</button>
+        </div>
+    </div>
+
+    <script>
+        // Tailwind script
+        function initializeTailwind() {
+            document.documentElement.style.setProperty('--accent', '#0ea5e9');
+        }
+
+        // Mobile menu
+        function initMobileMenu() {
+            const btn = document.getElementById('mobile-menu-btn');
+            const menu = document.getElementById('mobile-menu');
+
+            btn.addEventListener('click', () => {
+                menu.classList.toggle('hidden');
+                const icon = btn.querySelector('i');
+                icon.classList.toggle('fa-bars');
+                icon.classList.toggle('fa-times');
+            });
+
+            // Close mobile menu on nav click
+            document.querySelectorAll('.mobile-nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    menu.classList.add('hidden');
+                    const icon = btn.querySelector('i');
+                    icon.classList.add('fa-bars');
+                    icon.classList.remove('fa-times');
+                });
+            });
+        }
+
+        // Service selection
+        let selectedServiceCard = null;
+
+        function selectService(index, element) {
+            // Deselect previous
+            if (selectedServiceCard) {
+                selectedServiceCard.classList.remove('selected', 'border-sky-600');
+                selectedServiceCard.classList.add('border-slate-700');
+            }
+
+            // Select new
+            element.classList.add('selected', 'border-sky-600');
+            element.classList.remove('border-slate-700');
+            selectedServiceCard = element;
+
+            // Update select dropdown
+            const serviceSelect = document.getElementById('service');
+            const options = serviceSelect.options;
+            
+            const serviceNames = [
+                "Standarta salona ātrā tīrīšana — 35€",
+                "Auto salona tīrīšana — 60€",
+                "Detalizētā auto tīrīšana + ķīmiskā apstrāde — 120€",
+                "Standarta auto ārpuses tīrīšana — 15€",
+                "Auto ārpuses detalizēta tīrīšana — 45€",
+                "Mēbeļu ķīmiskā tīrīšana — no 35€",
+                "Augstspiediena virsmu tīrīšana — 1.5–4 €/m²",
+                "Automašīnu Diagnostika — 20€"
+            ];
+            
+            serviceSelect.value = serviceNames[index];
+
+            // Scroll to form
+            document.getElementById('book').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            
+            // Highlight select briefly
+            setTimeout(() => {
+                serviceSelect.style.borderColor = '#0ea5e9';
+                setTimeout(() => {
+                    if (serviceSelect) serviceSelect.style.borderColor = '#334155';
+                }, 1200);
+            }, 400);
+        }
+
+        // Add quick service pills
+        function initServicePills() {
+            const container = document.getElementById('service-pills');
+            const services = [
+                { label: "35€ Ātrā", value: "Standarta salona ātrā tīrīšana — 35€" },
+                { label: "60€ Standarta", value: "Auto salona tīrīšana — 60€" },
+                { label: "120€ Detalizētā", value: "Detalizētā auto tīrīšana + ķīmiskā apstrāde — 120€" },
+                { label: "15€ Ārpuse", value: "Standarta auto ārpuses tīrīšana — 15€" },
+                { label: "45€ Det. ārpuse", value: "Auto ārpuses detalizēta tīrīšana — 45€" },
+                { label: "no 35€ Mēbeles", value: "Mēbeļu ķīmiskā tīrīšana — no 35€" }
+            ];
+
+            services.forEach(s => {
+                const pill = document.createElement('button');
+                pill.type = 'button';
+                pill.className = 'text-xs px-4 py-1 rounded-2xl bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-sky-800 transition';
+                pill.textContent = s.label;
+                pill.onclick = () => {
+                    document.getElementById('service').value = s.value;
+                    
+                    // Auto scroll if needed
+                    const form = document.getElementById('booking-form');
+                    if (form.getBoundingClientRect().top > 300) {
+                        form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                };
+                container.appendChild(pill);
+            });
+        }
+
+        // Booking form handler
+        function submitBooking(e) {
+            e.preventDefault();
+
+            const form = document.getElementById('booking-form');
+            
+            // Collect data
+            const data = {
+                name: document.getElementById('name').value.trim(),
+                phone: document.getElementById('phone').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                car: document.getElementById('car').value.trim() || 'Nav norādīts',
+                address: document.getElementById('address').value.trim(),
+                service: document.getElementById('service').value,
+                date: document.getElementById('date').value,
+                time: document.getElementById('time').value,
+                notes: document.getElementById('notes').value.trim() || '—'
+            };
+
+            // Build WhatsApp message
+            let message = `Sveiki! Vēlos rezervēt AutoGlancis pakalpojumu.\n\n`;
+            message += `Vārds: ${data.name}\n`;
+            message += `Tālrunis: ${data.phone}\n`;
+            if (data.email) message += `E-pasts: ${data.email}\n`;
+            message += `Auto: ${data.car}\n`;
+            message += `Adrese: ${data.address}\n`;
+            message += `Pakalpojums: ${data.service}\n`;
+            message += `Datums: ${data.date}\n`;
+            message += `Laiks: ${data.time}\n`;
+            message += `Piezīmes: ${data.notes}\n\n`;
+            message += `Lūdzu, apstipriniet laiku. Paldies!`;
+
+            // Encode for URL
+            const encoded = encodeURIComponent(message);
+            const whatsappUrl = `https://wa.me/37125689885?text=${encoded}`;
+
+            // Show success modal
+            showSuccessModal(whatsappUrl);
+
+            // Optional: reset form after a delay
+            setTimeout(() => {
+                form.reset();
+                // Remove selected card highlight
+                if (selectedServiceCard) {
+                    selectedServiceCard.classList.remove('selected', 'border-sky-600');
+                    selectedServiceCard.classList.add('border-slate-700');
+                    selectedServiceCard = null;
+                }
+            }, 900);
+        }
+
+        let currentWhatsappUrl = '';
+
+        function showSuccessModal(whatsappUrl) {
+            currentWhatsappUrl = whatsappUrl;
+            const modal = document.getElementById('success-modal');
+            const waBtn = document.getElementById('whatsapp-confirm-btn');
+            
+            waBtn.href = whatsappUrl;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function hideSuccessModal() {
+            const modal = document.getElementById('success-modal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+            
+            // Optional: scroll back to top or services
+            // window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Set default date to tomorrow
+        function setDefaultDate() {
+            const dateInput = document.getElementById('date');
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            
+            const yyyy = tomorrow.getFullYear();
+            const mm = String(tomorrow.getMonth() + 1).padStart(2, '0');
+            const dd = String(tomorrow.getDate()).padStart(2, '0');
+            
+            dateInput.value = `${yyyy}-${mm}-${dd}`;
+            dateInput.min = `${yyyy}-${mm}-${dd}`;
+        }
+
+        // Keyboard ESC to close modal
+        function initKeyboardShortcuts() {
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    const modal = document.getElementById('success-modal');
+                    if (!modal.classList.contains('hidden')) {
+                        hideSuccessModal();
+                    }
+                }
+                
+                // Press "/" focus name field (when not typing)
+                if (e.key === '/' && document.activeElement.tagName === 'BODY') {
+                    e.preventDefault();
+                    document.getElementById('book').scrollIntoView({ behavior: 'smooth' });
+                    setTimeout(() => document.getElementById('name').focus(), 700);
+                }
+            });
+            
+            // Make phone field nicer
+            const phone = document.getElementById('phone');
+            phone.addEventListener('input', () => {
+                if (!phone.value.startsWith('+371')) {
+                    phone.value = '+371 ' + phone.value.replace(/^\+371\s*/, '');
+                }
+            });
+        }
+
+        // Smooth scroll for all anchor links
+        function initSmoothScroll() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        e.preventDefault();
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+        }
+
+        // Initialize everything
+        function initializeApp() {
+            initializeTailwind();
+            initMobileMenu();
+            initServicePills();
+            setDefaultDate();
+            initKeyboardShortcuts();
+            initSmoothScroll();
+
+            // Preselect a popular service pill on load (optional)
+            console.log('%c[AutoGlancis] Duplicate site initialized successfully.', 'color:#64748b');
+            
+            // Bonus: allow clicking the hero badge to jump to booking
+            const heroBadge = document.querySelector('.mobile-badge');
+            if (heroBadge) {
+                heroBadge.style.cursor = 'pointer';
+                heroBadge.addEventListener('click', () => {
+                    document.getElementById('book').scrollIntoView({ behavior: 'smooth' });
+                });
+            }
+            
+            // Make sure all service cards have proper border class initially
+            document.querySelectorAll('.service-card').forEach(card => {
+                if (!card.classList.contains('border-slate-700')) {
+                    card.classList.add('border-slate-700');
+                }
+            });
+        }
+
+        // Boot
+        window.onload = initializeApp;
+        
+        // Expose a couple helpers for console / future use
+        window.AutoGlancis = {
+            selectService: (index) => {
+                const cards = document.querySelectorAll('.service-card');
+                if (cards[index]) selectService(index, cards[index]);
+            }
+        };
+
+        // Video Reel Modal Functions
+        let currentVideo = null;
+
+        function playReel(src, caption) {
+            const modal = document.getElementById('video-modal');
+            const video = document.getElementById('modal-video');
+            const captionEl = document.getElementById('modal-caption');
+
+            video.src = src;
+            captionEl.textContent = caption;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+
+            video.play().catch(() => {});
+            currentVideo = video;
+        }
+
+        function closeReelModal() {
+            const modal = document.getElementById('video-modal');
+            const video = document.getElementById('modal-video');
+
+            video.pause();
+            video.src = '';
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+        }
+
+        // Close modal with ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const modal = document.getElementById('video-modal');
+                if (!modal.classList.contains('hidden')) {
+                    closeReelModal();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
