@@ -1,0 +1,17 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor folders
+.vscode/
+.idea/
+
+# Environment / secrets
+.env
+*.env
+
+# Video files are now hosted on YouTube - do not commit local videos
+reels/*.mp4
+reels/*.mp4.mp4
+reels/*.mov
+reels/*.webm
