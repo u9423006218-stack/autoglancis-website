@@ -1083,9 +1083,11 @@
             // window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Set default date to tomorrow
+        // Set default date to tomorrow (kept for reference, but no longer called)
         function setDefaultDate() {
             const dateInput = document.getElementById('date');
+            if (!dateInput) return; // Guard against missing element
+
             const tomorrow = new Date();
             tomorrow.setDate(tomorrow.getDate() + 1);
             
@@ -1115,13 +1117,15 @@
                 }
             });
             
-            // Make phone field nicer
+            // Make phone field nicer (guarded in case the old form is removed)
             const phone = document.getElementById('phone');
-            phone.addEventListener('input', () => {
-                if (!phone.value.startsWith('+371')) {
-                    phone.value = '+371 ' + phone.value.replace(/^\+371\s*/, '');
-                }
-            });
+            if (phone) {
+                phone.addEventListener('input', () => {
+                    if (!phone.value.startsWith('+371')) {
+                        phone.value = '+371 ' + phone.value.replace(/^\+371\s*/, '');
+                    }
+                });
+            }
         }
 
         // Smooth scroll for all anchor links
@@ -1141,8 +1145,9 @@
         function initializeApp() {
             initializeTailwind();
             initMobileMenu();
-            // initServicePills();  // Removed - old booking form elements no longer exist
-            setDefaultDate();
+            // Removed old booking form initializers:
+            // initServicePills();
+            // setDefaultDate();   // Removed - #date element no longer exists
             initKeyboardShortcuts();
             initSmoothScroll();
 
