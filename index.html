@@ -84,6 +84,8 @@
             background: linear-gradient(to right, #0ea5e9, #0284c8);
             transition: all 0.3s ease;
             box-shadow: 0 10px 15px -3px rgb(14 165 233 / 0.3);
+            -webkit-tap-highlight-color: rgba(255,255,255,0.2);
+            touch-action: manipulation;
         }
         
         .glossy-btn:hover {
@@ -198,7 +200,7 @@
                     </a>
 
                     <!-- Book CTA (desktop only) -->
-                    <a href="https://cal.com/auto-glancis-tz36dk" target="_blank" 
+                    <a href="#services" 
                        class="hidden md:flex glossy-btn text-white text-sm font-semibold px-6 py-2.5 rounded-2xl items-center gap-x-2 hover:scale-[1.02]">
                         <span>Rezervēt tagad</span>
                         <i class="fa-solid fa-arrow-right text-xs"></i>
@@ -220,7 +222,7 @@
             <a href="#services" class="py-2.5 px-3 mobile-nav-link">Pakalpojumi</a>
             <a href="#how" class="py-2.5 px-3 mobile-nav-link">Kā tas strādā</a>
             <a href="#gallery" class="py-2.5 px-3 mobile-nav-link">Galerija</a>
-            <a href="#book" class="py-2.5 px-3 mobile-nav-link">Rezervēt</a>
+            <a href="#services" class="py-2.5 px-3 mobile-nav-link">Rezervēt</a>
             <div class="pt-2 border-t border-slate-800 mt-1">
                 <a href="https://wa.me/37125689885" target="_blank" class="flex items-center gap-2 py-2.5 px-3 font-medium">
                     <i class="fa-solid fa-phone text-emerald-400"></i>
@@ -235,7 +237,7 @@
         <div class="max-w-screen-2xl mx-auto px-5 sm:px-6 lg:px-10">
 
             <!-- Mobile Contact Bar -->
-            <div class="flex items-center justify-between gap-2 mb-4 md:hidden">
+            <div class="relative z-20 flex items-center justify-between gap-2 mb-4 md:hidden">
                 <!-- Phone -->
                 <a href="https://wa.me/37125689885" target="_blank" 
                    class="flex items-center gap-x-1.5 text-xs font-semibold text-white whitespace-nowrap">
@@ -243,8 +245,8 @@
                     <span class="font-mono">+371 2568 9885</span>
                 </a>
 
-                <!-- Rezervēt tagad button -->
-                <a href="https://cal.com/auto-glancis-tz36dk" target="_blank" 
+                <!-- Rezervēt button -->
+                <a href="#services" 
                    class="glossy-btn text-white text-xs font-semibold px-4 py-1.5 rounded-2xl flex items-center gap-x-1.5">
                     <span>Rezervēt</span>
                     <i class="fa-solid fa-arrow-right text-xs"></i>
@@ -270,8 +272,9 @@
                     </p>
 
                     <div class="mt-6 flex flex-wrap items-center gap-3 sm:gap-4">
-                        <a href="https://cal.com/auto-glancis-tz36dk" target="_blank"
-                           class="glossy-btn inline-flex items-center justify-center gap-x-3 text-white text-base font-semibold px-8 h-14 rounded-3xl">
+                        <a href="#services"
+                           class="glossy-btn inline-flex items-center justify-center gap-x-3 text-white text-base font-semibold px-8 h-14 rounded-3xl"
+                           style="-webkit-tap-highlight-color: rgba(255,255,255,0.2); touch-action: manipulation;">
                             <span>Rezervēt pakalpojumu</span>
                         </a>
                         
@@ -368,7 +371,7 @@
         <div class="grid md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-5">
             
             <!-- Service 1: STANDARTA SALONA ĀTRĀ TĪRĪŠANA -->
-            <div onclick="selectService(0, this)" class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col">
+            <div onclick="window.location.href='https://cal.com/auto-glancis-tz36dk/standarta-salona-atra-tirisana'" class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col cursor-pointer">
                 <div class="flex justify-between items-start">
                     <div>
                         <div class="service-pill mb-4 inline-block">POPULĀRĀKAIS</div>
@@ -389,7 +392,7 @@
             </div>
 
             <!-- Service 2: AUTO SALONA TĪRĪŠANA -->
-            <div onclick="selectService(1, this)" class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col">
+            <div onclick="window.location.href='https://cal.com/auto-glancis-tz36dk/auto-salona-tirisana-60'" class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col cursor-pointer">
                 <div class="flex justify-between items-start">
                     <div>
                         <h3 class="font-semibold text-xl leading-none tracking-tight">Auto salona<br>tīrīšana</h3>
@@ -409,7 +412,7 @@
             </div>
 
             <!-- Service 3: DETALIZĒTĀ AUTO TĪRĪŠANA + ĶĪMISKĀ APSTRĀDE -->
-            <div onclick="selectService(2, this)" class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col">
+            <div onclick="window.location.href='https://cal.com/auto-glancis-tz36dk/detalizeta-kimiska-apstrade-120'" class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col cursor-pointer">
                 <div class="flex justify-between items-start">
                     <div>
                         <h3 class="font-semibold text-xl leading-none tracking-tight">Detalizētā auto tīrīšana<br>+ ķīmiskā apstrāde</h3>
@@ -430,7 +433,7 @@
             </div>
 
             <!-- Service 4: STANDARTA AUTO ĀRPUSES TĪRĪŠANA -->
-            <div onclick="selectService(3, this)" class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col">
+            <div onclick="window.location.href='https://cal.com/auto-glancis-tz36dk/standarta-auto-arpuses-tirisana'" class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col cursor-pointer">
                 <div class="flex justify-between items-start">
                     <div>
                         <h3 class="font-semibold text-xl leading-none tracking-tight">Standarta auto<br>ārpuses tīrīšana</h3>
@@ -450,7 +453,7 @@
             </div>
 
             <!-- Service 5: AUTO ĀRPUSES DETALIZĒTA TĪRĪŠANA -->
-            <div onclick="selectService(4, this)" class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col">
+            <div onclick="window.location.href='https://cal.com/auto-glancis-tz36dk/auto-arpuses-detalizeta-tirisana-45'" class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col cursor-pointer">
                 <div class="flex justify-between items-start">
                     <div>
                         <h3 class="font-semibold text-xl leading-none tracking-tight">Auto ārpuses<br>detalizēta tīrīšana</h3>
@@ -470,7 +473,7 @@
             </div>
 
             <!-- Service 6: MĒBEĻU ĶĪMISKĀ TĪRĪŠANA -->
-            <div onclick="selectService(5, this)" class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col">
+            <div onclick="window.location.href='https://cal.com/auto-glancis-tz36dk/mebelu-kimiska-tirisana'" class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col cursor-pointer">
                 <div class="flex justify-between items-start">
                     <div>
                         <h3 class="font-semibold text-xl leading-none tracking-tight">Mēbeļu<br>ķīmiskā tīrīšana</h3>
@@ -488,13 +491,13 @@
             </div>
 
             <!-- Service 7: Augstspiediena virsmu tīrīšana -->
-            <div onclick="selectService(6, this)" class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col">
+            <div onclick="window.location.href='https://cal.com/auto-glancis-tz36dk/augstspiediena-virsmu-tirisana-2-m²'" class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col cursor-pointer">
                 <div class="flex justify-between items-start">
                     <div>
                         <h3 class="font-semibold text-xl leading-none tracking-tight">Augstspiediena<br>virsmu tīrīšana</h3>
                     </div>
                     <div class="text-right">
-                        <div class="text-lg font-semibold tabular-nums">1.5–4€/m²</div>
+                        <div class="text-lg font-semibold tabular-nums">2€/m²</div>
                     </div>
                 </div>
                 <div class="mt-auto pt-4 text-xs text-slate-300 leading-snug">
@@ -505,7 +508,7 @@
             </div>
 
             <!-- Service 8: Automašīnu Diagnostika -->
-            <div onclick="selectService(7, this)" class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col">
+            <div onclick="window.location.href='https://cal.com/auto-glancis-tz36dk/automasinu-diagnostika'" class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col cursor-pointer">
                 <div class="flex justify-between items-start">
                     <div>
                         <h3 class="font-semibold text-xl leading-none tracking-tight">Automašīnu<br>Diagnostika</h3>
@@ -515,14 +518,15 @@
                     </div>
                 </div>
                 <div class="mt-auto pt-4 text-xs text-slate-300 leading-snug">
-                    Diagnostika ar mūsdienīgu iekārtu. Ātri un precīzi nolasām kļūdu kodus.<br><br>
-                    • Pilna OBD diagnostika<br>
+                    Profesionāla automašīnu diagnostika ar mūsdienīgu OBD iekārtu.<br><br>
+                    • Pilna OBD diagnostika ar profesionālo skeneri<br>
                     • Kļūdu kodu nolasīšana un dzēšana<br>
-                    • Reāllaika datu monitorings<br>
+                    • Reāllaika datu monitorings (dzinējs, sensori, akumulators u.c.)<br>
                     • Ieteikumi turpmākajām darbībām<br>
                     • Protokola izdruka vai nosūtīšana uz e-pastu
                 </div>
             </div>
+
         </div>
 
         <p class="text-xs text-center text-slate-500 mt-6">Cenas orientējošas. Precīza cena atkarīga no auto stāvokļa un izmēra.</p>
@@ -763,7 +767,7 @@
                 <div class="inline-flex items-center bg-emerald-950 border border-emerald-900 text-emerald-400 rounded-3xl text-sm px-5 py-2">
                     <div class="flex items-center gap-x-2">
                         <div class="w-2.5 h-2.5 bg-emerald-400 rounded-full animate-pulse"></div>
-                        <span class="font-medium">Live availability in our calendar</span>
+                        <span class="font-medium">Pieejamība tiešsaistē mūsu kalendārā</span>
                     </div>
                 </div>
             </div>
@@ -773,24 +777,24 @@
                 <div class="max-w-xl mx-auto">
                     <div class="inline-flex items-center gap-2 mb-4 px-4 py-1 rounded-full bg-emerald-900/30 text-emerald-400 text-sm">
                         <i class="fa-solid fa-calendar-check"></i>
-                        <span>Live Availability</span>
+                        <span>Pieejamība tiešsaistē</span>
                     </div>
                     
-                    <h3 class="text-3xl font-semibold tracking-tight mb-3">Book directly from our calendar</h3>
+                    <h3 class="text-3xl font-semibold tracking-tight mb-3">Rezervējiet tieši no mūsu kalendāra</h3>
                     <p class="text-slate-400 mb-8">
-                        See real-time available slots and book instantly. 
-                        We require at least <strong>1 day notice</strong> to prepare properly.
+                        Skatiet pieejamos laikus reāllaikā un rezervējiet uzreiz. 
+                        Lai pienācīgi sagatavotos, mums ir nepieciešams vismaz <strong>1 dienas iepriekšējs paziņojums</strong>.
                     </p>
 
                     <a href="https://cal.com/auto-glancis-tz36dk" 
                        target="_blank"
                        class="glossy-btn inline-flex items-center justify-center gap-x-3 text-white text-lg font-semibold px-10 h-16 rounded-3xl mx-auto">
-                        <span>Open Booking Calendar</span>
+                        <span>Atvērt rezervāciju kalendāru</span>
                         <i class="fa-solid fa-arrow-up-right-from-square"></i>
                     </a>
 
                     <div class="mt-8 text-sm text-slate-400">
-                        Or contact us directly:
+                        Vai sazinieties ar mums tieši:
                         <a href="https://wa.me/37125689885" target="_blank" class="text-emerald-400 hover:underline ml-1">WhatsApp +371 2568 9885</a>
                     </div>
                 </div>
@@ -810,7 +814,7 @@
     <div class="border-t border-slate-800 bg-black py-9">
         <div class="max-w-screen-2xl mx-auto px-6 lg:px-10 text-center">
             <div class="text-xl font-medium mb-3">Gatavi padarīt savu auto spožu?</div>
-            <a href="#book" class="glossy-btn inline-block text-white px-10 py-3.5 rounded-3xl font-semibold">Rezervēt tagad</a>
+            <a href="#services" class="glossy-btn inline-block text-white px-10 py-3.5 rounded-3xl font-semibold">Rezervēt tagad</a>
         </div>
     </div>
 
