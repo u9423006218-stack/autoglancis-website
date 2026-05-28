@@ -979,9 +979,11 @@
             }, 400);
         }
 
-        // Add quick service pills
+        // Add quick service pills (kept for reference but no longer used)
         function initServicePills() {
             const container = document.getElementById('service-pills');
+            if (!container) return; // Safety guard - element no longer exists
+
             const services = [
                 { label: "35€ Ātrā", value: "Standarta salona ātrā tīrīšana — 35€" },
                 { label: "60€ Standarta", value: "Auto salona tīrīšana — 60€" },
@@ -1139,7 +1141,7 @@
         function initializeApp() {
             initializeTailwind();
             initMobileMenu();
-            initServicePills();
+            // initServicePills();  // Removed - old booking form elements no longer exist
             setDefaultDate();
             initKeyboardShortcuts();
             initSmoothScroll();
