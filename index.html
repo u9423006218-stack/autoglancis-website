@@ -1257,5 +1257,120 @@
             }
         });
     </script>
+
+    <!-- Cal.com Latvian Translation (improved) -->
+    <script>
+      (function() {
+        const calTranslations = {
+          // Buttons
+          'Confirm': 'Apstiprināt',
+          'Back': 'Atpakaļ',
+          'Next': 'Tālāk',
+          'Book': 'Rezervēt',
+          'Cancel': 'Atcelt',
+          'Continue': 'Turpināt',
+
+          // Full days
+          'Monday': 'Pirmdiena',
+          'Tuesday': 'Otrdiena',
+          'Wednesday': 'Trešdiena',
+          'Thursday': 'Ceturtdiena',
+          'Friday': 'Piektdiena',
+          'Saturday': 'Sestdiena',
+          'Sunday': 'Svētdiena',
+
+          // Short days (used in calendar headers)
+          'Mon': 'Pr',
+          'Tue': 'Ot',
+          'Wed': 'Tr',
+          'Thu': 'Ce',
+          'Fri': 'Pk',
+          'Sat': 'Se',
+          'Sun': 'Sv',
+
+          // Months
+          'January': 'Janvāris',
+          'February': 'Februāris',
+          'March': 'Marts',
+          'April': 'Aprīlis',
+          'May': 'Maijs',
+          'June': 'Jūnijs',
+          'July': 'Jūlijs',
+          'August': 'Augusts',
+          'September': 'Septembris',
+          'October': 'Oktobris',
+          'November': 'Novembris',
+          'December': 'Decembris',
+
+          // Common phrases
+          'Select a date': 'Izvēlieties datumu',
+          'No available times': 'Nav pieejamu laiku',
+          'Loading...': 'Ielādē...',
+          'Available times': 'Pieejamie laiki',
+          'Timezone': 'Laika josla',
+        };
+
+        function translateElement(element) {
+          if (!element || !element.textContent) return;
+
+          let text = element.textContent.trim();
+
+          // Direct replacements
+          Object.keys(calTranslations).forEach(english => {
+            if (text.includes(english)) {
+              element.textContent = element.textContent.replace(english, calTranslations[english]);
+            }
+          });
+        }
+
+        function translateCalComInterface() {
+          // Translate buttons
+          document.querySelectorAll('button, [role="button"], .cal-button').forEach(btn => {
+            translateElement(btn);
+          });
+
+          // Translate day names and other text in calendar
+          document.querySelectorAll('div, span, p, td, th').forEach(el => {
+            if (el.textContent && el.textContent.length < 30) {
+              translateElement(el);
+            }
+          });
+
+          // Specific Cal.com selectors (they change sometimes)
+          document.querySelectorAll('[data-testid*="day"], [class*="day"], [class*="weekday"]').forEach(el => {
+            translateElement(el);
+          });
+        }
+
+        // Run on load and watch for changes (Cal.com is dynamic)
+        function initCalComTranslation() {
+          translateCalComInterface();
+
+          const observer = new MutationObserver(() => {
+            translateCalComInterface();
+          });
+
+          observer.observe(document.body, {
+            childList: true,
+            subtree: true,
+            characterData: true
+          });
+
+          // Extra safety: run every 1.5 seconds for first 15 seconds
+          let attempts = 0;
+          const interval = setInterval(() => {
+            translateCalComInterface();
+            attempts++;
+            if (attempts > 10) clearInterval(interval);
+          }, 1500);
+        }
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', initCalComTranslation);
+        } else {
+          initCalComTranslation();
+        }
+      })();
+    </script>
 </body>
 </html>
