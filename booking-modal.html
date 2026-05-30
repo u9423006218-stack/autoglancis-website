@@ -596,6 +596,11 @@
                 return;
             }
 
+            if (!selectedDate || !selectedTime) {
+                alert('Lūdzu, izvēlieties datumu un laiku!');
+                return;
+            }
+
             // === REAL GOOGLE CALENDAR BOOKING (Option B) ===
             if (!BOOKING_SCRIPT_URL || BOOKING_SCRIPT_URL.includes('YOUR_GOOGLE_APPS_SCRIPT_URL_HERE')) {
                 alert('Google Calendar integrācija vēl nav iestatīta.\n\nLūdzu izpildi instrukcijas failā google-apps-script/booking-handler.gs un README.md');
