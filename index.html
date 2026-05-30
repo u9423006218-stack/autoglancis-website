@@ -37,6 +37,16 @@
         body {
             font-family: 'Inter', system_ui, sans-serif;
         }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        #services,
+        #how,
+        #gallery {
+            scroll-margin-top: 72px;
+        }
         
         .heading-font {
             font-family: 'Playfair Display', Georgia, serif;
@@ -220,7 +230,7 @@
                     </a>
 
                     <!-- Book CTA (desktop only) -->
-                    <a href="#services" 
+                    <a href="#services" id="nav-book-btn"
                        class="hidden md:flex glossy-btn text-white text-sm font-semibold px-6 py-2.5 rounded-2xl items-center gap-x-2 hover:scale-[1.02]">
                         <span>Rezervēt tagad</span>
                         <i class="fa-solid fa-arrow-right text-xs"></i>
@@ -418,7 +428,7 @@
             <div onclick="window.location.href='https://cal.com/auto-glancis-tz36dk/auto-salona-tirisana-60'" class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col cursor-pointer">
                 <div class="flex justify-between items-start">
                     <div>
-                        <h3 class="font-semibold text-xl leading-none tracking-tight">Auto salona<br>tīrīšana</h3>
+                        <h3 class="font-semibold text-xl leading-none tracking-tight">Standarta salona<br>tīrīšana</h3>
                     </div>
                     <div class="text-right">
                         <div class="text-3xl font-semibold tabular-nums">60€</div>
@@ -441,11 +451,11 @@
                 </div>
             </div>
 
-            <!-- Service 3: DETALIZĒTĀ AUTO TĪRĪŠANA + ĶĪMISKĀ APSTRĀDE -->
+            <!-- Service 3: DETALIZĒTĀ SALONA TĪRĪŠANA + ĶĪMISKĀ APSTRĀDE -->
             <div onclick="window.location.href='https://cal.com/auto-glancis-tz36dk/detalizeta-kimiska-apstrade-120'" class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col cursor-pointer">
                 <div class="flex justify-between items-start">
                     <div>
-                        <h3 class="font-semibold text-xl leading-none tracking-tight">Detalizētā auto tīrīšana<br>+ ķīmiskā apstrāde</h3>
+                        <h3 class="font-semibold text-xl leading-none tracking-tight">Detalizētā salona tīrīšana<br>+ ķīmiskā apstrāde</h3>
                     </div>
                     <div class="text-right">
                         <div class="text-3xl font-semibold tabular-nums">120€</div>
@@ -471,11 +481,11 @@
                 </div>
             </div>
 
-            <!-- Service 4: STANDARTA AUTO ĀRPUSES TĪRĪŠANA -->
+            <!-- Service 4: STANDARTA VIRSBŪVES TĪRĪŠANA -->
             <div onclick="window.location.href='https://cal.com/auto-glancis-tz36dk/standarta-auto-arpuses-tirisana'" class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col cursor-pointer">
                 <div class="flex justify-between items-start">
                     <div>
-                        <h3 class="font-semibold text-xl leading-none tracking-tight">Auto ārpuses<br>tīrīšana</h3>
+                        <h3 class="font-semibold text-xl leading-none tracking-tight">Standarta virsbūves<br>tīrīšana</h3>
                     </div>
                     <div class="text-right">
                         <div class="text-3xl font-semibold tabular-nums">15€</div>
@@ -498,11 +508,11 @@
                 </div>
             </div>
 
-            <!-- Service 5: DETALIZĒTA ĀRPUSES TĪRĪŠANA -->
+            <!-- Service 5: DETALIZĒTĀ VIRSBŪVES TĪRĪŠANA -->
             <div onclick="window.location.href='https://cal.com/auto-glancis-tz36dk/auto-arpuses-detalizeta-tirisana-45'" class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col cursor-pointer">
                 <div class="flex justify-between items-start">
                     <div>
-                        <h3 class="font-semibold text-xl leading-none tracking-tight">Auto ārpuses<br>detalizēta tīrīšana</h3>
+                        <h3 class="font-semibold text-xl leading-none tracking-tight">Detalizētā virsbūves<br>tīrīšana</h3>
                     </div>
                     <div class="text-right">
                         <div class="text-3xl font-semibold tabular-nums">45€</div>
@@ -929,6 +939,27 @@
             });
         }
 
+        // Make the blue "Rezervēt tagad" button in navbar reliably scroll to services
+        function initNavBookButton() {
+            const btn = document.getElementById('nav-book-btn');
+            if (!btn) return;
+
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.getElementById('services');
+                if (target) {
+                    const offset = 72;
+                    const elementPosition = target.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.scrollY - offset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        }
+
         // Service selection
         let selectedServiceCard = null;
 
@@ -951,9 +982,9 @@
             const serviceNames = [
                 "Ātrā tīrīšana — 35€",
                 "Auto salona tīrīšana — 60€",
-                "Detalizētā auto tīrīšana + ķīmiskā apstrāde — 120€",
+                "Detalizētā salona tīrīšana + ķīmiskā apstrāde — 120€",
                 "Standarta ārpuses tīrīšana — 15€",
-                "Auto ārpuses detalizēta tīrīšana — 45€",
+                "Detalizētā virsbūves tīrīšana — 45€",
                 "Mēbeļu ķīmiskā tīrīšana — no 35€",
                 "Augstspiediena virsmu tīrīšana — 1.5–4 €/m²",
                 "Automašīnu diagnostika — 20€"
@@ -982,8 +1013,8 @@
                 { label: "35€ Ātrā", value: "Ātrā salona tīrīšana — 35€" },
                 { label: "60€ Standarta", value: "Auto salona tīrīšana — 60€" },
                 { label: "120€ Detalizētā", value: "Detalizētā salona tīrīšana + ķīmiskā apstrāde — 120€" },
-                { label: "15€ Ārpuse", value: "Auto ārpuses tīrīšana — 15€" },
-                { label: "45€ Det. ārpuse", value: "Auto ārpuses detalizēta tīrīšana — 45€" },
+                { label: "15€ Ārpuse", value: "Standarta virsbūves tīrīšana — 15€" },
+                { label: "45€ Det. ārpuse", value: "Detalizētā virsbūves tīrīšana — 45€" },
                 { label: "no 35€ Mēbeles", value: "Mēbeļu ķīmiskā tīrīšana — no 35€" }
             ];
 
@@ -1139,6 +1170,7 @@
         function initializeApp() {
             initializeTailwind();
             initMobileMenu();
+            initNavBookButton();
             // Removed old booking form initializers:
             // initServicePills();
             // setDefaultDate();   // Removed - #date element no longer exists
