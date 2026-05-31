@@ -508,6 +508,12 @@
                 if (result.success && Array.isArray(result.busy)) {
                     busyTimes = result.busy;
                     console.log(`Loaded ${busyTimes.length} busy periods from Google Calendar`);
+
+                    // Re-render time slots for the currently selected date (if any)
+                    // so that booked times get hidden after the data loads
+                    if (selectedDate) {
+                        renderTimeSlots(selectedDate);
+                    }
                 }
             } catch (err) {
                 console.error('Failed to fetch real availability:', err);
@@ -637,7 +643,22 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    // Beautiful success state (replaces the form)
+                    // 1. Aprēķinām rezervētā laika sākumu un beigas
+                    const [h, m] = selectedTime.split(':').map(Number);
+                    const slotStart = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate(), h, m);
+                    const durationMs = durationHours * 60 * 60 * 1000;
+                    const slotEnd = new Date(slotStart.getTime() + durationMs);
+
+                    // 2. Uzreiz bloķējam šo laiku lokālajā atmiņā, lai tas vairs neparādītos
+                    busyTimes.push({
+                        start: slotStart.toISOString(),
+                        end: slotEnd.toISOString()
+                    });
+
+                    // 3. Pārzīmējam kalendāra laikus fonā (šis paslēps izvēlēto laiku)
+                    renderTimeSlots(selectedDate);
+                    
+                    // 4. Parādām veiksmīgas rezervācijas paziņojumu
                     showBookingSuccess(name, service.name, selectedDate, selectedTime);
                 } else {
                     // Conflict or validation error from Google Calendar
@@ -746,6 +767,11 @@
 
             // Fetch real availability from Google Calendar (async, non-blocking)
             fetchRealBusyTimes();
+
+            // JAUNUMS: Automātiski atjauno pieejamos laikus ik pēc 30 sekundēm (testēšanai)
+            setInterval(() => {
+                fetchRealBusyTimes();
+            }, 30000);
 
             // Preselect a service from URL if provided
             const urlParams = new URLSearchParams(window.location.search);
