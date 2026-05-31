@@ -156,9 +156,14 @@
                     
                     <!-- Next available dates with month tabs -->
                     <div class="mb-8">
-                        <div class="font-semibold mb-4">Nākamās pieejamās dienas</div>
+                        <div class="flex justify-between items-center mb-4">
+                            <div class="font-semibold">Nākamās pieejamās dienas</div>
+                            <div id="calendar-sync-status" class="text-xs text-slate-400 flex items-center gap-x-1.5 bg-slate-900 px-3 py-1 rounded-full border border-slate-800">
+                                <i class="fa-solid fa-circle-notch animate-spin text-sky-400 text-[10px]"></i>
+                                <span>Sinhronizē ar Google Calendar...</span>
+                            </div>
+                        </div>
                         
-                        <!-- Month tabs -->
                         <div id="month-tabs" class="flex gap-2 mb-1 overflow-x-auto pb-1"></div>
                         
                         <div id="upcoming-dates" class="space-y-2 max-h-[260px] sm:max-h-[320px] overflow-auto pr-2"></div>
@@ -294,14 +299,13 @@
             if (!container || !tabsContainer) return;
 
             const today = new Date();
+            // Izveidojam šodienas sākumu (00:00), lai pareizi salīdzinātu tikai dienas
+            const todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate());
             const dayNames = ['Svētdiena', 'Pirmdiena', 'Otrdiena', 'Trešdiena', 'Ceturtdiena', 'Piektdiena', 'Sestdiena'];
 
-            // Generate months ahead.
-            // This will automatically work in 2027, 2028, 2030+ — no year limit.
-            // Change the number below if you want more or fewer months visible by default.
-            const MONTHS_TO_SHOW = 24;   // 24 months = 2 years ahead (recommended)
-
+            const MONTHS_TO_SHOW = 24; 
             const monthsData = [];
+
             for (let m = 0; m < MONTHS_TO_SHOW; m++) {
                 const monthDate = new Date(today.getFullYear(), today.getMonth() + m, 1);
                 const year = monthDate.getFullYear();
@@ -311,8 +315,12 @@
                 const monthDates = [];
                 for (let d = 1; d <= lastDay; d++) {
                     const date = new Date(year, month, d);
-                    if (date >= today) { // only future dates
-                        monthDates.push(date);
+                    if (date >= todayStart) { 
+                        // ŠEIT IR BURVĪBA: Pievienojam dienu sarakstam TIKAI tad, ja tai vēl ir brīvi laiki!
+                        const availableSlots = getAvailableTimesForDate(date);
+                        if (availableSlots.length > 0) {
+                            monthDates.push(date);
+                        }
                     }
                 }
 
@@ -326,7 +334,7 @@
                 }
             }
 
-            // Render month tabs
+            // Render mēnešu pogas
             tabsContainer.innerHTML = '';
             monthsData.forEach((monthData, index) => {
                 const tab = document.createElement('button');
@@ -342,16 +350,59 @@
                 tabsContainer.appendChild(tab);
             });
 
-            // Render first month by default
+            // Parādām pirmo mēnesi uzreiz
             if (monthsData.length > 0) {
                 renderDatesList(container, monthsData[0].dates, dayNames);
             }
         }
 
+        /**
+         * Atgriež visus reāli pieejamos laikus konkrētai dienai
+         */
+        function getAvailableTimesForDate(date) {
+            const day = date.getDay();
+            let times = [];
+
+            if (day === 6 || day === 0) {
+                times = ['09:00', '10:30', '13:00', '14:30']; // Brīvdienu laiki
+            } else {
+                times = ['09:00', '10:30', '12:00', '13:30', '15:00', '16:30', '18:00']; // Darbadienu laiki
+            }
+
+            const service = services[currentService] || { duration: '3 stundas' };
+            let serviceDurationHours = parseFloat(service.duration) || 3;
+            const currentServiceDurationMs = serviceDurationHours * 60 * 60 * 1000;
+
+            const noticeHours = NOTICE_HOURS[currentService] || 12;
+            const minAllowedTime = new Date(new Date().getTime() + noticeHours * 60 * 60 * 1000);
+
+            return times.filter(time => {
+                const [h, m] = time.split(':').map(Number);
+                const slotStart = new Date(date.getFullYear(), date.getMonth(), date.getDate(), h, m, 0);
+                const slotEnd = new Date(slotStart.getTime() + currentServiceDurationMs);
+
+                // Ja laiks ir pārāk agrs (neatbilst brīdinājuma periodam)
+                if (slotStart < minAllowedTime) return false;
+
+                // Pārbaudām, vai nav pārklāšanās ar aizņemtajiem laikiem no Google Calendar
+                const isOverlap = busyTimes.some(busy => {
+                    const busyStart = new Date(busy.start);
+                    const busyEnd = new Date(busy.end);
+                    return slotStart < busyEnd && slotEnd > busyStart;
+                });
+
+                return !isOverlap; // Atgriež true, ja NAV pārklāšanās (laiks ir pieejams)
+            });
+        }
+
         function renderDatesList(container, dates, dayNames) {
             container.innerHTML = '';
 
-            dates.forEach(date => {
+            // Only show dates that have at least one available time slot
+            // after notice period + real Google Calendar busy times
+            const visibleDates = dates.filter(d => getAvailableTimesForDate(d).length > 0);
+
+            visibleDates.forEach(date => {
                 const dayName = dayNames[date.getDay()];
                 const dateStr = date.toLocaleDateString('lv-LV', { day: 'numeric', month: 'long' });
 
@@ -393,29 +444,8 @@
             container.innerHTML = '';
             noTimes.classList.add('hidden');
 
-            const day = date.getDay();
-            let times = [];
-
-            if (day === 6 || day === 0) {
-                times = ['09:00', '10:30', '13:00', '14:30'];
-            } else {
-                times = ['09:00', '10:30', '12:00', '13:30', '15:00', '16:30', '18:00'];
-            }
-
-            const noticeHours = NOTICE_HOURS[currentService] || 12;
-            const minAllowedTime = new Date(new Date().getTime() + noticeHours * 60 * 60 * 1000);
-
-            const availableTimes = times.filter(time => {
-                // Check real busy from Google Calendar
-                if (isTimeSlotBusy(date, time)) return false;
-
-                // Check notice period
-                const [h, m] = time.split(':').map(Number);
-                const slotTime = new Date(date.getFullYear(), date.getMonth(), date.getDate(), h, m);
-                if (slotTime < minAllowedTime) return false;
-
-                return true;
-            });
+            // Izmantojam mūsu jauno funkciju, lai iegūtu laikus
+            const availableTimes = getAvailableTimesForDate(date);
 
             if (availableTimes.length === 0) {
                 noTimes.classList.remove('hidden');
@@ -434,7 +464,7 @@
 
                     // Show booking form
                     document.getElementById('booking-form').classList.remove('hidden');
-                    setupFieldValidation();
+                    // setupFieldValidation(); // Ja izmantojat validāciju
                 };
 
                 container.appendChild(btn);
@@ -479,19 +509,30 @@
         }
 
         /**
-         * Fetch real busy times from Google Calendar via the Apps Script.
-         * This makes the calendar show actual availability instead of fake data.
+         * Droša sinhronizācija ar Google Calendar (fona režīmā ar 5 sekunžu taimautu)
          */
-        async function fetchRealBusyTimes() {
+        async function fetchRealBusyTimes() {  // <--- PĀRLIECINIES, KA ŠEIT IR VĀRDS "async"
+            const statusEl = document.getElementById('calendar-sync-status');
+            
             if (!BOOKING_SCRIPT_URL || BOOKING_SCRIPT_URL.includes('YOUR_GOOGLE_APPS_SCRIPT_URL_HERE')) {
                 console.warn('No Apps Script URL set – using simulated availability only.');
+                if (statusEl) statusEl.classList.add('hidden');
                 return;
             }
 
+            // Rādām ielādes stāvokli uzreiz
+            if (statusEl) {
+                statusEl.innerHTML = `<i class="fa-solid fa-circle-notch animate-spin text-sky-400 text-[10px]"></i> <span>Sinhronizē ar Google Calendar...</span>`;
+                statusEl.classList.remove('hidden');
+            }
+
+            // Izveidojam 5 sekunžu pārtraukšanas signālu, lai tīkls neuzkaras uz visiem laikiem
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 5000);
+
             try {
-                // Fetch busy times for the next 90 days
                 const today = new Date();
-                const endDate = new Date(today.getTime() + 90 * 24 * 60 * 60 * 1000);
+                const endDate = new Date(today.getTime() + 45 * 24 * 60 * 60 * 1000);
 
                 const response = await fetch(BOOKING_SCRIPT_URL, {
                     method: 'POST',
@@ -500,24 +541,50 @@
                         action: 'getBusyTimes',
                         start: formatDateForAPI(today),
                         end: formatDateForAPI(endDate)
-                    })
+                    }),
+                    signal: controller.signal
                 });
 
+                clearTimeout(timeoutId);
                 const result = await response.json();
 
                 if (result.success && Array.isArray(result.busy)) {
                     busyTimes = result.busy;
                     console.log(`Loaded ${busyTimes.length} busy periods from Google Calendar`);
 
-                    // Re-render time slots for the currently selected date (if any)
-                    // so that booked times get hidden after the data loads
+                    // Ja ielāde veiksmīga, parādām zaļu "Sinhronizēts" un pēc 2 sekundēm paslēpjam
+                    if (statusEl) {
+                        statusEl.innerHTML = `<i class="fa-solid fa-check text-emerald-400"></i> <span class="text-emerald-400">Sinhronizēts</span>`;
+                        setTimeout(() => statusEl.classList.add('hidden'), 2000);
+                    }
+
+                    // ŠĪ IR TĀ RINDIŅA, KAS VISU ATRISINA: 
+                    // Kad uzzinām, kas ir aizņemts, pārzīmējam kalendāra datumus!
+                    renderUpcomingDates();
+
                     if (selectedDate) {
                         renderTimeSlots(selectedDate);
                     }
                 }
             } catch (err) {
-                console.error('Failed to fetch real availability:', err);
-                // Fail silently – we'll fall back to showing all times as available
+                clearTimeout(timeoutId);
+                console.error('Failed to fetch real availability from Google:', err);
+                
+                // Ja notiek kļūda vai taimauts, glīti parādām "Standarta režīms" un ļaujam turpināt darbu
+                if (statusEl) {
+                    statusEl.innerHTML = `<i class="fa-solid fa-cloud text-slate-400"></i> <span class="text-slate-400">Standarta režīms</span>`;
+                    setTimeout(() => {
+                        if (statusEl) statusEl.classList.add('hidden');
+                    }, 3000);
+                }
+            } finally {
+                // Papildu drošība: ja statuss joprojām rāda ielādi pēc 6 sekundēm, paslēpjam to
+                setTimeout(() => {
+                    if (statusEl && statusEl.innerHTML.includes('Sinhronizē ar Google Calendar')) {
+                        statusEl.innerHTML = `<i class="fa-solid fa-cloud text-slate-400"></i> <span class="text-slate-400">Standarta režīms</span>`;
+                        statusEl.classList.add('hidden');
+                    }
+                }, 6000);
             }
         }
 
@@ -763,15 +830,12 @@
 
         function init() {
             initTailwind();
+            
+            // 1. TŪLĪTĒJI uzzīmējam kalendāru, lai lapa nekad nepaliktu tukša
             renderUpcomingDates();
 
-            // Fetch real availability from Google Calendar (async, non-blocking)
+            // 2. Palaižam asinhrono Google sinhronizāciju fonā (tā vairs nebloķēs lapu!)
             fetchRealBusyTimes();
-
-            // JAUNUMS: Automātiski atjauno pieejamos laikus ik pēc 30 sekundēm (testēšanai)
-            setInterval(() => {
-                fetchRealBusyTimes();
-            }, 30000);
 
             // Preselect a service from URL if provided
             const urlParams = new URLSearchParams(window.location.search);
@@ -787,7 +851,6 @@
                 document.getElementById('event-name').textContent = service.name;
                 document.getElementById('event-duration').textContent = service.duration;
                 document.getElementById('event-price').textContent = service.price;
-                // Note: description is set in HTML directly for this version
             }
         }
 
