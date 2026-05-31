@@ -357,9 +357,26 @@
         }
 
         /**
-         * Atgriež visus reāli pieejamos laikus konkrētai dienai
+         * Atgriež visus reāli pieejamos laikus konkrētai dienai.
+         * Ja dienā jau ir kāds ieraksts Google kalendārā, diena tiek uzskatīta par pilnībā aizņemtu (nerāda nevienu laiku).
          */
         function getAvailableTimesForDate(date) {
+            // 1. Pārbaudām, vai dienā vispār ir kāds ieraksts Google kalendārā.
+            // Ja ir — uzskatām dienu par pilnībā aizņemtu šim pakalpojumam.
+            const dayStart = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+            const dayEnd = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 23, 59, 59, 999);
+
+            const hasAnyEventOnThisDay = busyTimes.some(busy => {
+                const busyStart = new Date(busy.start);
+                const busyEnd = new Date(busy.end);
+                return busyStart < dayEnd && busyEnd > dayStart;
+            });
+
+            if (hasAnyEventOnThisDay) {
+                return []; // Diena ir "fully taken" Google kalendārā → nerādām nevienu laiku
+            }
+
+            // 2. Ja dienā nav neviena ieraksta — pārbaudām parastos noteikumus (brīdinājuma periods + slotu pārklāšanās)
             const day = date.getDay();
             let times = [];
 
@@ -391,7 +408,7 @@
                     return slotStart < busyEnd && slotEnd > busyStart;
                 });
 
-                return !isOverlap; // Atgriež true, ja NAV pārklāšanās (laiks ir pieejams)
+                return !isOverlap;
             });
         }
 
