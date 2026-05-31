@@ -572,10 +572,8 @@
                 
                 // Ja notiek kļūda vai taimauts, glīti parādām "Standarta režīms" un ļaujam turpināt darbu
                 if (statusEl) {
-                    statusEl.innerHTML = `<i class="fa-solid fa-cloud text-slate-400"></i> <span class="text-slate-400">Standarta režīms</span>`;
-                    setTimeout(() => {
-                        if (statusEl) statusEl.classList.add('hidden');
-                    }, 3000);
+                    statusEl.innerHTML = `<i class="fa-solid fa-exclamation-triangle text-amber-400"></i> <span class="text-amber-400" title="Neizdevās ielādēt reālos aizņemtos laikus no Google Calendar. Rādām tikai brīdinājuma periodu.">Standarta režīms (reālā pieejamība nav ielādēta)</span>`;
+                    // Do not auto-hide on failure so the user sees there is an issue
                 }
             } finally {
                 // Papildu drošība: ja statuss joprojām rāda ielādi pēc 6 sekundēm, paslēpjam to
