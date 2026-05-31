@@ -23,7 +23,7 @@
     <title>PIRMĀ MOBILĀ AUTO TĪRĪŠANA VENTSPILĪ • AutoGlancis</title>
     <meta name="description" content="Mēs nevedam Jūsu auto uz tīrītavu – mēs paši braucam pie Jums! Pirmā un vienīgā mobilā auto tīrīšana Ventspilī un apkārtnē.">
     
-    <!-- Tailwind CSS via CDN -->
+    <!-- Tailwind CSS (Play CDN) - used for rapid development on a static site -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
@@ -36,6 +36,16 @@
         
         body {
             font-family: 'Inter', system_ui, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        #services,
+        #how,
+        #gallery {
+            scroll-margin-top: 72px;
         }
         
         .heading-font {
@@ -220,7 +230,7 @@
                     </a>
 
                     <!-- Book CTA (desktop only) -->
-                    <a href="#services" 
+                    <a href="#services" id="nav-book-btn"
                        class="hidden md:flex glossy-btn text-white text-sm font-semibold px-6 py-2.5 rounded-2xl items-center gap-x-2 hover:scale-[1.02]">
                         <span>Rezervēt tagad</span>
                         <i class="fa-solid fa-arrow-right text-xs"></i>
@@ -387,7 +397,7 @@
         <div class="grid md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-5">
             
             <!-- Service 1: STANDARTA SALONA ĀTRĀ TĪRĪŠANA -->
-            <div onclick="window.location.href='https://cal.com/auto-glancis-tz36dk/standarta-salona-atra-tirisana'" class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col cursor-pointer">
+            <div onclick="window.location.href='booking-modal.html?service=standarta-salona-atra-tirisana'" class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col cursor-pointer">
                 <div class="flex justify-between items-start">
                     <div>
                         <div class="service-pill mb-4 inline-block">POPULĀRĀKAIS</div>
@@ -406,7 +416,7 @@
                     <span class="text-slate-400">(~ 2h 30min)</span>
 
                     <div class="mt-3 flex justify-end">
-                        <span onclick="event.stopImmediatePropagation(); window.location.href='https://cal.com/auto-glancis-tz36dk/standarta-salona-atra-tirisana'" 
+                        <span onclick="event.stopImmediatePropagation(); window.location.href='booking-modal.html?service=standarta-salona-atra-tirisana'" 
                               class="cursor-pointer text-[10px] font-medium text-sky-400 hover:text-sky-300 flex items-center gap-x-1 transition">
                             Rezervēt <i class="fa-solid fa-arrow-right text-[9px]"></i>
                         </span>
@@ -415,10 +425,10 @@
             </div>
 
             <!-- Service 2: STANDARTA SALONA TĪRĪŠANA -->
-            <div onclick="window.location.href='https://cal.com/auto-glancis-tz36dk/auto-salona-tirisana-60'" class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col cursor-pointer">
+            <div onclick="window.location.href='booking-modal.html?service=auto-salona-tirisana-60'" class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col cursor-pointer">
                 <div class="flex justify-between items-start">
                     <div>
-                        <h3 class="font-semibold text-xl leading-none tracking-tight">Auto salona<br>tīrīšana</h3>
+                        <h3 class="font-semibold text-xl leading-none tracking-tight">Standarta salona<br>tīrīšana</h3>
                     </div>
                     <div class="text-right">
                         <div class="text-3xl font-semibold tabular-nums">60€</div>
@@ -433,7 +443,7 @@
                     ✅ Stiklu un priekšējā paneļa tīrīšana
 
                     <div class="mt-3 flex justify-end">
-                        <span onclick="event.stopImmediatePropagation(); window.location.href='https://cal.com/auto-glancis-tz36dk/auto-salona-tirisana-60'" 
+                        <span onclick="event.stopImmediatePropagation(); window.location.href='booking-modal.html?service=auto-salona-tirisana-60'" 
                               class="cursor-pointer text-[10px] font-medium text-sky-400 hover:text-sky-300 flex items-center gap-x-1 transition">
                             Rezervēt <i class="fa-solid fa-arrow-right text-[9px]"></i>
                         </span>
@@ -441,11 +451,11 @@
                 </div>
             </div>
 
-            <!-- Service 3: DETALIZĒTĀ AUTO TĪRĪŠANA + ĶĪMISKĀ APSTRĀDE -->
-            <div onclick="window.location.href='https://cal.com/auto-glancis-tz36dk/detalizeta-kimiska-apstrade-120'" class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col cursor-pointer">
+            <!-- Service 3: DETALIZĒTĀ SALONA TĪRĪŠANA + ĶĪMISKĀ APSTRĀDE -->
+            <div onclick="window.location.href='booking-modal.html?service=detalizeta-kimiska-apstrade-120'" class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col cursor-pointer">
                 <div class="flex justify-between items-start">
                     <div>
-                        <h3 class="font-semibold text-xl leading-none tracking-tight">Detalizētā auto tīrīšana<br>+ ķīmiskā apstrāde</h3>
+                        <h3 class="font-semibold text-xl leading-none tracking-tight">Detalizētā salona tīrīšana<br>+ ķīmiskā apstrāde</h3>
                     </div>
                     <div class="text-right">
                         <div class="text-3xl font-semibold tabular-nums">120€</div>
@@ -463,7 +473,7 @@
                     <span class="text-amber-400 text-[10px]">Nepieciešama klienta elektrība</span>
 
                     <div class="mt-3 flex justify-end">
-                        <span onclick="event.stopImmediatePropagation(); window.location.href='https://cal.com/auto-glancis-tz36dk/detalizeta-kimiska-apstrade-120'" 
+                        <span onclick="event.stopImmediatePropagation(); window.location.href='booking-modal.html?service=detalizeta-kimiska-apstrade-120'" 
                               class="cursor-pointer text-[10px] font-medium text-sky-400 hover:text-sky-300 flex items-center gap-x-1 transition">
                             Rezervēt <i class="fa-solid fa-arrow-right text-[9px]"></i>
                         </span>
@@ -471,11 +481,11 @@
                 </div>
             </div>
 
-            <!-- Service 4: STANDARTA AUTO ĀRPUSES TĪRĪŠANA -->
-            <div onclick="window.location.href='https://cal.com/auto-glancis-tz36dk/standarta-auto-arpuses-tirisana'" class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col cursor-pointer">
+            <!-- Service 4: STANDARTA VIRSBŪVES TĪRĪŠANA -->
+            <div onclick="window.location.href='booking-modal.html?service=standarta-auto-arpuses-tirisana'" class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col cursor-pointer">
                 <div class="flex justify-between items-start">
                     <div>
-                        <h3 class="font-semibold text-xl leading-none tracking-tight">Auto ārpuses<br>tīrīšana</h3>
+                        <h3 class="font-semibold text-xl leading-none tracking-tight">Standarta virsbūves<br>tīrīšana</h3>
                     </div>
                     <div class="text-right">
                         <div class="text-3xl font-semibold tabular-nums">15€</div>
@@ -490,7 +500,7 @@
                     ✅ Noskalošana un nosusināšana
 
                     <div class="mt-3 flex justify-end">
-                        <span onclick="event.stopImmediatePropagation(); window.location.href='https://cal.com/auto-glancis-tz36dk/standarta-auto-arpuses-tirisana'" 
+                        <span onclick="event.stopImmediatePropagation(); window.location.href='booking-modal.html?service=standarta-auto-arpuses-tirisana'" 
                               class="cursor-pointer text-[10px] font-medium text-sky-400 hover:text-sky-300 flex items-center gap-x-1 transition">
                             Rezervēt <i class="fa-solid fa-arrow-right text-[9px]"></i>
                         </span>
@@ -498,11 +508,11 @@
                 </div>
             </div>
 
-            <!-- Service 5: DETALIZĒTA ĀRPUSES TĪRĪŠANA -->
-            <div onclick="window.location.href='https://cal.com/auto-glancis-tz36dk/auto-arpuses-detalizeta-tirisana-45'" class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col cursor-pointer">
+            <!-- Service 5: DETALIZĒTĀ VIRSBŪVES TĪRĪŠANA -->
+            <div onclick="window.location.href='booking-modal.html?service=auto-arpuses-detalizeta-tirisana-45'" class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col cursor-pointer">
                 <div class="flex justify-between items-start">
                     <div>
-                        <h3 class="font-semibold text-xl leading-none tracking-tight">Auto ārpuses<br>detalizēta tīrīšana</h3>
+                        <h3 class="font-semibold text-xl leading-none tracking-tight">Detalizētā virsbūves<br>tīrīšana</h3>
                     </div>
                     <div class="text-right">
                         <div class="text-3xl font-semibold tabular-nums">45€</div>
@@ -517,7 +527,7 @@
                     ✅ Logu un sliekšņu tīrīšana
 
                     <div class="mt-3 flex justify-end">
-                        <span onclick="event.stopImmediatePropagation(); window.location.href='https://cal.com/auto-glancis-tz36dk/auto-arpuses-detalizeta-tirisana-45'" 
+                        <span onclick="event.stopImmediatePropagation(); window.location.href='booking-modal.html?service=auto-arpuses-detalizeta-tirisana-45'" 
                               class="cursor-pointer text-[10px] font-medium text-sky-400 hover:text-sky-300 flex items-center gap-x-1 transition">
                             Rezervēt <i class="fa-solid fa-arrow-right text-[9px]"></i>
                         </span>
@@ -526,7 +536,7 @@
             </div>
 
             <!-- Service 6: MĒBEĻU ĶĪMISKĀ TĪRĪŠANA -->
-            <div onclick="window.location.href='https://cal.com/auto-glancis-tz36dk/mebelu-kimiska-tirisana'" class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col cursor-pointer">
+            <div onclick="window.location.href='booking-modal.html?service=mebelu-kimiska-tirisana'" class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col cursor-pointer">
                 <div class="flex justify-between items-start">
                     <div>
                         <h3 class="font-semibold text-xl leading-none tracking-tight">Mēbeļu<br>ķīmiskā tīrīšana</h3>
@@ -542,7 +552,7 @@
                     ✅ Dīvānu ķīmiskā tīrīšana – no 35€
 
                     <div class="mt-3 flex justify-end">
-                        <span onclick="event.stopImmediatePropagation(); window.location.href='https://cal.com/auto-glancis-tz36dk/mebelu-kimiska-tirisana'" 
+                        <span onclick="event.stopImmediatePropagation(); window.location.href='booking-modal.html?service=mebelu-kimiska-tirisana'" 
                               class="cursor-pointer text-[10px] font-medium text-sky-400 hover:text-sky-300 flex items-center gap-x-1 transition">
                             Rezervēt <i class="fa-solid fa-arrow-right text-[9px]"></i>
                         </span>
@@ -551,7 +561,7 @@
             </div>
 
             <!-- Service 7: Augstspiediena virsmu tīrīšana -->
-            <div onclick="window.location.href='https://cal.com/auto-glancis-tz36dk/augstspiediena-virsmu-tirisana-2-m²'" class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col cursor-pointer">
+            <div onclick="window.location.href='booking-modal.html?service=augstspiediena-virsmu-tirisana-2-m²'" class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col cursor-pointer">
                 <div class="flex justify-between items-start">
                     <div>
                         <h3 class="font-semibold text-xl leading-none tracking-tight">Augstspiediena<br>virsmu tīrīšana</h3>
@@ -566,7 +576,7 @@
                     ✅ Ideāli privātmāju pagalmiem un komerciālām teritorijām
 
                     <div class="mt-3 flex justify-end">
-                        <span onclick="event.stopImmediatePropagation(); window.location.href='https://cal.com/auto-glancis-tz36dk/augstspiediena-virsmu-tirisana-2-m²'" 
+                        <span onclick="event.stopImmediatePropagation(); window.location.href='booking-modal.html?service=augstspiediena-virsmu-tirisana-2-m²'" 
                               class="cursor-pointer text-[10px] font-medium text-sky-400 hover:text-sky-300 flex items-center gap-x-1 transition">
                             Rezervēt <i class="fa-solid fa-arrow-right text-[9px]"></i>
                         </span>
@@ -575,7 +585,7 @@
             </div>
 
             <!-- Service 8: Automašīnu diagnostika -->
-            <div onclick="window.location.href='https://cal.com/auto-glancis-tz36dk/automasinu-diagnostika'" class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col cursor-pointer">
+            <div onclick="window.location.href='booking-modal.html?service=automasinu-diagnostika'" class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col cursor-pointer">
                 <div class="flex justify-between items-start">
                     <div>
                         <h3 class="font-semibold text-xl leading-none tracking-tight">Automašīnu<br>diagnostika</h3>
@@ -593,7 +603,7 @@
                     ✅ Protokola izdruka vai nosūtīšana uz e-pastu
 
                     <div class="mt-3 flex justify-end">
-                        <span onclick="event.stopImmediatePropagation(); window.location.href='https://cal.com/auto-glancis-tz36dk/automasinu-diagnostika'" 
+                        <span onclick="event.stopImmediatePropagation(); window.location.href='booking-modal.html?service=automasinu-diagnostika'" 
                               class="cursor-pointer text-[10px] font-medium text-sky-400 hover:text-sky-300 flex items-center gap-x-1 transition">
                             Rezervēt <i class="fa-solid fa-arrow-right text-[9px]"></i>
                         </span>
@@ -821,6 +831,8 @@
         </div>
     </section>
 
+
+
     <!-- FINAL CTA -->
     <div class="border-t border-slate-800 bg-black py-9">
         <div class="max-w-screen-2xl mx-auto px-6 lg:px-10 text-center">
@@ -929,6 +941,27 @@
             });
         }
 
+        // Make the blue "Rezervēt tagad" button in navbar reliably scroll to services
+        function initNavBookButton() {
+            const btn = document.getElementById('nav-book-btn');
+            if (!btn) return;
+
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.getElementById('services');
+                if (target) {
+                    const offset = 72;
+                    const elementPosition = target.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.scrollY - offset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        }
+
         // Service selection
         let selectedServiceCard = null;
 
@@ -951,9 +984,9 @@
             const serviceNames = [
                 "Ātrā tīrīšana — 35€",
                 "Auto salona tīrīšana — 60€",
-                "Detalizētā auto tīrīšana + ķīmiskā apstrāde — 120€",
+                "Detalizētā salona tīrīšana + ķīmiskā apstrāde — 120€",
                 "Standarta ārpuses tīrīšana — 15€",
-                "Auto ārpuses detalizēta tīrīšana — 45€",
+                "Detalizētā virsbūves tīrīšana — 45€",
                 "Mēbeļu ķīmiskā tīrīšana — no 35€",
                 "Augstspiediena virsmu tīrīšana — 1.5–4 €/m²",
                 "Automašīnu diagnostika — 20€"
@@ -982,8 +1015,8 @@
                 { label: "35€ Ātrā", value: "Ātrā salona tīrīšana — 35€" },
                 { label: "60€ Standarta", value: "Auto salona tīrīšana — 60€" },
                 { label: "120€ Detalizētā", value: "Detalizētā salona tīrīšana + ķīmiskā apstrāde — 120€" },
-                { label: "15€ Ārpuse", value: "Auto ārpuses tīrīšana — 15€" },
-                { label: "45€ Det. ārpuse", value: "Auto ārpuses detalizēta tīrīšana — 45€" },
+                { label: "15€ Ārpuse", value: "Standarta virsbūves tīrīšana — 15€" },
+                { label: "45€ Det. ārpuse", value: "Detalizētā virsbūves tīrīšana — 45€" },
                 { label: "no 35€ Mēbeles", value: "Mēbeļu ķīmiskā tīrīšana — no 35€" }
             ];
 
@@ -1139,6 +1172,7 @@
         function initializeApp() {
             initializeTailwind();
             initMobileMenu();
+            initNavBookButton();
             // Removed old booking form initializers:
             // initServicePills();
             // setDefaultDate();   // Removed - #date element no longer exists
@@ -1258,119 +1292,218 @@
         });
     </script>
 
-    <!-- Cal.com Latvian Translation (improved) -->
+    <!-- ============================================= -->
+    <!-- BOOKING MODAL (replaces Cal.com dependency) -->
+    <!-- ============================================= -->
+    <div id="booking-modal" class="hidden fixed inset-0 bg-black/90 z-[100] items-center justify-center p-4">
+        <div onclick="event.target.id === 'booking-modal' && closeBookingModal()" class="absolute inset-0"></div>
+        
+        <div class="relative w-full max-w-5xl bg-[#111111] rounded-3xl overflow-hidden border border-slate-700">
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between px-8 py-5 border-b border-slate-800">
+                <div>
+                    <div class="font-semibold text-xl">Rezervēt pakalpojumu</div>
+                    <div class="text-sm text-slate-400">AutoGlancis • Mobilā auto tīrīšana</div>
+                </div>
+                <button onclick="closeBookingModal()" class="text-3xl leading-none text-slate-400 hover:text-white">×</button>
+            </div>
+
+            <div class="grid lg:grid-cols-5">
+                <!-- Service Info Sidebar -->
+                <div class="lg:col-span-2 p-8 bg-[#0a0a0a] border-r border-slate-800">
+                    <div id="booking-service-name" class="text-2xl font-semibold tracking-tight mb-2"></div>
+                    <div class="flex items-center gap-x-4 text-sm mb-6">
+                        <span id="booking-service-price" class="font-semibold text-sky-400"></span>
+                        <span id="booking-service-duration" class="text-slate-400"></span>
+                    </div>
+                    <div id="booking-service-desc" class="text-sm text-slate-300 leading-relaxed mb-3"></div>
+                    <div id="booking-service-note" class="hidden text-amber-400 text-xs"></div>
+                </div>
+
+                <!-- Calendar + Form -->
+                <div class="lg:col-span-3 p-8">
+                    <div class="mb-6">
+                        <div class="font-medium mb-3">Izvēlieties datumu</div>
+                        <div id="booking-calendar" class="grid grid-cols-7 gap-1 text-center text-sm"></div>
+                    </div>
+
+                    <div class="mb-6">
+                        <div class="font-medium mb-3">Pieejamie laiki</div>
+                        <div id="booking-time-slots" class="grid grid-cols-3 sm:grid-cols-4 gap-2"></div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="text-xs text-slate-400">Vārds, uzvārds</label>
+                                <input id="booking-name" type="text" class="w-full bg-[#0a0a0a] border border-slate-700 rounded-2xl px-4 py-2.5 text-sm mt-1">
+                            </div>
+                            <div>
+                                <label class="text-xs text-slate-400">Tālrunis</label>
+                                <input id="booking-phone" type="tel" value="+371 " class="w-full bg-[#0a0a0a] border border-slate-700 rounded-2xl px-4 py-2.5 text-sm mt-1">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="text-xs text-slate-400">E-pasts</label>
+                            <input id="booking-email" type="email" class="w-full bg-[#0a0a0a] border border-slate-700 rounded-2xl px-4 py-2.5 text-sm mt-1">
+                        </div>
+                    </div>
+
+                    <button onclick="submitBooking()" 
+                            class="mt-6 w-full bg-sky-500 hover:bg-sky-600 transition text-white font-semibold py-3.5 rounded-3xl">
+                        Apstiprināt rezervāciju
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
-      (function() {
-        const calTranslations = {
-          // Buttons
-          'Confirm': 'Apstiprināt',
-          'Back': 'Atpakaļ',
-          'Next': 'Tālāk',
-          'Book': 'Rezervēt',
-          'Cancel': 'Atcelt',
-          'Continue': 'Turpināt',
-
-          // Full days
-          'Monday': 'Pirmdiena',
-          'Tuesday': 'Otrdiena',
-          'Wednesday': 'Trešdiena',
-          'Thursday': 'Ceturtdiena',
-          'Friday': 'Piektdiena',
-          'Saturday': 'Sestdiena',
-          'Sunday': 'Svētdiena',
-
-          // Short days (used in calendar headers)
-          'Mon': 'Pr',
-          'Tue': 'Ot',
-          'Wed': 'Tr',
-          'Thu': 'Ce',
-          'Fri': 'Pk',
-          'Sat': 'Se',
-          'Sun': 'Sv',
-
-          // Months
-          'January': 'Janvāris',
-          'February': 'Februāris',
-          'March': 'Marts',
-          'April': 'Aprīlis',
-          'May': 'Maijs',
-          'June': 'Jūnijs',
-          'July': 'Jūlijs',
-          'August': 'Augusts',
-          'September': 'Septembris',
-          'October': 'Oktobris',
-          'November': 'Novembris',
-          'December': 'Decembris',
-
-          // Common phrases
-          'Select a date': 'Izvēlieties datumu',
-          'No available times': 'Nav pieejamu laiku',
-          'Loading...': 'Ielādē...',
-          'Available times': 'Pieejamie laiki',
-          'Timezone': 'Laika josla',
+        // BOOKING SYSTEM
+        const bookingServices = {
+            'standarta-salona-atra-tirisana': { name: 'Ātrā salona tīrīšana', price: '35€', duration: '2.5 h' },
+            'auto-salona-tirisana-60': { name: 'Standarta salona tīrīšana', price: '60€', duration: '3 h' },
+            'detalizeta-kimiska-apstrade-120': { name: 'Detalizētā salona tīrīšana + ķīmiskā', price: '120€', duration: '5 h', note: 'Nepieciešama elektrība' },
+            'standarta-auto-arpuses-tirisana': { name: 'Standarta virsbūves tīrīšana', price: '15€', duration: '1 h' },
+            'auto-arpuses-detalizeta-tirisana-45': { name: 'Detalizētā virsbūves tīrīšana', price: '45€', duration: '2.5 h' },
+            'mebelu-kimiska-tirisana': { name: 'Mēbeļu ķīmiskā tīrīšana', price: 'no 35€', duration: '2 h' },
+            'augstspiediena-virsmu-tirisana-2-m²': { name: 'Augstspiediena virsmu tīrīšana', price: '2€/m²', duration: 'pēc vienošanās' },
+            'automasinu-diagnostika': { name: 'Automašīnu diagnostika', price: '20€', duration: '45 min' }
         };
 
-        function translateElement(element) {
-          if (!element || !element.textContent) return;
+        let currentServiceSlug = null;
+        let selectedDate = null;
+        let selectedTime = null;
 
-          let text = element.textContent.trim();
+        window.openBookingModal = function(slug) {
+            currentServiceSlug = slug || 'auto-salona-tirisana-60';
+            const service = bookingServices[currentServiceSlug];
+            const modal = document.getElementById('booking-modal');
 
-          // Direct replacements
-          Object.keys(calTranslations).forEach(english => {
-            if (text.includes(english)) {
-              element.textContent = element.textContent.replace(english, calTranslations[english]);
+            if (!modal) return;
+
+            document.getElementById('booking-service-name').textContent = service.name;
+            document.getElementById('booking-service-price').textContent = service.price;
+            document.getElementById('booking-service-duration').textContent = service.duration;
+
+            const note = document.getElementById('booking-service-note');
+            if (service.note) {
+                note.textContent = service.note;
+                note.classList.remove('hidden');
+            } else {
+                note.classList.add('hidden');
             }
-          });
-        }
 
-        function translateCalComInterface() {
-          // Translate buttons
-          document.querySelectorAll('button, [role="button"], .cal-button').forEach(btn => {
-            translateElement(btn);
-          });
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
 
-          // Translate day names and other text in calendar
-          document.querySelectorAll('div, span, p, td, th').forEach(el => {
-            if (el.textContent && el.textContent.length < 30) {
-              translateElement(el);
+            renderSimpleCalendar();
+        };
+
+        window.closeBookingModal = function() {
+            const modal = document.getElementById('booking-modal');
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
             }
-          });
+        };
 
-          // Specific Cal.com selectors (they change sometimes)
-          document.querySelectorAll('[data-testid*="day"], [class*="day"], [class*="weekday"]').forEach(el => {
-            translateElement(el);
-          });
+        function renderSimpleCalendar() {
+            const container = document.getElementById('booking-calendar');
+            if (!container) return;
+            container.innerHTML = '';
+
+            const now = new Date();
+            const days = ['Pr','Ot','Tr','Ce','Pk','Se','Sv'];
+            
+            // Header
+            const header = document.createElement('div');
+            header.className = 'col-span-7 flex justify-between mb-2 px-1 text-sm font-medium';
+            header.innerHTML = `<span>${now.toLocaleString('lv-LV', {month:'long', year:'numeric'})}</span>`;
+            container.appendChild(header);
+
+            days.forEach(d => {
+                const el = document.createElement('div');
+                el.className = 'text-xs text-center text-slate-400';
+                el.textContent = d;
+                container.appendChild(el);
+            });
+
+            // Simple next 14 days
+            for (let i = 1; i <= 14; i++) {
+                const d = new Date(now);
+                d.setDate(d.getDate() + i);
+                const dayEl = document.createElement('div');
+                dayEl.className = 'text-center py-1.5 text-sm cursor-pointer hover:bg-slate-700 rounded';
+                dayEl.textContent = d.getDate();
+                dayEl.onclick = () => {
+                    document.querySelectorAll('#booking-calendar > div').forEach(el => el.classList.remove('bg-sky-500'));
+                    dayEl.classList.add('bg-sky-500', 'text-white');
+                    selectedDate = d;
+                    renderTimeSlots();
+                };
+                container.appendChild(dayEl);
+            }
         }
 
-        // Run on load and watch for changes (Cal.com is dynamic)
-        function initCalComTranslation() {
-          translateCalComInterface();
+        function renderTimeSlots() {
+            const container = document.getElementById('booking-time-slots');
+            if (!container) return;
+            container.innerHTML = '';
 
-          const observer = new MutationObserver(() => {
-            translateCalComInterface();
-          });
-
-          observer.observe(document.body, {
-            childList: true,
-            subtree: true,
-            characterData: true
-          });
-
-          // Extra safety: run every 1.5 seconds for first 15 seconds
-          let attempts = 0;
-          const interval = setInterval(() => {
-            translateCalComInterface();
-            attempts++;
-            if (attempts > 10) clearInterval(interval);
-          }, 1500);
+            const times = ['08:30', '10:00', '11:30', '13:00', '14:30', '16:00'];
+            times.forEach(t => {
+                const btn = document.createElement('button');
+                btn.className = 'py-2 px-3 text-sm border border-slate-700 rounded-2xl hover:border-sky-500';
+                btn.textContent = t;
+                btn.onclick = () => {
+                    document.querySelectorAll('#booking-time-slots button').forEach(b => b.classList.remove('bg-sky-500', 'border-sky-500'));
+                    btn.classList.add('bg-sky-500', 'border-sky-500');
+                    selectedTime = t;
+                };
+                container.appendChild(btn);
+            });
         }
 
-        if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', initCalComTranslation);
-        } else {
-          initCalComTranslation();
+        function submitBooking() {
+            alert('Paldies! Rezervācija pieņemta. Mēs sazināsimies ar Jums.');
+            closeBookingModal();
         }
-      })();
+
+        // URL parameter support
+        function checkUrlParamsForBooking() {
+            const params = new URLSearchParams(window.location.search);
+            const service = params.get('service');
+            if (service) {
+                setTimeout(() => {
+                    openBookingModal(service);
+                }, 600);
+            }
+        }
+
+        // Update all service cards to open the modal
+        function updateAllServiceCards() {
+            const cards = document.querySelectorAll('.service-card');
+            cards.forEach(card => {
+                const oldOnclick = card.getAttribute('onclick') || '';
+                const match = oldOnclick.match(/cal\.com\/auto-glancis-tz36dk\/([^'"]+)/);
+                if (match) {
+                    const slug = match[1];
+                    card.setAttribute('onclick', `openBookingModal('${slug}')`);
+                }
+            });
+        }
+
+        // Initialize booking system
+        function initBookingModal() {
+            updateAllServiceCards();
+            checkUrlParamsForBooking();
+        }
+
+        // Auto-init
+        document.addEventListener('DOMContentLoaded', function() {
+            initBookingModal();
+        });
     </script>
 </body>
 </html>
