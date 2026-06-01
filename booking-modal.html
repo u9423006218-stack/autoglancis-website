@@ -555,9 +555,10 @@
                 statusEl.classList.remove('hidden');
             }
 
-            // Izveidojam 5 sekunžu pārtraukšanas signālu, lai tīkls neuzkaras uz visiem laikiem
+            // Izveidojam 12 sekunžu pārtraukšanas signālu.
+            // Google Apps Script var "auksti iedarbināties" (cold start) un aizņemt 5-10 sekundes.
             const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 5000);
+            const timeoutId = setTimeout(() => controller.abort(), 12000);
 
             try {
                 const today = new Date();
