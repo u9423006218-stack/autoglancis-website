@@ -596,14 +596,10 @@
                     }
 
                     result = parsed;
-
                 } catch (e) {
-                    console.error("Failed to parse response as JSON. Raw text:", text);
+                    console.error("Failed to parse busy times from Google Calendar:", e);
                     result = null;
                 }
-
-                console.log('Raw getBusyTimes response:', result);
-                console.log('typeof result after parse:', typeof result);
 
                 if (result && Array.isArray(result.busy)) {
                     busyTimes = result.busy;
@@ -619,27 +615,10 @@
                     renderUpcomingDates();
                     if (selectedDate) renderTimeSlots(selectedDate);
                 } else {
-                    // TEMPORARY FORCE - accept the data anyway
-                    if (result && result.busy) {
-                        busyTimes = result.busy;
-                        busyTimesLoaded = true;
-                        console.warn('FORCED acceptance of busy data');
-
-                        if (statusEl) {
-                            statusEl.innerHTML = `<i class="fa-solid fa-check text-emerald-400"></i> <span class="text-emerald-400">Sinhronizēts (forced)</span>`;
-                            statusEl.classList.remove('hidden');
-                        }
-
-                        renderUpcomingDates();
-                        if (selectedDate) renderTimeSlots(selectedDate);
-                        return; // prevent the error message
-                    }
-
                     busyTimesLoaded = true;
-                    console.warn('getBusyTimes response was not successful or malformed:', result);
 
                     if (statusEl) {
-                        statusEl.innerHTML = `<i class="fa-solid fa-exclamation-triangle text-orange-400"></i> <span class="text-orange-400">Kļūda no Apps Script (pārbaudi izpildes logus)</span>`;
+                        statusEl.innerHTML = `<i class="fa-solid fa-exclamation-triangle text-orange-400"></i> <span class="text-orange-400">Standarta režīms (reālā pieejamība nav ielādēta)</span>`;
                         statusEl.classList.remove('hidden');
                     }
 
