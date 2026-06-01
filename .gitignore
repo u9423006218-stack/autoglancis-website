@@ -15,3 +15,9 @@ reels/*.mp4
 reels/*.mp4.mp4
 reels/*.mov
 reels/*.webm
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+!.env.example
