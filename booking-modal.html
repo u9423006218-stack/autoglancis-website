@@ -180,7 +180,7 @@
                         
                         <div id="month-tabs" class="flex gap-2 mb-1 overflow-x-auto pb-1"></div>
                         
-                        <div id="upcoming-dates" class="space-y-2 max-h-[260px] sm:max-h-[320px] overflow-auto pr-2"></div>
+                        <div id="upcoming-dates" class="space-y-2 max-h-[260px] sm:max-h-[320px] overflow-auto pr-2" style="border: 1px dashed red;"></div>
                     </div>
 
                     <!-- Time slots -->
@@ -191,6 +191,45 @@
                         </div>
                         <div id="no-times-message" class="hidden text-sm text-slate-400 mt-3">
                             Šajā dienā nav pieejamu laiku.
+                        </div>
+                    </div>
+
+                    <!-- Pressure washing m² calculator -->
+                    <div id="pressure-wash-calculator" class="hidden mt-6">
+                        <div class="font-semibold mb-3">Aprēķināt pēc platības</div>
+
+                        <div class="space-y-4">
+                            <div>
+                                <label class="text-xs text-slate-400 block mb-1">Platība (m²)</label>
+                                <input id="pressure-m2" type="number" min="1" step="1" placeholder="Piemēram: 120" 
+                                       class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2 text-sm">
+                            </div>
+
+                            <div class="bg-slate-900 border border-slate-700 rounded-xl p-4">
+                                <div class="flex justify-between items-baseline">
+                                    <div>
+                                        <div class="text-sm text-slate-400">Cena</div>
+                                        <div id="pressure-price" class="text-3xl font-semibold tabular-nums text-emerald-400">0 €</div>
+                                    </div>
+                                    <div>
+                                        <div id="pressure-estimated-time" class="text-sm text-emerald-400 text-right"></div>
+                                        <div id="pressure-estimated-days" class="text-xs text-emerald-400 text-right mt-1"></div>
+                                    </div>
+                                </div>
+                                <div class="text-[10px] text-slate-500 mt-1">1,80 €/m²</div>
+                            </div>
+
+                            <div class="text-xs text-slate-400 leading-snug">
+                                Realistiski ar sagatavošanu: <strong>150–250 m²</strong> (~8 stundas).<br><br>
+                                <a href="https://earth.google.com/web/@57.39751072,21.59068327,3.85148405a,14309.69112452d,35y,298.59694145h,0t,0r/data=CgRCAggBOgMKATBCAggASg0I____________ARAA" 
+                                   target="_blank" class="text-sky-400 hover:underline">
+                                    📏 Izmērīt platību Google Earth
+                                </a>
+                            </div>
+
+                            <div id="pressure-m2-hint" class="text-xs text-amber-400 mt-2">
+                                Ievadiet platību, lai redzētu pieejamās dienas un laikus.
+                            </div>
                         </div>
                     </div>
 
@@ -263,25 +302,43 @@
                 name: 'Standarta salona tīrīšana',
                 duration: '4 stundas',
                 price: '60 €',
-                description: 'Rūpīga un padziļināta salona tīrīšana. Ideāli piemērota vidēji netīriem saloniem.'
+                description: 'Rūpīga un padziļināta salona tīrīšana (4 stundas). Nav pieejami vēlie laiki (no 15:00).'
             },
             'detalizeta-kimiska-apstrade-120': {
                 name: 'Detalizētā salona tīrīšana + ķīmiskā apstrāde',
-                duration: '5 stundas',
+                duration: '8 stundas',
                 price: '120 €',
-                description: 'Pilnīga dziļā salona ķīmiskā apstrāde. Visaptverošākais pakalpojums.'
+                description: 'Detalizētā salona tīrīšana + ķīmiskā apstrāde.'
             },
             'standarta-auto-arpuses-tirisana': {
                 name: 'Standarta virsbūves tīrīšana',
                 duration: '1 stunda',
                 price: '15 €',
-                description: 'Ātra un efektīva virsbūves mazgāšana.'
+                description: 'Ātra un efektīva virsbūves mazgāšana (1 stunda). Nav pieejams laiks 18:00.'
             },
             'auto-arpuses-detalizeta-tirisana-45': {
                 name: 'Detalizētā virsbūves tīrīšana',
                 duration: '2.5 stundas',
                 price: '45 €',
-                description: 'Padziļināta virsbūves tīrīšana ar papildu kopšanu.'
+                description: 'Padziļināta virsbūves tīrīšana ar papildu kopšanu (2.5 stundas). Nav pieejami vēlie laiki (no 15:00).'
+            },
+            'mebelu-kimiska-tirisana': {
+                name: 'Mēbeļu ķīmiskā tīrīšana',
+                duration: '2 stundas',
+                price: 'no 35 €',
+                description: 'Matrača, paklāju un dīvānu ķīmiskā tīrīšana (2 stundas). Nav pieejams laiks 18:00.'
+            },
+            'augstspiediena-virsmu-tirisana-2-m²': {
+                name: 'Augstspiediena virsmu tīrīšana',
+                duration: 'pēc vienošanās',
+                price: '1,80 €/m²',
+                description: 'Bruģa, terases, fasādes, žoga, dārza mēbeļu, bērnu rotaļu laukumu, betona un akmens tīrīšana.\n\nCena Latvijā parasti 1,6–3,5 €/m² (visbiežāk 2–3 €/m²). Lielākām platībām cena samazinās. Iespējami papildpakalpojumi: šuvju aizpildīšana un aizsargapstrāde.\n\nNepieciešams klienta ūdens pieslēgums.'
+            },
+            'automasinu-diagnostika': {
+                name: 'Automašīnu diagnostika',
+                duration: '45 min',
+                price: '20 €',
+                description: 'Pilna OBD diagnostika ar profesionālo skeneri.'
             }
         };
 
@@ -292,6 +349,8 @@
         // Real busy times fetched from Google Calendar via Apps Script
         let busyTimes = [];   // Array of {start: ISO, end: ISO}
         let busyTimesLoaded = false;  // Prevents showing time slots before we know real availability
+
+        let pressureWashM2 = 0; // For high-pressure surface cleaning service
 
         // Required notice period (hours) before service start
         const NOTICE_HOURS = {
@@ -378,6 +437,7 @@
          * vai neatbilst brīdinājuma periodam.
          */
         function getAvailableTimesForDate(date) {
+            console.log('[DEBUG] getAvailableTimesForDate called for date:', date, 'currentService:', currentService, 'pressureWashM2:', pressureWashM2);
             const day = date.getDay();
             let times = [];
 
@@ -390,6 +450,70 @@
             const service = services[currentService] || { duration: '3 stundas' };
             let serviceDurationHours = parseFloat(service.duration) || 3;
             const currentServiceDurationMs = serviceDurationHours * 60 * 60 * 1000;
+
+            // Special rule for the 8-hour chemical service:
+            // Only 9:00 is allowed because the job takes 8 hours and user works 9:00–18:00.
+            if (currentService === 'detalizeta-kimiska-apstrade-120') {
+                times = times.filter(t => t === '09:00');
+            }
+
+            // Special rule for Standarta salona tīrīšana (4 hours):
+            // Block late slots so the job finishes by 18:00 (accounting for 1h break).
+            // Same rule every day (user works every day).
+            if (currentService === 'auto-salona-tirisana-60') {
+                times = times.filter(t => !['15:00', '16:30', '18:00'].includes(t));
+            }
+
+            // Special rule for Standarta virsbūves tīrīšana (1 hour):
+            // Same logic as 4h service: block very late slots (only 18:00 is problematic for 1h job).
+            // Consistent every day.
+            if (currentService === 'standarta-auto-arpuses-tirisana') {
+                times = times.filter(t => !['18:00'].includes(t));
+            }
+
+            // Special rule for Detalizētā virsbūves tīrīšana (2.5 hours):
+            // Same rule every day as the 4h interior service: block late slots (15:00+) 
+            // so the job finishes by 18:00 with 1h break.
+            if (currentService === 'auto-arpuses-detalizeta-tirisana-45') {
+                times = times.filter(t => !['15:00', '16:30', '18:00'].includes(t));
+            }
+
+            // Special rule for Mēbeļu ķīmiskā tīrīšana (2 hours):
+            // Same rule every day: block 18:00 (2h job starting at 18:00 finishes at 20:00).
+            if (currentService === 'mebelu-kimiska-tirisana') {
+                times = times.filter(t => !['18:00'].includes(t));
+            }
+
+            // Dynamic time filtering for Augstspiediena virsmu tīrīšana based on m²
+            if (currentService === 'augstspiediena-virsmu-tirisana-2-m²') {
+                // Always read live value from the input (more reliable than the variable)
+                const m2Input = document.getElementById('pressure-m2');
+                const liveM2 = m2Input ? parseFloat(m2Input.value) || 0 : pressureWashM2;
+
+                if (liveM2 > 0) {
+                    console.log('[DEBUG] Applying m² filter for pressure wash, liveM2=', liveM2);
+                    const estimatedHours = liveM2 / 22; // ~22 m² per hour realistic
+
+                    const workStartHour = 9;
+                    const workEndHour = 18;
+                    const maxSingleDayHours = workEndHour - workStartHour; // 9 hours
+
+                    if (estimatedHours <= maxSingleDayHours) {
+                        // Single day job: strict finish by 18:00
+                        times = times.filter(timeStr => {
+                            const [h, m] = timeStr.split(':').map(Number);
+                            const startHour = h + m / 60;
+                            const endHour = startHour + estimatedHours;
+                            return startHour >= workStartHour && endHour <= workEndHour;
+                        });
+                    } else {
+                        // Multi-day job: only allow early starts on the first day (9:00 or 10:30)
+                        // so the job can begin and continue the next day(s)
+                        times = times.filter(timeStr => ['09:00', '10:30'].includes(timeStr));
+                    }
+                    console.log('[DEBUG] After m² filter, remaining times:', times);
+                }
+            }
 
             const noticeHours = NOTICE_HOURS[currentService] || 12;
             const minAllowedTime = new Date(new Date().getTime() + noticeHours * 60 * 60 * 1000);
@@ -445,7 +569,11 @@
                     </div>
                 `;
 
+                // Store the date on the element for reliable delegated handling (especially useful for pressure wash service)
+                div.dataset.date = date.toISOString();
+
                 div.onclick = () => {
+                    console.log('[DEBUG] Date clicked:', date, 'for service:', currentService);
                     document.querySelectorAll('#upcoming-dates > div').forEach(el => el.classList.remove('border-sky-500', 'bg-sky-900/20'));
                     div.classList.add('border-sky-500', 'bg-sky-900/20');
 
@@ -466,15 +594,19 @@
         }
 
         function renderTimeSlots(date) {
+            console.log('[DEBUG] renderTimeSlots called for date:', date, 'currentService:', currentService);
             const container = document.getElementById('time-slots');
             const noTimes = document.getElementById('no-times-message');
             container.innerHTML = '';
             noTimes.classList.add('hidden');
 
+            // For the high-pressure service the m² calculator (with price + estimated time)
+            // lives in the dedicated section above. We just render the filtered time slots here.
+
             // Important: don't let user pick times until we have real busy data from Google
             if (!busyTimesLoaded) {
                 const loading = document.createElement('div');
-                loading.className = 'text-sm text-slate-400 py-4';
+                loading.className = 'text-sm text-slate-400 py-2';
                 loading.innerHTML = `<i class="fa-solid fa-circle-notch animate-spin mr-2"></i> Ielādē reālo pieejamību no Google Calendar...`;
                 container.appendChild(loading);
                 return;
@@ -483,7 +615,34 @@
             // Izmantojam mūsu jauno funkciju, lai iegūtu laikus
             const availableTimes = getAvailableTimesForDate(date);
 
-            if (availableTimes.length === 0) {
+            console.log('[DEBUG pressure] After full filtering for date, availableTimes:', availableTimes, 'length:', availableTimes.length);
+
+            if (currentService === 'augstspiediena-virsmu-tirisana-2-m²') {
+                // Force the time slots container to be visible for this service
+                if (container) container.style.display = '';
+
+                const m2ForDays = pressureWashM2 || parseFloat(document.getElementById('pressure-m2')?.value) || 0;
+                const daysNeeded = m2ForDays > 0 ? Math.ceil(m2ForDays / 200) : 1;
+
+                if (daysNeeded > 1) {
+                    const multiNote = document.createElement('div');
+                    multiNote.className = 'text-xs text-amber-400 mb-2';
+                    multiNote.textContent = `Šis darbs aizņems aptuveni ${daysNeeded} dienas (sākot no izvēlētās dienas plkst. 9:00).`;
+                    container.appendChild(multiNote);
+                }
+
+                if (availableTimes.length === 0) {
+                    const msg = document.createElement('div');
+                    msg.className = 'text-sm text-slate-400 mt-2';
+                    if (m2ForDays > 0) {
+                        msg.textContent = `For ${m2ForDays} m² there are no suitable start times on this day (job would finish too late or conflicts with busy times).`;
+                    } else {
+                        msg.textContent = 'Enter m² above to see available start times.';
+                    }
+                    container.appendChild(msg);
+                    return;
+                }
+            } else if (availableTimes.length === 0) {
                 noTimes.classList.remove('hidden');
                 return;
             }
@@ -505,9 +664,32 @@
                     btn.classList.add('selected', 'bg-sky-500', 'border-sky-500', 'text-white');
                     selectedTime = time;
 
-                    // Show booking form
-                    document.getElementById('booking-form').classList.remove('hidden');
-                    // setupFieldValidation(); // Ja izmantojat validāciju
+                    if (currentService === 'augstspiediena-virsmu-tirisana-2-m²') {
+                        console.log('[DEBUG pressure] Time button clicked for pressure wash - forcing booking form visible');
+                    }
+
+                    // === ROBUST FORM SHOW FOR PRESSURE WASH (and all services) ===
+                    const bookingForm = document.getElementById('booking-form');
+                    
+                    // Force visibility - override any special hiding for pressure wash or other services
+                    bookingForm.classList.remove('hidden');
+                    bookingForm.style.display = 'block';
+                    bookingForm.style.visibility = 'visible';
+                    bookingForm.style.opacity = '1';
+
+                    // For pressure wash service, prefill notes with m² and days info
+                    if (currentService === 'augstspiediena-virsmu-tirisana-2-m²') {
+                        const notesInput = document.getElementById('notes');
+                        const m2 = pressureWashM2 || parseFloat(document.getElementById('pressure-m2')?.value) || 0;
+                        const daysNeeded = m2 > 0 ? Math.ceil(m2 / 200) : 1;
+                        const extraNote = `Platība: ${m2} m², aptuveni ${daysNeeded} dienas (sākot plkst. 9:00)`;
+                        if (notesInput) {
+                            notesInput.value = notesInput.value ? notesInput.value + '\n' + extraNote : extraNote;
+                        }
+                    }
+
+                    // Scroll to the form so user sees the next step (name, phone, email etc.)
+                    bookingForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 };
 
                 container.appendChild(btn);
@@ -540,6 +722,279 @@
                 document.getElementById('event-price').textContent = service.price;
                 document.getElementById('event-description').textContent = service.description;
             }
+
+            updateServiceSpecificUI();
+
+            // Re-apply special features if user changes service in the dropdown
+            if (currentService === 'mebelu-kimiska-tirisana') {
+                const descContainer = document.querySelector('.text-sm.text-slate-300.leading-relaxed.mb-4');
+                if (descContainer) {
+                    descContainer.textContent = 'Matrača, paklāju un dīvānu ķīmiskā tīrīšana.';
+                }
+
+                const featuresContainer = document.querySelector('.space-y-1\\.5.text-sm');
+                if (featuresContainer) {
+                    featuresContainer.innerHTML = `
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Matrača ķīmiskā tīrīšana – no 35€</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Paklāju ķīmiskā tīrīšana – no 35€</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Dīvānu ķīmiskā tīrīšana – no 35€</span>
+                        </div>
+                    `;
+                }
+            } else if (currentService === 'automasinu-diagnostika') {
+                // Automašīnu diagnostika override in dropdown
+                const descContainer = document.querySelector('.text-sm.text-slate-300.leading-relaxed.mb-4');
+                if (descContainer) {
+                    descContainer.textContent = 'Pilna OBD diagnostika ar profesionālo skeneri.';
+                }
+
+                const featuresContainer = document.querySelector('.space-y-1\\.5.text-sm');
+                if (featuresContainer) {
+                    featuresContainer.innerHTML = `
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Pilna OBD diagnostika ar profesionālo skeneri</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Kļūdu kodu nolasīšana un dzēšana</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Reāllaika datu monitorings (dzinējs, sensori, akumulators u.c.)</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Ieteikumi turpmākajām darbībām</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Protokola izdruka vai nosūtīšana uz e-pastu</span>
+                        </div>
+                    `;
+                }
+            } else if (currentService === 'detalizeta-kimiska-apstrade-120') {
+                // Detalizētā salona tīrīšana + ķīmiskā override in dropdown
+                const descContainer = document.querySelector('.text-sm.text-slate-300.leading-relaxed.mb-4');
+                if (descContainer) {
+                    descContainer.innerHTML = `Detalizētā salona tīrīšana + ķīmiskā apstrāde<br><br>
+                    <span class="text-amber-400">Nepieciešama klienta elektrība</span>`;
+                }
+
+                const featuresContainer = document.querySelector('.space-y-1\\.5.text-sm');
+                if (featuresContainer) {
+                    featuresContainer.innerHTML = ''; // no feature bullets
+                }
+            }
+        }
+
+        function updateServiceSpecificUI() {
+            const isPressureWash = currentService === 'augstspiediena-virsmu-tirisana-2-m²';
+            const datesContainer = document.getElementById('upcoming-dates');
+            const timeSlotsContainer = document.getElementById('time-slots');
+            const noTimesMessage = document.getElementById('no-times-message');
+            const calculator = document.getElementById('pressure-wash-calculator');
+            const monthTabs = document.getElementById('month-tabs');
+
+            if (isPressureWash) {
+                // Hide normal calendar UI until m² is entered
+                if (datesContainer) datesContainer.style.display = 'none';
+                if (timeSlotsContainer) timeSlotsContainer.style.display = 'none';
+                if (noTimesMessage) noTimesMessage.style.display = 'none';
+                if (monthTabs) monthTabs.style.display = 'none';
+
+                // Override description and features
+                const descContainer = document.querySelector('.text-sm.text-slate-300.leading-relaxed.mb-4');
+                if (descContainer) {
+                    descContainer.innerHTML = `Bruģa, terases, fasādes, žoga, dārza mēbeļu, bērnu rotaļu laukumu, betona un akmens tīrīšana.<br><br>
+                    ✅ Bez ķīmijas vai videi draudzīgi līdzekļi<br>
+                    ✅ Ideāli privātmāju pagalmiem un komerciālām teritorijām`;
+                }
+
+                const featuresContainer = document.querySelector('.space-y-1\\.5.text-sm');
+                if (featuresContainer) {
+                    featuresContainer.innerHTML = `
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Bez ķīmijas vai videi draudzīgi līdzekļi</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Ideāli privātmāju pagalmiem un komerciālām teritorijām</span>
+                        </div>
+                    `;
+                }
+
+                // Show the dedicated calculator
+                if (calculator) calculator.style.display = 'block';
+
+                // Wire up the calculator inputs
+                setupPressureWashCalculator();
+            } else if (currentService === 'mebelu-kimiska-tirisana') {
+                // Furniture chemical cleaning override (keep this)
+                const descContainer = document.querySelector('.text-sm.text-slate-300.leading-relaxed.mb-4');
+                if (descContainer) {
+                    descContainer.textContent = 'Matrača, paklāju un dīvānu ķīmiskā tīrīšana.';
+                }
+
+                const featuresContainer = document.querySelector('.space-y-1\\.5.text-sm');
+                if (featuresContainer) {
+                    featuresContainer.innerHTML = `
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Matrača ķīmiskā tīrīšana – no 35€</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Paklāju ķīmiskā tīrīšana – no 35€</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Dīvānu ķīmiskā tīrīšana – no 35€</span>
+                        </div>
+                    `;
+                }
+            } else if (currentService === 'automasinu-diagnostika') {
+                // Automašīnu diagnostika override
+                const descContainer = document.querySelector('.text-sm.text-slate-300.leading-relaxed.mb-4');
+                if (descContainer) {
+                    descContainer.textContent = 'Pilna OBD diagnostika ar profesionālo skeneri.';
+                }
+
+                const featuresContainer = document.querySelector('.space-y-1\\.5.text-sm');
+                if (featuresContainer) {
+                    featuresContainer.innerHTML = `
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Pilna OBD diagnostika ar profesionālo skeneri</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Kļūdu kodu nolasīšana un dzēšana</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Reāllaika datu monitorings (dzinējs, sensori, akumulators u.c.)</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Ieteikumi turpmākajām darbībām</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Protokola izdruka vai nosūtīšana uz e-pastu</span>
+                        </div>
+                    `;
+                }
+            } else if (currentService === 'detalizeta-kimiska-apstrade-120') {
+                // Detalizētā salona tīrīšana + ķīmiskā apstrāde override
+                const descContainer = document.querySelector('.text-sm.text-slate-300.leading-relaxed.mb-4');
+                if (descContainer) {
+                    descContainer.innerHTML = `Detalizētā salona tīrīšana + ķīmiskā apstrāde<br><br>
+                    <span class="text-amber-400">Nepieciešama klienta elektrība</span>`;
+                }
+
+                const featuresContainer = document.querySelector('.space-y-1\\.5.text-sm');
+                if (featuresContainer) {
+                    featuresContainer.innerHTML = ''; // no feature bullets
+                }
+            } else {
+                // Normal services
+                if (datesContainer) datesContainer.style.display = '';
+                if (timeSlotsContainer) timeSlotsContainer.style.display = '';
+                if (noTimesMessage) noTimesMessage.style.display = '';
+                if (monthTabs) monthTabs.style.display = '';
+                if (calculator) calculator.style.display = 'none';
+            }
+        }
+
+        function setupPressureWashCalculator() {
+            const m2Input = document.getElementById('pressure-m2');
+            const priceEl = document.getElementById('pressure-price');
+            const timeEl = document.getElementById('pressure-estimated-time');
+
+            if (!m2Input || !priceEl) return;
+
+            const updateCalculator = () => {
+                const m2 = parseFloat(m2Input.value) || 0;
+                const price = (m2 * 1.8).toFixed(0);
+                priceEl.textContent = price + ' €';
+
+                if (timeEl) {
+                    if (m2 > 0) {
+                        const hours = (m2 / 22).toFixed(1);
+                        timeEl.textContent = `Aptuvenais darba laiks: ~${hours} stundas`;
+                    } else {
+                        timeEl.textContent = '';
+                    }
+                }
+
+                const daysEl = document.getElementById('pressure-estimated-days');
+                if (daysEl) {
+                    if (m2 > 0) {
+                        // Average 200 m² per day (range 150-250)
+                        const days = Math.ceil(m2 / 200);
+                        daysEl.textContent = `Aptuveni ${days} dienas (sākot no izvēlētās dienas plkst. 9:00)`;
+                    } else {
+                        daysEl.textContent = '';
+                    }
+                }
+
+                // When m² is entered, show the date list so user can pick a day
+                const datesContainer = document.getElementById('upcoming-dates');
+                const monthTabs = document.getElementById('month-tabs');
+
+                if (m2 > 0) {
+                    if (datesContainer) datesContainer.style.display = '';
+                    if (monthTabs) monthTabs.style.display = '';
+
+                    const hint = document.getElementById('pressure-m2-hint');
+                    if (hint) hint.style.display = 'none';
+
+                    const reRenderDates = () => {
+                        if (typeof renderDatesList === 'function' && typeof monthsData !== 'undefined') {
+                            const container = document.getElementById('upcoming-dates');
+                            if (container) {
+                                const currentMonthData = monthsData[currentMonthIndex] || monthsData[0];
+                                if (currentMonthData) {
+                                    renderDatesList(container, currentMonthData.dates, dayNames);
+                                }
+                            }
+                        }
+                    };
+
+                    if (!busyTimesLoaded) {
+                        fetchRealBusyTimes().then(reRenderDates);
+                    } else {
+                        reRenderDates();
+                    }
+
+                    // If a date is already selected, immediately re-render its time slots with the new m²
+                    if (selectedDate) {
+                        renderTimeSlots(selectedDate);
+                    }
+                } else {
+                    if (datesContainer) datesContainer.style.display = 'none';
+                    if (monthTabs) monthTabs.style.display = 'none';
+
+                    const hint = document.getElementById('pressure-m2-hint');
+                    if (hint) hint.style.display = '';
+                }
+            };
+
+            m2Input.removeEventListener('input', updateCalculator);
+            m2Input.addEventListener('input', updateCalculator);
+
+            // Trigger once in case value is pre-filled
+            updateCalculator();
         }
 
         // Helper: format JS Date as YYYY-MM-DD (for the Apps Script)
@@ -858,6 +1313,15 @@
                 notes: notes
             };
 
+            // Special handling for pressure washing service
+            if (currentService === 'augstspiediena-virsmu-tirisana-2-m²') {
+                const m2 = pressureWashM2 || 0;
+                const daysNeeded = m2 > 0 ? Math.ceil(m2 / 200) : 1;
+                payload.m2 = m2;
+                payload.durationHours = null;
+                payload.notes = (notes ? notes + '\n' : '') + `Platība: ${m2} m², aptuveni ${daysNeeded} dienas (sākot plkst. 9:00)`;
+            }
+
             // Loading state
             const originalBtnText = submitBtn.textContent;
             submitBtn.disabled = true;
@@ -1037,11 +1501,75 @@
             }
 
             // Update service info in sidebar
+            updateServiceSpecificUI();
+
+            // Debug + delegated handler for pressure wash dates (more reliable than per-item onclick)
+            if (currentService === 'augstspiediena-virsmu-tirisana-2-m²') {
+                const datesContainer = document.getElementById('upcoming-dates');
+                if (datesContainer) {
+                    // Remove any previous to avoid duplicates
+                    datesContainer.onclick = null;
+
+                    datesContainer.addEventListener('click', function pressureWashDateClick(e) {
+                        console.log('[DEBUG pressure] Container click for pressure wash. Target:', e.target);
+
+                        const dateItem = e.target.closest('#upcoming-dates > div');
+                        if (!dateItem) return;
+
+                        console.log('[DEBUG pressure] Date item clicked');
+
+                        const dateStr = dateItem.dataset.date;
+                        if (dateStr) {
+                            const clickedDate = new Date(dateStr);
+                            console.log('[DEBUG pressure] Using data-date for renderTimeSlots:', clickedDate);
+
+                            document.querySelectorAll('#upcoming-dates > div').forEach(el => el.classList.remove('border-sky-500', 'bg-sky-900/20'));
+                            dateItem.classList.add('border-sky-500', 'bg-sky-900/20');
+
+                            selectedDate = clickedDate;
+                            selectedTime = null;
+                            renderTimeSlots(clickedDate);
+                        } else {
+                            console.warn('[DEBUG pressure] No data-date found on clicked item, falling back to selectedDate if any');
+                            if (selectedDate) {
+                                renderTimeSlots(selectedDate);
+                            }
+                        }
+                    });
+                }
+            }
+
             const service = services[currentService];
             if (service) {
                 document.getElementById('event-name').textContent = service.name;
                 document.getElementById('event-duration').textContent = service.duration;
                 document.getElementById('event-price').textContent = service.price;
+            }
+
+            // Special handling for Mēbeļu ķīmiskā tīrīšana (override the static car interior bullets)
+            if (currentService === 'mebelu-kimiska-tirisana') {
+                const descContainer = document.querySelector('.text-sm.text-slate-300.leading-relaxed.mb-4');
+                if (descContainer) {
+                    descContainer.textContent = 'Matrača, paklāju un dīvānu ķīmiskā tīrīšana.';
+                }
+
+                const featuresContainer = document.querySelector('.space-y-1\\.5.text-sm');
+                if (featuresContainer) {
+                    featuresContainer.innerHTML = `
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Matrača ķīmiskā tīrīšana – no 35€</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Paklāju ķīmiskā tīrīšana – no 35€</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Dīvānu ķīmiskā tīrīšana – no 35€</span>
+                        </div>
+                    `;
+                }
             }
 
             // Refresh availability button (useful on live site after someone books)
