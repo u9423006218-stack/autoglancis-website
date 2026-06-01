@@ -584,12 +584,19 @@
 
                 clearTimeout(timeoutId);
 
-                // Get the raw response as text first
                 const text = await response.text();
                 let result;
 
                 try {
-                    result = JSON.parse(text);
+                    let parsed = JSON.parse(text);
+
+                    // Handle the case where Apps Script returns a stringified JSON
+                    if (typeof parsed === "string") {
+                        parsed = JSON.parse(parsed);
+                    }
+
+                    result = parsed;
+
                 } catch (e) {
                     console.error("Failed to parse response as JSON. Raw text:", text);
                     result = null;
