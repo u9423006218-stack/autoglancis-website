@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="lv">
 <head>
-    <!-- v2026-06-02-03-forced -->
+    <!-- v2026-06-02-04-forced -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rezervēt • AutoGlancis</title>
@@ -541,24 +541,21 @@
          */
         async function fetchRealBusyTimes() {
             const statusEl = document.getElementById('calendar-sync-status');
-            
+
             if (!BOOKING_SCRIPT_URL || BOOKING_SCRIPT_URL.includes('YOUR_GOOGLE_APPS_SCRIPT_URL_HERE')) {
                 console.warn('No Apps Script URL set – using simulated availability only.');
-                busyTimesLoaded = true;
                 if (statusEl) statusEl.classList.add('hidden');
+                busyTimesLoaded = true;
                 return;
             }
 
-            // Rādām ielādes stāvokli uzreiz
             if (statusEl) {
                 statusEl.innerHTML = `<i class="fa-solid fa-circle-notch animate-spin text-sky-400 text-[10px]"></i> <span>Sinhronizē ar Google Calendar...</span>`;
                 statusEl.classList.remove('hidden');
             }
 
-            // Izveidojam 12 sekunžu pārtraukšanas signālu.
-            // Google Apps Script var "auksti iedarbināties" (cold start) un aizņemt 5-10 sekundes.
             const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 12000);
+            const timeoutId = setTimeout(() => controller.abort(), 15000);   // 15 seconds
 
             try {
                 const today = new Date();
@@ -578,9 +575,9 @@
                 clearTimeout(timeoutId);
                 const result = await response.json();
 
-                // Very defensive check — if we received a busy array, we treat it as success.
-                // We no longer strictly require result.success because some deployments
-                // or redirects can make the flag unreliable.
+                console.log('Raw getBusyTimes response:', result);
+
+                // Very defensive – if we got a busy array, we accept it
                 if (result && Array.isArray(result.busy)) {
                     busyTimes = result.busy;
                     busyTimesLoaded = true;
@@ -599,12 +596,12 @@
                 } else {
                     busyTimesLoaded = true;
                     console.warn('getBusyTimes response was not successful or malformed:', result);
-                    
+
                     if (statusEl) {
                         statusEl.innerHTML = `<i class="fa-solid fa-exclamation-triangle text-orange-400"></i> <span class="text-orange-400">Kļūda no Apps Script (pārbaudi izpildes logus)</span>`;
                         statusEl.classList.remove('hidden');
                     }
-                    
+
                     renderUpcomingDates();
                     if (selectedDate) {
                         renderTimeSlots(selectedDate);
@@ -613,37 +610,18 @@
             } catch (err) {
                 clearTimeout(timeoutId);
                 console.error('Failed to fetch real availability from Google:', err);
-                
-                busyTimesLoaded = true; // we tried, don't block the UI forever
+
+                busyTimesLoaded = true;
 
                 if (statusEl) {
                     statusEl.innerHTML = `<i class="fa-solid fa-exclamation-triangle text-amber-400"></i> <span class="text-amber-400">Standarta režīms (reālā pieejamība nav ielādēta)</span>`;
-                    statusEl.classList.remove('hidden'); // Keep visible so you know real data failed
+                    statusEl.classList.remove('hidden');
                 }
 
-                // Show clear warning that real Google data failed (common on localhost)
-                const datesContainer = document.getElementById('upcoming-dates');
-                if (datesContainer) {
-                    datesContainer.innerHTML = `
-                        <div class="mb-4 p-3 bg-yellow-900/40 border border-yellow-600 rounded-xl text-xs text-yellow-200">
-                            <strong>Reālā pieejamība no Google Calendar netika ielādēta</strong> (localhost ierobežojumi / fetch kļūda).<br>
-                            Rādām tikai brīdinājuma periodu. Pilna bloķēšana darbojas tikai uz live lapas.
-                        </div>
-                    `;
-                }
-
-                // Re-render the (unfiltered) dates so user can continue testing notice period
                 renderUpcomingDates();
                 if (selectedDate) {
                     renderTimeSlots(selectedDate);
                 }
-            } finally {
-                setTimeout(() => {
-                    if (statusEl && statusEl.innerHTML.includes('Sinhronizē ar Google Calendar')) {
-                        statusEl.innerHTML = `<i class="fa-solid fa-cloud text-slate-400"></i> <span class="text-slate-400">Standarta režīms</span>`;
-                        statusEl.classList.add('hidden');
-                    }
-                }, 6000);
             }
         }
 
