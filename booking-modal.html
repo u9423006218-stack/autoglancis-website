@@ -583,13 +583,20 @@
                 });
 
                 clearTimeout(timeoutId);
-                const result = await response.json();
+
+                // Get the raw response as text first
+                const text = await response.text();
+                let result;
+
+                try {
+                    result = JSON.parse(text);
+                } catch (e) {
+                    console.error("Failed to parse response as JSON. Raw text:", text);
+                    result = null;
+                }
 
                 console.log('Raw getBusyTimes response:', result);
-                console.log('typeof result:', typeof result);
-                console.log('result keys:', result ? Object.keys(result) : null);
-                console.log('result.busy type:', result && result.busy ? typeof result.busy : 'undefined');
-                console.log('Array.isArray(result.busy):', result && Array.isArray(result.busy));
+                console.log('typeof result after parse:', typeof result);
 
                 if (result && Array.isArray(result.busy)) {
                     busyTimes = result.busy;
