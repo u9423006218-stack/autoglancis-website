@@ -588,7 +588,14 @@
                 let result;
 
                 try {
-                    result = JSON.parse(text);
+                    let parsed = JSON.parse(text);
+
+                    // Handle the case where Apps Script returns a stringified JSON
+                    if (typeof parsed === "string") {
+                        parsed = JSON.parse(parsed);
+                    }
+
+                    result = parsed;
                 } catch (e) {
                     console.error("Failed to parse busy times from Google Calendar:", e);
                     result = null;
