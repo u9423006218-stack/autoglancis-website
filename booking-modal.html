@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rezervēt • AutoGlancis</title>
+    <script src="https://cdn.tailwindcss.com"></script> <!-- Tailwind Play CDN for static site -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@700&display=swap');
+        
+        body {
+            font-family: 'Inter', system_ui, sans-serif;
+        }
+        
+        .heading-font {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+        }
+
+        .cal-card {
+            background-color: #111111;
+            border: 1px solid #27272a;
+        }
+
+        .calendar-day {
+            transition: all 0.1s ease;
+        }
+        
+        .calendar-day:hover:not(.disabled) {
+            background-color: #18181b;
+        }
+        
+        .calendar-day.selected {
+            background-color: #0ea5e9;
+            color: white;
+            border-radius: 9999px;
+        }
+        
+        .calendar-day.disabled {
+            color: #3f3f46;
+            cursor: not-allowed;
+        }
+
+        .time-slot {
+            transition: all 0.1s ease;
+        }
+        
+        .time-slot:hover {
+            background-color: #18181b;
+            border-color: #3f3f46;
+        }
+        
+        .time-slot.selected {
+            background-color: #0ea5e9;
+            border-color: #0ea5e9;
+            color: white;
+        }
+
+        /* Blue scrollbar matching MOBILĀ AUTO TĪRĪŠANA accent */
+        #month-tabs::-webkit-scrollbar,
+        #upcoming-dates::-webkit-scrollbar {
+            height: 6px;
+            width: 6px;
+        }
+        #month-tabs::-webkit-scrollbar-thumb,
+        #upcoming-dates::-webkit-scrollbar-thumb {
+            background-color: #0ea5e9;
+            border-radius: 3px;
+        }
+        #month-tabs::-webkit-scrollbar-track,
+        #upcoming-dates::-webkit-scrollbar-track {
+            background: #1f2937;
+        }
+    </style>
+</head>
+<body class="bg-[#0a0a0a] text-slate-200">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-6 sm:mb-10">
+            <div class="flex items-center gap-x-3">
+                <img src="reels/AG1.png" alt="AutoGlancis" class="h-9 rounded">
+                <div>
+                    <div class="font-bold text-2xl tracking-tighter">AUTOGLANCIS</div>
+                    <div class="text-[10px] text-slate-500 -mt-1">VENTSPILS</div>
+                </div>
+            </div>
+            <a href="index.html" class="text-xs sm:text-sm text-sky-400 hover:underline flex items-center gap-x-1 sm:gap-x-2">
+                <i class="fa-solid fa-arrow-left text-xl sm:text-sm"></i>
+                <span class="hidden sm:inline">Atpakaļ uz sākumlapu</span>
+            </a>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-8">
+            
+            <!-- Left sidebar - Event details (like Cal.com) -->
+            <div class="lg:col-span-2">
+                <div class="cal-card rounded-3xl p-6 lg:p-8 lg:sticky lg:top-8">
+                    <div class="mb-6">
+                        <div class="text-xs text-sky-400 font-medium tracking-wider mb-1">MOBILĀ AUTO TĪRĪŠANA</div>
+                        <div id="event-name" class="text-3xl font-semibold tracking-tight">Standarta salona tīrīšana</div>
+                    </div>
+
+                    <div class="space-y-3.5 text-sm">
+                        <div class="flex items-center gap-x-3">
+                            <i class="fa-regular fa-clock text-sky-400 w-4"></i>
+                            <span id="event-duration">3 stundas</span>
+                        </div>
+                        <div class="flex items-center gap-x-3">
+                            <i class="fa-solid fa-euro-sign text-sky-400 w-4"></i>
+                            <span id="event-price">60 €</span>
+                        </div>
+
+                    </div>
+
+                    <div class="my-6 border-t border-slate-700"></div>
+
+                    <div>
+                        <div class="text-xs uppercase tracking-wider text-slate-400 mb-3">Apraksts</div>
+                        <div class="text-sm text-slate-300 leading-relaxed mb-4">
+                            Rūpīga un padziļināta salona tīrīšana. Ideāli piemērota vidēji netīriem saloniem.
+                        </div>
+
+                        <div class="space-y-1.5 text-sm">
+                            <div class="flex items-start gap-x-2 text-emerald-400">
+                                <i class="fa-solid fa-check mt-0.5"></i>
+                                <span class="text-slate-300">Detalizēta putekļu sūcēja tīrīšana</span>
+                            </div>
+                            <div class="flex items-start gap-x-2 text-emerald-400">
+                                <i class="fa-solid fa-check mt-0.5"></i>
+                                <span class="text-slate-300">Virsmų mazgāšana ar neitrāliem līdzekļiem</span>
+                            </div>
+                            <div class="flex items-start gap-x-2 text-emerald-400">
+                                <i class="fa-solid fa-check mt-0.5"></i>
+                                <span class="text-slate-300">Traipu apstrāde uz sēdekļiem un paklājiem</span>
+                            </div>
+                            <div class="flex items-start gap-x-2 text-emerald-400">
+                                <i class="fa-solid fa-check mt-0.5"></i>
+                                <span class="text-slate-300">Durvju iekšējo paneļu un sliekšņu padziļināta tīrīšana</span>
+                            </div>
+                            <div class="flex items-start gap-x-2 text-emerald-400">
+                                <i class="fa-solid fa-check mt-0.5"></i>
+                                <span class="text-slate-300">Stiklu un priekšējā paneļa tīrīšana</span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+            <!-- Right side - Calendar + Times -->
+            <div class="lg:col-span-3">
+                <div class="cal-card rounded-3xl p-6 lg:p-8">
+                    
+                    <!-- Next available dates with month tabs -->
+                    <div class="mb-8">
+                        <div class="flex justify-between items-center mb-4">
+                            <div class="font-semibold">Nākamās pieejamās dienas</div>
+                            <div class="flex items-center gap-x-2">
+                                <div id="calendar-sync-status" class="text-xs text-slate-400 flex items-center gap-x-1.5 bg-slate-900 px-3 py-1 rounded-full border border-slate-800">
+                                    <i class="fa-solid fa-circle-notch animate-spin text-sky-400 text-[10px]"></i>
+                                    <span>Sinhronizē ar Google Calendar...</span>
+                                </div>
+                                <button id="refresh-availability-btn" 
+                                        class="text-xs text-slate-400 hover:text-sky-400 transition flex items-center justify-center w-7 h-7 rounded-full border border-slate-700 hover:border-slate-600 bg-slate-900"
+                                        title="Atsvaidzināt pieejamību no Google Calendar (noder pēc tam, kad kāds rezervē)">
+                                    <i class="fa-solid fa-sync-alt text-[10px]"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div id="month-tabs" class="flex gap-2 mb-1 overflow-x-auto pb-1"></div>
+                        
+                        <div id="upcoming-dates" class="space-y-2 max-h-[260px] sm:max-h-[320px] overflow-auto pr-2"></div>
+                    </div>
+
+                    <!-- Time slots -->
+                    <div>
+                        <div class="font-semibold mb-4">Pieejamie laiki</div>
+                        <div id="time-slots" class="grid grid-cols-2 gap-2">
+                            <!-- Populated by JS -->
+                        </div>
+                        <div id="no-times-message" class="hidden text-sm text-slate-400 mt-3">
+                            Šajā dienā nav pieejamu laiku.
+                        </div>
+                    </div>
+
+                    <!-- Booking form (appears after time selection) -->
+                    <div id="booking-form" class="hidden mt-8 pt-8 border-t border-slate-700">
+                        <div class="font-semibold mb-4">Jūsu dati</div>
+                        
+                        <div class="space-y-4">
+                            <div>
+                                <label class="text-xs text-slate-400 block mb-1">Jūsu vārds *</label>
+                                <input id="name" type="text" placeholder="Vārds un uzvārds" required
+                                       class="w-full bg-[#0a0a0a] border border-slate-700 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:border-sky-500">
+                                <span id="name-error" class="hidden text-red-400 text-xs mt-1">Lūdzu, ievadiet savu vārdu</span>
+                            </div>
+
+                            <div>
+                                <label class="text-xs text-slate-400 block mb-1">E-pasts *</label>
+                                <input id="email" type="email" placeholder="jusu@email.lv" required
+                                       class="w-full bg-[#0a0a0a] border border-slate-700 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:border-sky-500">
+                                <span id="email-error" class="hidden text-red-400 text-xs mt-1">Lūdzu, ievadiet savu e-pastu</span>
+                            </div>
+
+                            <div>
+                                <label class="text-xs text-slate-400 block mb-1">Telefona numurs *</label>
+                                <input id="phone" type="tel" placeholder="+371 2000 0000" required
+                                       class="w-full bg-[#0a0a0a] border border-slate-700 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:border-sky-500">
+                                <span id="phone-error" class="hidden text-red-400 text-xs mt-1">Lūdzu, ievadiet savu telefona numuru</span>
+                            </div>
+
+                            <div>
+                                <label class="text-xs text-slate-400 block mb-1">Jūsu atrašanās vieta *</label>
+                                <input id="location" type="text" placeholder="Adrese, pilsēta vai rajons" required
+                                       class="w-full bg-[#0a0a0a] border border-slate-700 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:border-sky-500">
+                                <span id="location-error" class="hidden text-red-400 text-xs mt-1">Lūdzu, norādiet savu atrašanās vietu</span>
+                            </div>
+
+                            <div>
+                                <label class="text-xs text-slate-400 block mb-1">Papildu piezīmes</label>
+                                <textarea id="notes" rows="3" placeholder="Papildu informācija, ko vēlaties mums pateikt..."
+                                          class="w-full bg-[#0a0a0a] border border-slate-700 rounded-3xl px-4 py-3 text-sm focus:outline-none focus:border-sky-500 resize-y"></textarea>
+                            </div>
+                        </div>
+
+                        <button onclick="confirmBooking()" 
+                                class="mt-6 w-full bg-sky-500 hover:bg-sky-600 transition font-semibold py-3.5 rounded-3xl">
+                            Apstiprināt rezervāciju
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Tailwind
+        function initTailwind() {
+            document.documentElement.style.setProperty('--accent', '#0ea5e9');
+        }
+
+        // Services data
+        const services = {
+            'standarta-salona-atra-tirisana': {
+                name: 'Ātrā salona tīrīšana',
+                duration: '2.5 stundas',
+                price: '35 €',
+                description: 'Ātra un efektīva salona tīrīšana. Ideāli piemērota regulārai apkopei vai viegli netīram salonam.'
+            },
+            'auto-salona-tirisana-60': {
+                name: 'Standarta salona tīrīšana',
+                duration: '4 stundas',
+                price: '60 €',
+                description: 'Rūpīga un padziļināta salona tīrīšana. Ideāli piemērota vidēji netīriem saloniem.'
+            },
+            'detalizeta-kimiska-apstrade-120': {
+                name: 'Detalizētā salona tīrīšana + ķīmiskā apstrāde',
+                duration: '5 stundas',
+                price: '120 €',
+                description: 'Pilnīga dziļā salona ķīmiskā apstrāde. Visaptverošākais pakalpojums.'
+            },
+            'standarta-auto-arpuses-tirisana': {
+                name: 'Standarta virsbūves tīrīšana',
+                duration: '1 stunda',
+                price: '15 €',
+                description: 'Ātra un efektīva virsbūves mazgāšana.'
+            },
+            'auto-arpuses-detalizeta-tirisana-45': {
+                name: 'Detalizētā virsbūves tīrīšana',
+                duration: '2.5 stundas',
+                price: '45 €',
+                description: 'Padziļināta virsbūves tīrīšana ar papildu kopšanu.'
+            }
+        };
+
+        let currentService = 'auto-salona-tirisana-60';
+        let selectedDate = null;
+        let selectedTime = null;
+
+        // Real busy times fetched from Google Calendar via Apps Script
+        let busyTimes = [];   // Array of {start: ISO, end: ISO}
+        let busyTimesLoaded = false;  // Prevents showing time slots before we know real availability
+
+        // Required notice period (hours) before service start
+        const NOTICE_HOURS = {
+          'standarta-salona-atra-tirisana': 2,      // Ātrā salona tīrīšana
+          'standarta-auto-arpuses-tirisana': 2,     // Standarta virsbūves tīrīšana
+          // All others default to 12 hours
+        };
+
+        // =============================================
+        // GOOGLE CALENDAR INTEGRATION (Option B)
+        // =============================================
+        // 1. Create the Apps Script from google-apps-script/booking-handler.gs
+        // 2. Deploy it as a Web App (Anyone access)
+        // 3. Copy the /exec URL and paste it below
+        const BOOKING_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbymcZ87snNntyaoSapV_kU43_V_Fnr8nYe3MaKQisFfNFch74UShu_YYhwO0NiTre8/exec';
+
+        function renderUpcomingDates() {
+            const container = document.getElementById('upcoming-dates');
+            const tabsContainer = document.getElementById('month-tabs');
+            if (!container || !tabsContainer) return;
+
+            const today = new Date();
+            // Izveidojam šodienas sākumu (00:00), lai pareizi salīdzinātu tikai dienas
+            const todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+            const dayNames = ['Svētdiena', 'Pirmdiena', 'Otrdiena', 'Trešdiena', 'Ceturtdiena', 'Piektdiena', 'Sestdiena'];
+
+            const MONTHS_TO_SHOW = 24; 
+            const monthsData = [];
+
+            for (let m = 0; m < MONTHS_TO_SHOW; m++) {
+                const monthDate = new Date(today.getFullYear(), today.getMonth() + m, 1);
+                const year = monthDate.getFullYear();
+                const month = monthDate.getMonth();
+                const lastDay = new Date(year, month + 1, 0).getDate();
+
+                const monthDates = [];
+                for (let d = 1; d <= lastDay; d++) {
+                    const date = new Date(year, month, d);
+                    if (date >= todayStart) { 
+                        // ŠEIT IR BURVĪBA: Pievienojam dienu sarakstam TIKAI tad, ja tai vēl ir brīvi laiki!
+                        const availableSlots = getAvailableTimesForDate(date);
+                        if (availableSlots.length > 0) {
+                            monthDates.push(date);
+                        }
+                    }
+                }
+
+                if (monthDates.length > 0) {
+                    monthsData.push({
+                        year: year,
+                        month: month,
+                        label: monthDate.toLocaleDateString('lv-LV', { month: 'long' }),
+                        dates: monthDates
+                    });
+                }
+            }
+
+            // Render mēnešu pogas
+            tabsContainer.innerHTML = '';
+            monthsData.forEach((monthData, index) => {
+                const tab = document.createElement('button');
+                tab.className = `px-4 py-1 text-xs font-medium rounded-full whitespace-nowrap transition ${index === 0 ? 'bg-[#0ea5e9] text-white' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}`;
+                tab.textContent = monthData.label.charAt(0).toUpperCase() + monthData.label.slice(1);
+
+                tab.onclick = () => {
+                    tabsContainer.querySelectorAll('button').forEach(b => b.classList.remove('bg-[#0ea5e9]', 'text-white'));
+                    tab.classList.add('bg-[#0ea5e9]', 'text-white');
+                    renderDatesList(container, monthData.dates, dayNames);
+                };
+
+                tabsContainer.appendChild(tab);
+            });
+
+            // Parādām pirmo mēnesi uzreiz
+            if (monthsData.length > 0) {
+                renderDatesList(container, monthsData[0].dates, dayNames);
+            }
+        }
+
+        /**
+         * Atgriež pieejamos laikus konkrātai dienai.
+         * Dienas ar daļēju noslodzi joprojām tiek rādītas.
+         * Tiek filtrēti tikai tie laiki, kas pārklājas ar reāliem Google Calendar ierakstiem
+         * vai neatbilst brīdinājuma periodam.
+         */
+        function getAvailableTimesForDate(date) {
+            const day = date.getDay();
+            let times = [];
+
+            if (day === 6 || day === 0) {
+                times = ['09:00', '10:30', '13:00', '14:30']; // Brīvdienu laiki
+            } else {
+                times = ['09:00', '10:30', '12:00', '13:30', '15:00', '16:30', '18:00']; // Darbadienu laiki
+            }
+
+            const service = services[currentService] || { duration: '3 stundas' };
+            let serviceDurationHours = parseFloat(service.duration) || 3;
+            const currentServiceDurationMs = serviceDurationHours * 60 * 60 * 1000;
+
+            const noticeHours = NOTICE_HOURS[currentService] || 12;
+            const minAllowedTime = new Date(new Date().getTime() + noticeHours * 60 * 60 * 1000);
+
+            return times.filter(time => {
+                const [h, m] = time.split(':').map(Number);
+                const slotStart = new Date(date.getFullYear(), date.getMonth(), date.getDate(), h, m, 0);
+                const slotEnd = new Date(slotStart.getTime() + currentServiceDurationMs);
+
+                // Ja laiks ir pārāk agrs (neatbilst brīdinājuma periodam)
+                if (slotStart < minAllowedTime) return false;
+
+                // Pārbaudām, vai nav pārklāšanās ar aizņemtajiem laikiem no Google Calendar
+                const isOverlap = busyTimes.some(busy => {
+                    const busyStart = new Date(busy.start);
+                    const busyEnd = new Date(busy.end);
+                    return slotStart < busyEnd && slotEnd > busyStart;
+                });
+
+                return !isOverlap;
+            });
+        }
+
+        function renderDatesList(container, dates, dayNames) {
+            container.innerHTML = '';
+
+            // Only show dates that have at least one available time slot
+            // after notice period + real Google Calendar busy times
+            const visibleDates = dates.filter(d => getAvailableTimesForDate(d).length > 0);
+
+            visibleDates.forEach(date => {
+                const dayName = dayNames[date.getDay()];
+                const dateStr = date.toLocaleDateString('lv-LV', { day: 'numeric', month: 'long' });
+
+                const div = document.createElement('div');
+                div.className = `flex justify-between items-center p-3 rounded-2xl border border-slate-700 hover:border-sky-500 cursor-pointer transition`;
+                div.innerHTML = `
+                    <div>
+                        <div class="font-medium">${dayName}, ${dateStr}</div>
+                        <div class="text-xs text-slate-400">Pieejami laiki</div>
+                    </div>
+                    <div class="text-sky-400">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                `;
+
+                div.onclick = () => {
+                    document.querySelectorAll('#upcoming-dates > div').forEach(el => el.classList.remove('border-sky-500', 'bg-sky-900/20'));
+                    div.classList.add('border-sky-500', 'bg-sky-900/20');
+
+                    selectedDate = date;
+                    selectedTime = null;
+                    renderTimeSlots(date);
+                };
+
+                container.appendChild(div);
+            });
+        }
+
+        function selectDate(date, element) {
+            // Kept for compatibility but no longer used in main flow
+            selectedDate = date;
+            selectedTime = null;
+            renderTimeSlots(date);
+        }
+
+        function renderTimeSlots(date) {
+            const container = document.getElementById('time-slots');
+            const noTimes = document.getElementById('no-times-message');
+            container.innerHTML = '';
+            noTimes.classList.add('hidden');
+
+            // Important: don't let user pick times until we have real busy data from Google
+            if (!busyTimesLoaded) {
+                const loading = document.createElement('div');
+                loading.className = 'text-sm text-slate-400 py-4';
+                loading.innerHTML = `<i class="fa-solid fa-circle-notch animate-spin mr-2"></i> Ielādē reālo pieejamību no Google Calendar...`;
+                container.appendChild(loading);
+                return;
+            }
+
+            // Izmantojam mūsu jauno funkciju, lai iegūtu laikus
+            const availableTimes = getAvailableTimesForDate(date);
+
+            if (availableTimes.length === 0) {
+                noTimes.classList.remove('hidden');
+                return;
+            }
+
+            availableTimes.forEach(time => {
+                const btn = document.createElement('button');
+                btn.className = `time-slot border border-slate-700 hover:border-slate-500 rounded-2xl py-3 px-4 text-sm font-medium`;
+                btn.textContent = time;
+
+                btn.onclick = () => {
+                    // Extra guard: if this slot looks busy according to current data, refuse immediately
+                    if (isTimeSlotBusy(date, time)) {
+                        alert('Šis laiks vairs nav pieejams. Atsvaidzinu sarakstu...');
+                        renderTimeSlots(date);
+                        return;
+                    }
+
+                    document.querySelectorAll('#time-slots button').forEach(b => b.classList.remove('selected', 'bg-sky-500', 'border-sky-500'));
+                    btn.classList.add('selected', 'bg-sky-500', 'border-sky-500', 'text-white');
+                    selectedTime = time;
+
+                    // Show booking form
+                    document.getElementById('booking-form').classList.remove('hidden');
+                    // setupFieldValidation(); // Ja izmantojat validāciju
+                };
+
+                container.appendChild(btn);
+            });
+        }
+
+        function changeMonth(delta) {
+            currentMonth += delta;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            renderCalendar();
+        }
+
+        function selectService() {
+            const select = document.getElementById('service-select');
+            if (!select) return;
+            
+            currentService = select.value;
+            const service = services[currentService];
+            
+            if (service) {
+                document.getElementById('event-name').textContent = service.name;
+                document.getElementById('event-duration').textContent = service.duration;
+                document.getElementById('event-price').textContent = service.price;
+                document.getElementById('event-description').textContent = service.description;
+            }
+        }
+
+        // Helper: format JS Date as YYYY-MM-DD (for the Apps Script)
+        function formatDateForAPI(date) {
+            if (!date) return null;
+            const y = date.getFullYear();
+            const m = String(date.getMonth() + 1).padStart(2, '0');
+            const d = String(date.getDate()).padStart(2, '0');
+            return `${y}-${m}-${d}`;
+        }
+
+        /**
+         * Droša sinhronizācija ar Google Calendar (fona režīmā ar 5 sekunžu taimautu)
+         */
+        async function fetchRealBusyTimes() {
+            const statusEl = document.getElementById('calendar-sync-status');
+            
+            if (!BOOKING_SCRIPT_URL || BOOKING_SCRIPT_URL.includes('YOUR_GOOGLE_APPS_SCRIPT_URL_HERE')) {
+                console.warn('No Apps Script URL set – using simulated availability only.');
+                busyTimesLoaded = true;
+                if (statusEl) statusEl.classList.add('hidden');
+                return;
+            }
+
+            // Rādām ielādes stāvokli uzreiz
+            if (statusEl) {
+                statusEl.innerHTML = `<i class="fa-solid fa-circle-notch animate-spin text-sky-400 text-[10px]"></i> <span>Sinhronizē ar Google Calendar...</span>`;
+                statusEl.classList.remove('hidden');
+            }
+
+            // Izveidojam 5 sekunžu pārtraukšanas signālu, lai tīkls neuzkaras uz visiem laikiem
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 5000);
+
+            try {
+                const today = new Date();
+                const endDate = new Date(today.getTime() + 45 * 24 * 60 * 60 * 1000);
+
+                const response = await fetch(BOOKING_SCRIPT_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain' },
+                    body: JSON.stringify({
+                        action: 'getBusyTimes',
+                        start: formatDateForAPI(today),
+                        end: formatDateForAPI(endDate)
+                    }),
+                    signal: controller.signal
+                });
+
+                clearTimeout(timeoutId);
+                const result = await response.json();
+
+                if (result.success && Array.isArray(result.busy)) {
+                    busyTimes = result.busy;
+                    busyTimesLoaded = true;
+                    console.log(`Loaded ${busyTimes.length} busy periods from Google Calendar`);
+
+                    if (statusEl) {
+                        statusEl.innerHTML = `<i class="fa-solid fa-check text-emerald-400"></i> <span class="text-emerald-400">Sinhronizēts (${busyTimes.length} periodi)</span>`;
+                        // Keep visible permanently on the live site — this is how you verify real data is working
+                        statusEl.classList.remove('hidden');
+                    }
+
+                    renderUpcomingDates();
+
+                    if (selectedDate) {
+                        renderTimeSlots(selectedDate);
+                    }
+                } else {
+                    busyTimesLoaded = true;
+                    console.warn('getBusyTimes response was not successful:', result);
+                    
+                    if (statusEl) {
+                        statusEl.innerHTML = `<i class="fa-solid fa-exclamation-triangle text-orange-400"></i> <span class="text-orange-400">Kļūda no Apps Script (pārbaudi izpildes logus)</span>`;
+                        statusEl.classList.remove('hidden');
+                    }
+                    
+                    renderUpcomingDates();
+                    if (selectedDate) {
+                        renderTimeSlots(selectedDate);
+                    }
+                }
+            } catch (err) {
+                clearTimeout(timeoutId);
+                console.error('Failed to fetch real availability from Google:', err);
+                
+                busyTimesLoaded = true; // we tried, don't block the UI forever
+
+                if (statusEl) {
+                    statusEl.innerHTML = `<i class="fa-solid fa-exclamation-triangle text-amber-400"></i> <span class="text-amber-400">Standarta režīms (reālā pieejamība nav ielādēta)</span>`;
+                    statusEl.classList.remove('hidden'); // Keep visible so you know real data failed
+                }
+
+                // Show clear warning that real Google data failed (common on localhost)
+                const datesContainer = document.getElementById('upcoming-dates');
+                if (datesContainer) {
+                    datesContainer.innerHTML = `
+                        <div class="mb-4 p-3 bg-yellow-900/40 border border-yellow-600 rounded-xl text-xs text-yellow-200">
+                            <strong>Reālā pieejamība no Google Calendar netika ielādēta</strong> (localhost ierobežojumi / fetch kļūda).<br>
+                            Rādām tikai brīdinājuma periodu. Pilna bloķēšana darbojas tikai uz live lapas.
+                        </div>
+                    `;
+                }
+
+                // Re-render the (unfiltered) dates so user can continue testing notice period
+                renderUpcomingDates();
+                if (selectedDate) {
+                    renderTimeSlots(selectedDate);
+                }
+            } finally {
+                setTimeout(() => {
+                    if (statusEl && statusEl.innerHTML.includes('Sinhronizē ar Google Calendar')) {
+                        statusEl.innerHTML = `<i class="fa-solid fa-cloud text-slate-400"></i> <span class="text-slate-400">Standarta režīms</span>`;
+                        statusEl.classList.add('hidden');
+                    }
+                }, 6000);
+            }
+        }
+
+        /**
+         * Check if a specific time slot on a date overlaps with any busy period from Google Calendar.
+         */
+        function isTimeSlotBusy(date, timeStr) {
+            if (!busyTimes.length) return false;
+
+            const [hours, minutes] = timeStr.split(':').map(Number);
+            const slotStart = new Date(date.getFullYear(), date.getMonth(), date.getDate(), hours, minutes);
+            const slotEnd = new Date(slotStart.getTime() + 30 * 60 * 1000); // assume minimum 30 min slot for checking
+
+            return busyTimes.some(busy => {
+                const busyStart = new Date(busy.start);
+                const busyEnd = new Date(busy.end);
+                // Overlap check
+                return slotStart < busyEnd && slotEnd > busyStart;
+            });
+        }
+
+        /**
+         * Validates email format.
+         * Strongly blocks common misspellings (especially gmail.co, gmai.com etc.).
+         * Returns { valid: boolean, message: string }
+         */
+        function validateEmail(email) {
+            if (!email) {
+                return { valid: false, message: 'Lūdzu, ievadiet savu e-pastu' };
+            }
+
+            const lower = email.toLowerCase().trim();
+
+            // Basic format check
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+            if (!emailRegex.test(lower)) {
+                return { valid: false, message: 'Lūdzu, ievadiet derīgu e-pasta adresi' };
+            }
+
+            const parts = lower.split('@');
+            if (parts.length !== 2) {
+                return { valid: false, message: 'Lūdzu, ievadiet derīgu e-pasta adresi' };
+            }
+
+            const domain = parts[1];
+
+            // List of popular domains that must be spelled correctly
+            const popularDomains = [
+                'gmail.com',
+                'hotmail.com',
+                'outlook.com',
+                'yahoo.com',
+                'inbox.lv',
+                'mail.ru',
+                'icloud.com',
+                'proton.me',
+                'protonmail.com'
+            ];
+
+            // Common bad variants that should be rejected
+            const badVariants = [
+                'gmail.co', 'gmail.c', 'gmail.con', 'gmail.cm',
+                'gmai.com', 'gmial.com', 'gmal.com', 'gmil.com', 'gmaill.com',
+                'hotmial.com', 'hotmal.com', 'hotmial.lv',
+                'outlok.com', 'outlok.com', 'outlok.lv',
+                'yaho.com', 'yahooo.com', 'yaho.lv'
+            ];
+
+            if (badVariants.includes(domain)) {
+                return {
+                    valid: false,
+                    message: 'E-pasta adrese izskatās nepareizi uzrakstīta. Lūdzu, pārbaudiet.'
+                };
+            }
+
+            // For popular domains, require exact match
+            const isPopular = popularDomains.some(d => domain.endsWith(d.split('@').pop() || d));
+            // Simpler: if it looks like a popular provider but is not exact, reject
+            const baseDomain = domain.split('.').slice(0, -1).join('.'); // rough
+            if (popularDomains.some(d => domain !== d && (domain.startsWith(d.split('.')[0]) || domain.includes('gmai') || domain.includes('hotmia')))) {
+                // If it starts with known prefix but is not exact match → suspicious
+                const prefixes = ['gmail', 'hotmail', 'outlook', 'yahoo'];
+                for (const prefix of prefixes) {
+                    if (domain.startsWith(prefix) && !popularDomains.includes(domain)) {
+                        return {
+                            valid: false,
+                            message: 'E-pasta adrese izskatās nepareizi uzrakstīta. Lūdzu, pārbaudiet.'
+                        };
+                    }
+                }
+            }
+
+            return { valid: true, message: '' };
+        }
+
+        function confirmBooking() {
+            const nameInput = document.getElementById('name');
+            const phoneInput = document.getElementById('phone');
+            const locationInput = document.getElementById('location');
+            const emailInput = document.getElementById('email');
+            const notesInput = document.getElementById('notes');
+            const submitBtn = document.querySelector('#booking-form button');
+
+            const name = nameInput.value.trim();
+            const phone = phoneInput.value.trim();
+            const location = locationInput.value.trim();
+            const email = emailInput ? emailInput.value.trim() : '';
+            const notes = notesInput ? notesInput.value.trim() : '';
+
+            const nameError = document.getElementById('name-error');
+            const phoneError = document.getElementById('phone-error');
+            const locationError = document.getElementById('location-error');
+            const emailError = document.getElementById('email-error');
+
+            // Hide all errors first
+            nameError.classList.add('hidden');
+            phoneError.classList.add('hidden');
+            locationError.classList.add('hidden');
+            emailError.classList.add('hidden');
+            nameInput.classList.remove('border-red-500');
+            phoneInput.classList.remove('border-red-500');
+            locationInput.classList.remove('border-red-500');
+            emailInput.classList.remove('border-red-500');
+
+            let hasError = false;
+
+            if (!name) {
+                nameError.classList.remove('hidden');
+                nameInput.classList.add('border-red-500');
+                hasError = true;
+            }
+
+            if (!phone) {
+                phoneError.classList.remove('hidden');
+                phoneInput.classList.add('border-red-500');
+                hasError = true;
+            }
+
+            if (!location) {
+                locationError.classList.remove('hidden');
+                locationInput.classList.add('border-red-500');
+                hasError = true;
+            }
+
+            if (!email) {
+                emailError.classList.remove('hidden');
+                emailInput.classList.add('border-red-500');
+                hasError = true;
+            } else {
+                const emailValidation = validateEmail(email);
+                if (!emailValidation.valid) {
+                    emailError.textContent = emailValidation.message;
+                    emailError.classList.remove('hidden');
+                    emailInput.classList.add('border-red-500');
+                    hasError = true;
+                }
+            }
+
+            if (hasError) {
+                if (!name) nameInput.focus();
+                else if (!phone) phoneInput.focus();
+                else if (!location) locationInput.focus();
+                else if (!email) emailInput.focus();
+                return;
+            }
+
+            if (!selectedDate || !selectedTime) {
+                alert('Lūdzu, izvēlieties datumu un laiku!');
+                return;
+            }
+
+            // === REAL GOOGLE CALENDAR BOOKING (Option B) ===
+            if (!BOOKING_SCRIPT_URL || BOOKING_SCRIPT_URL.includes('YOUR_GOOGLE_APPS_SCRIPT_URL_HERE')) {
+                alert('Google Calendar integrācija vēl nav iestatīta.\n\nLūdzu izpildi instrukcijas failā google-apps-script/booking-handler.gs un README.md');
+                return;
+            }
+
+            const service = services[currentService] || { name: 'Pakalpojums', duration: '3 stundas' };
+            const durationHours = parseFloat(service.duration) || 3;
+
+            // Compute proper start/end times for the Apps Script
+            const [h, m] = selectedTime.split(':').map(Number);
+            const slotStart = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate(), h, m);
+            const durationMs = durationHours * 60 * 60 * 1000;
+            const slotEnd = new Date(slotStart.getTime() + durationMs);
+
+            const payload = {
+                action: 'createBooking',
+                serviceKey: currentService,
+                serviceName: service.name,
+                date: formatDateForAPI(selectedDate),
+                time: selectedTime,
+                durationHours: durationHours,
+                startTime: slotStart.toISOString(),
+                endTime: slotEnd.toISOString(),
+                name: name,
+                phone: phone,
+                email: email,
+                location: location,
+                notes: notes
+            };
+
+            // Loading state
+            const originalBtnText = submitBtn.textContent;
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Apstrādā...';
+            submitBtn.classList.add('opacity-70', 'cursor-not-allowed');
+
+            fetch(BOOKING_SCRIPT_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain' },
+                body: JSON.stringify(payload)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const [h, m] = selectedTime.split(':').map(Number);
+                    const slotStart = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate(), h, m);
+                    const durationMs = durationHours * 60 * 60 * 1000;
+                    const slotEnd = new Date(slotStart.getTime() + durationMs);
+
+                    busyTimes.push({
+                        start: slotStart.toISOString(),
+                        end: slotEnd.toISOString()
+                    });
+
+                    renderUpcomingDates();
+                    if (selectedDate) renderTimeSlots(selectedDate);
+
+                    showBookingSuccess(name, service.name, selectedDate, selectedTime);
+                } else {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = originalBtnText;
+                    submitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+
+                    if (data.error && data.error.includes('aizņemts')) {
+                        alert('Diemžēl šis laiks tikko tika aizņemts.\n\nLūdzu izvēlieties citu laiku no saraksta.');
+                        document.getElementById('booking-form').classList.add('hidden');
+
+                        // Force refresh of availability so the bad slot is removed from the list
+                        busyTimesLoaded = false;
+                        fetchRealBusyTimes();
+                    } else {
+                        alert(data.error || 'Kaut kas nogāja greizi. Lūdzu mēģiniet vēlreiz.');
+                    }
+                }
+            })
+            .catch(err => {
+                console.error('Booking error:', err);
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalBtnText;
+                submitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+                alert('Neizdevās sazināties ar serveri. Pārbaudiet interneta savienojumu vai mēģiniet vēlreiz.');
+            });
+        }
+
+        // Shows a nice success screen after a real booking was created in Google Calendar
+        function showBookingSuccess(name, serviceName, date, time) {
+            const formContainer = document.getElementById('booking-form');
+            const dayName = ['Svētdiena','Pirmdiena','Otrdiena','Trešdiena','Ceturtdiena','Piektdiena','Sestdiena'][date.getDay()];
+            const dateStr = date.toLocaleDateString('lv-LV', { day: 'numeric', month: 'long' });
+
+            formContainer.innerHTML = `
+                <div class="text-center py-8">
+                    <div class="mx-auto w-16 h-16 bg-emerald-500/10 rounded-full flex items-center justify-center mb-6">
+                        <i class="fa-solid fa-check text-emerald-400 text-3xl"></i>
+                    </div>
+                    <div class="text-2xl font-semibold tracking-tight mb-2">Paldies, ${name.split(' ')[0]}!</div>
+                    <div class="text-slate-300 mb-6">Jūsu rezervācija ir veiksmīgi izveidota.</div>
+
+                    <div class="bg-[#0a0a0a] border border-slate-700 rounded-2xl p-5 text-left mb-6">
+                        <div class="text-sm text-slate-400 mb-1">PAKALPOJUMS</div>
+                        <div class="font-medium">${serviceName}</div>
+                        <div class="mt-3 text-sm text-slate-400 mb-1">LAIKS</div>
+                        <div class="font-medium">${dayName}, ${dateStr} plkst. ${time}</div>
+                    </div>
+
+                    <div class="text-sm text-slate-400 mb-6">
+                        Mēs nosūtīsim Jums apstiprinājuma e-pastu ar visām detaļām.<br>
+                        Ja neredziet vēstuli, lūdzu pārbaudiet Spam mapi.
+                    </div>
+
+                    <button onclick="window.location.href='index.html'"
+                            class="w-full bg-sky-500 hover:bg-sky-600 transition font-semibold py-3.5 rounded-3xl">
+                        Atpakaļ uz sākumlapu
+                    </button>
+
+                    <button onclick="location.reload()"
+                            class="mt-3 w-full border border-slate-600 hover:bg-slate-800 transition font-medium py-3 rounded-3xl text-sm">
+                        Rezervēt citu laiku
+                    </button>
+                </div>
+            `;
+        }
+
+        // Real-time + on-blur validation for required fields (messages appear right under the field)
+        function setupFieldValidation() {
+            const fields = [
+                { input: 'name', error: 'name-error', message: 'Lūdzu, ievadiet savu vārdu' },
+                { input: 'email', error: 'email-error', message: 'Lūdzu, ievadiet savu e-pastu' },
+                { input: 'phone', error: 'phone-error', message: 'Lūdzu, ievadiet savu telefona numuru' },
+                { input: 'location', error: 'location-error', message: 'Lūdzu, norādiet savu atrašanās vietu' }
+            ];
+
+            fields.forEach(({ input, error, message }) => {
+                const inputEl = document.getElementById(input);
+                const errorEl = document.getElementById(error);
+                if (inputEl && errorEl) {
+                    // Clear error while typing
+                    inputEl.addEventListener('input', () => {
+                        if (inputEl.value.trim() !== '') {
+                            inputEl.classList.remove('border-red-500');
+                            errorEl.classList.add('hidden');
+                        }
+                    });
+
+                    // For email: also clear format errors while typing (after first validation)
+                    if (input === 'email') {
+                        inputEl.addEventListener('input', () => {
+                            if (errorEl.textContent.includes('derīgu') || errorEl.textContent.includes('domājāt')) {
+                                errorEl.classList.add('hidden');
+                                inputEl.classList.remove('border-red-500');
+                            }
+                        });
+                    }
+
+                    // Show specific error right under the field when user leaves it empty
+                    inputEl.addEventListener('blur', () => {
+                        const value = inputEl.value.trim();
+                        if (value === '') {
+                            errorEl.textContent = message;
+                            errorEl.classList.remove('hidden');
+                            inputEl.classList.add('border-red-500');
+                        } else if (input === 'email') {
+                            const validation = validateEmail(value);
+                            if (!validation.valid) {
+                                errorEl.textContent = validation.message;
+                                errorEl.classList.remove('hidden');
+                                inputEl.classList.add('border-red-500');
+                            }
+                        }
+                    });
+                }
+            });
+        }
+
+        // Call this when the booking form becomes visible (after time is selected)
+        // Example: add this line where the form is shown:
+        // setupFieldValidation();
+
+        function init() {
+            initTailwind();
+            
+            // Strong loading state for the entire availability section until we have real data from Google
+            const datesContainer = document.getElementById('upcoming-dates');
+            const tabsContainer = document.getElementById('month-tabs');
+            
+            if (datesContainer) {
+                datesContainer.innerHTML = `
+                    <div class="text-sm text-slate-400 py-6 flex items-center gap-3 justify-center">
+                        <i class="fa-solid fa-circle-notch animate-spin text-lg"></i>
+                        <span>Ielādē reālo pieejamību no Google Calendar...</span>
+                    </div>
+                `;
+            }
+            if (tabsContainer) {
+                tabsContainer.innerHTML = '';
+            }
+
+            // Fetch real busy times from Google — only after this succeeds will we show the filtered date list
+            fetchRealBusyTimes();
+
+            // Preselect a service from URL if provided
+            const urlParams = new URLSearchParams(window.location.search);
+            const serviceParam = urlParams.get('service');
+            
+            if (serviceParam && services[serviceParam]) {
+                currentService = serviceParam;
+            }
+
+            // Update service info in sidebar
+            const service = services[currentService];
+            if (service) {
+                document.getElementById('event-name').textContent = service.name;
+                document.getElementById('event-duration').textContent = service.duration;
+                document.getElementById('event-price').textContent = service.price;
+            }
+
+            // Refresh availability button (useful on live site after someone books)
+            const refreshBtn = document.getElementById('refresh-availability-btn');
+            if (refreshBtn) {
+                refreshBtn.addEventListener('click', () => {
+                    const statusEl = document.getElementById('calendar-sync-status');
+                    if (statusEl) {
+                        statusEl.innerHTML = `<i class="fa-solid fa-circle-notch animate-spin text-sky-400 text-[10px]"></i> <span>Atsvaidzina...</span>`;
+                        statusEl.classList.remove('hidden');
+                    }
+
+                    busyTimesLoaded = false;
+                    fetchRealBusyTimes();
+                });
+            }
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>
