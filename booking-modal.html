@@ -576,10 +576,10 @@
                 clearTimeout(timeoutId);
                 const result = await response.json();
 
-                // More forgiving check: accept if we have a busy array, even if success flag is weird
-                const hasValidBusyData = result && Array.isArray(result.busy);
-
-                if (hasValidBusyData) {
+                // Very defensive check — if we received a busy array, we treat it as success.
+                // We no longer strictly require result.success because some deployments
+                // or redirects can make the flag unreliable.
+                if (result && Array.isArray(result.busy)) {
                     busyTimes = result.busy;
                     busyTimesLoaded = true;
                     console.log(`Loaded ${busyTimes.length} busy periods from Google Calendar`);
