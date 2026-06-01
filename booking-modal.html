@@ -418,12 +418,21 @@
                 const dayName = dayNames[date.getDay()];
                 const dateStr = date.toLocaleDateString('lv-LV', { day: 'numeric', month: 'long' });
 
+                const hasBookings = hasGoogleBookingsOnDay(date);
+
                 const div = document.createElement('div');
                 div.className = `flex justify-between items-center p-3 rounded-2xl border border-slate-700 hover:border-sky-500 cursor-pointer transition`;
+
+                let noteHtml = '';
+                if (hasBookings) {
+                    noteHtml = `<div class="text-xs text-amber-400 mt-0.5">Daži laiki jau aizņemti</div>`;
+                }
+
                 div.innerHTML = `
                     <div>
                         <div class="font-medium">${dayName}, ${dateStr}</div>
                         <div class="text-xs text-slate-400">Pieejami laiki</div>
+                        ${noteHtml}
                     </div>
                     <div class="text-sky-400">
                         <i class="fa-solid fa-chevron-right"></i>
@@ -559,7 +568,8 @@
 
             try {
                 const today = new Date();
-                const endDate = new Date(today.getTime() + 45 * 24 * 60 * 60 * 1000);
+                // Extended to 180 days so that September (and further) data is available during testing
+                const endDate = new Date(today.getTime() + 180 * 24 * 60 * 60 * 1000);
 
                 const response = await fetch(BOOKING_SCRIPT_URL, {
                     method: 'POST',
@@ -640,6 +650,23 @@
                 const busyEnd = new Date(busy.end);
                 // Overlap check
                 return slotStart < busyEnd && slotEnd > busyStart;
+            });
+        }
+
+        /**
+         * Returns true if there is at least one real Google Calendar event
+         * overlapping this calendar day (used for the "Some times already booked" note).
+         */
+        function hasGoogleBookingsOnDay(date) {
+            if (!busyTimes.length) return false;
+
+            const dayStart = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+            const dayEnd = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 23, 59, 59, 999);
+
+            return busyTimes.some(busy => {
+                const busyStart = new Date(busy.start);
+                const busyEnd = new Date(busy.end);
+                return busyStart < dayEnd && busyEnd > dayStart;
             });
         }
 
@@ -1025,6 +1052,9 @@
                 });
             }
         }
+
+        // Easy way to check which version of the JS is live
+        window.BOOKING_MODAL_JS_VERSION = "2026-06-02-05-forced";
 
         window.onload = init;
     </script>
