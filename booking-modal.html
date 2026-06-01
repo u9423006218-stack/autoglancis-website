@@ -587,9 +587,19 @@
 
                 console.log('Raw getBusyTimes response:', result);
 
-                // Very defensive – if we got a busy array, we accept it
-                if (result && Array.isArray(result.busy)) {
-                    busyTimes = result.busy;
+                // Super defensive version
+                let busyArray = null;
+
+                if (result) {
+                    if (Array.isArray(result.busy)) {
+                        busyArray = result.busy;
+                    } else if (Array.isArray(result)) {
+                        busyArray = result;
+                    }
+                }
+
+                if (busyArray && busyArray.length >= 0) {
+                    busyTimes = busyArray;
                     busyTimesLoaded = true;
                     console.log(`Loaded ${busyTimes.length} busy periods from Google Calendar`);
 
@@ -599,10 +609,7 @@
                     }
 
                     renderUpcomingDates();
-
-                    if (selectedDate) {
-                        renderTimeSlots(selectedDate);
-                    }
+                    if (selectedDate) renderTimeSlots(selectedDate);
                 } else {
                     busyTimesLoaded = true;
                     console.warn('getBusyTimes response was not successful or malformed:', result);
@@ -613,9 +620,7 @@
                     }
 
                     renderUpcomingDates();
-                    if (selectedDate) {
-                        renderTimeSlots(selectedDate);
-                    }
+                    if (selectedDate) renderTimeSlots(selectedDate);
                 }
             } catch (err) {
                 clearTimeout(timeoutId);
