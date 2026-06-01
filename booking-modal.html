@@ -596,9 +596,17 @@
                 try {
                     result = JSON.parse(text);
                 } catch (e) {
-                    console.error("Failed to parse busy times from Google Calendar:", e);
+                    console.error("JSON parse failed:", e);
                     result = null;
                 }
+
+                // TEMP DEBUG - please copy everything below this line
+                console.log("=== BUSY TIMES DEBUG ===");
+                console.log("Raw text (first 300 chars):", text.substring(0, 300));
+                console.log("typeof result:", typeof result);
+                console.log("result:", result);
+                console.log("Has .busy?", result && result.busy ? "YES" : "NO");
+                console.log("Is busy an array?", Array.isArray(result && result.busy));
 
                 if (result && Array.isArray(result.busy)) {
                     busyTimes = result.busy;
