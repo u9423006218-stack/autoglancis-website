@@ -576,14 +576,16 @@
                 clearTimeout(timeoutId);
                 const result = await response.json();
 
-                if (result.success && Array.isArray(result.busy)) {
+                // More forgiving check: accept if we have a busy array, even if success flag is weird
+                const hasValidBusyData = result && Array.isArray(result.busy);
+
+                if (hasValidBusyData) {
                     busyTimes = result.busy;
                     busyTimesLoaded = true;
                     console.log(`Loaded ${busyTimes.length} busy periods from Google Calendar`);
 
                     if (statusEl) {
                         statusEl.innerHTML = `<i class="fa-solid fa-check text-emerald-400"></i> <span class="text-emerald-400">Sinhronizēts (${busyTimes.length} periodi)</span>`;
-                        // Keep visible permanently on the live site — this is how you verify real data is working
                         statusEl.classList.remove('hidden');
                     }
 
@@ -594,7 +596,7 @@
                     }
                 } else {
                     busyTimesLoaded = true;
-                    console.warn('getBusyTimes response was not successful:', result);
+                    console.warn('getBusyTimes response was not successful or malformed:', result);
                     
                     if (statusEl) {
                         statusEl.innerHTML = `<i class="fa-solid fa-exclamation-triangle text-orange-400"></i> <span class="text-orange-400">Kļūda no Apps Script (pārbaudi izpildes logus)</span>`;
