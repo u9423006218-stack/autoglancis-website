@@ -11,11 +11,21 @@
     <link rel="icon" type="image/png" sizes="48x48" href="favicons/favicon-96x96.png?v=2">
     <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon.png?v=2">
     <link rel="manifest" href="site.webmanifest">
-    <script src="https://cdn.tailwindcss.com"></script> <!-- Tailwind Play CDN for static site -->
+    <!-- 
+      Tailwind CSS Play CDN (https://cdn.tailwindcss.com)
+      - ONLY for rapid local development / prototyping.
+      - The console warning is expected from the CDN script itself.
+      - For production: build with Tailwind CLI instead of this script.
+    -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Google Fonts with preconnect for faster loading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Playfair+Display:wght@700&amp;display=swap" rel="stylesheet">
+    
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@700&display=swap');
-        
         body {
             font-family: 'Inter', system_ui, sans-serif;
         }
@@ -125,8 +135,8 @@
 
                     <div>
                         <div class="text-xs uppercase tracking-wider text-slate-400 mb-3">Apraksts</div>
-                        <div class="text-sm text-slate-300 leading-relaxed mb-4">
-                            Ātra un efektīva salona tīrīšana. Ideāli piemērota regulārai apkopei vai viegli netīram salonam.
+                        <div id="event-description" class="text-sm text-slate-300 leading-relaxed mb-4">
+                            Rūpīga un padziļināta salona tīrīšana.
                         </div>
 
                         <div class="space-y-1.5 text-sm">
@@ -302,7 +312,7 @@
                 name: 'Standarta salona tīrīšana',
                 duration: '4 stundas',
                 price: '60 €',
-                description: 'Rūpīga un padziļināta salona tīrīšana (4 stundas). Nav pieejami vēlie laiki (no 15:00).'
+                description: 'Rūpīga un padziļināta salona tīrīšana.'
             },
             'detalizeta-kimiska-apstrade-120': {
                 name: 'Detalizētā salona tīrīšana + ķīmiskā apstrāde',
@@ -314,25 +324,25 @@
                 name: 'Standarta virsbūves tīrīšana',
                 duration: '1 stunda',
                 price: '15 €',
-                description: 'Ātra un efektīva virsbūves mazgāšana (1 stunda). Nav pieejams laiks 18:00.'
+                description: 'Ātra un efektīva virsbūves mazgāšana (1 stunda).'
             },
             'auto-arpuses-detalizeta-tirisana-45': {
                 name: 'Detalizētā virsbūves tīrīšana',
                 duration: '2.5 stundas',
                 price: '45 €',
-                description: 'Padziļināta virsbūves tīrīšana ar papildu kopšanu (2.5 stundas). Nav pieejami vēlie laiki (no 15:00).'
+                description: 'Padziļināta virsbūves tīrīšana ar papildu kopšanu (2.5 stundas).'
             },
             'mebelu-kimiska-tirisana': {
                 name: 'Mēbeļu ķīmiskā tīrīšana',
                 duration: '2 stundas',
                 price: 'no 35 €',
-                description: 'Matrača, paklāju un dīvānu ķīmiskā tīrīšana (2 stundas). Nav pieejams laiks 18:00.'
+                description: 'Matrača, paklāju un dīvānu ķīmiskā tīrīšana (2 stundas).'
             },
             'augstspiediena-virsmu-tirisana-2-m²': {
                 name: 'Augstspiediena virsmu tīrīšana',
                 duration: 'pēc vienošanās',
                 price: '1,80 €/m²',
-                description: 'Bruģa, terases, fasādes, žoga, dārza mēbeļu, bērnu rotaļu laukumu, betona un akmens tīrīšana.\n\nCena Latvijā parasti 1,6–3,5 €/m² (visbiežāk 2–3 €/m²). Lielākām platībām cena samazinās. Iespējami papildpakalpojumi: šuvju aizpildīšana un aizsargapstrāde.\n\nNepieciešams klienta ūdens pieslēgums.'
+                description: 'Bruģa, terases, fasādes, žoga, dārza mēbeļu, bērnu rotaļu laukumu, betona un akmens tīrīšana.\n\nCena: 1,80 €/m². Lielākām platībām cena samazinās.\n\nNepieciešams klienta ūdens pieslēgums.'
             },
             'automasinu-diagnostika': {
                 name: 'Automašīnu diagnostika',
@@ -352,11 +362,11 @@
 
         let pressureWashM2 = 0; // For high-pressure surface cleaning service
 
-        // Required notice period (hours) before service start
+        // Required notice period (hours) before service start.
+        // Unified to minimum 12 hours for ALL services so owner has time to prepare.
         const NOTICE_HOURS = {
-          'standarta-salona-atra-tirisana': 2,      // Ātrā salona tīrīšana
-          'standarta-auto-arpuses-tirisana': 2,     // Standarta virsbūves tīrīšana
-          // All others default to 12 hours
+          // No exceptions anymore – every service requires at least 12h advance booking.
+          // 'some-service': 24,  // example if a service ever needs more
         };
 
         // =============================================
@@ -434,7 +444,7 @@
          * Atgriež pieejamos laikus konkrātai dienai.
          * Dienas ar daļēju noslodzi joprojām tiek rādītas.
          * Tiek filtrēti tikai tie laiki, kas pārklājas ar reāliem Google Calendar ierakstiem
-         * vai neatbilst brīdinājuma periodam.
+         * vai neatbilst brīdinājuma periodam (vismaz 12 stundas visiem pakalpojumiem).
          */
         function getAvailableTimesForDate(date) {
             const day = date.getDay();
@@ -512,7 +522,7 @@
                 }
             }
 
-            const noticeHours = NOTICE_HOURS[currentService] || 12;
+            const noticeHours = Math.max(NOTICE_HOURS[currentService] || 0, 12);
             const minAllowedTime = new Date(new Date().getTime() + noticeHours * 60 * 60 * 1000);
 
             return times.filter(time => {
@@ -520,7 +530,7 @@
                 const slotStart = new Date(date.getFullYear(), date.getMonth(), date.getDate(), h, m, 0);
                 const slotEnd = new Date(slotStart.getTime() + currentServiceDurationMs);
 
-                // Ja laiks ir pārāk agrs (neatbilst brīdinājuma periodam)
+                // Ja laiks ir pārāk agrs (neatbilst 12h brīdinājuma periodam visiem pakalpojumiem)
                 if (slotStart < minAllowedTime) return false;
 
                 // Pārbaudām, vai nav pārklāšanās ar aizņemtajiem laikiem no Google Calendar
@@ -538,7 +548,7 @@
             container.innerHTML = '';
 
             // Only show dates that have at least one available time slot
-            // after notice period + real Google Calendar busy times
+            // after 12h notice period (all services) + real Google Calendar busy times
             const visibleDates = dates.filter(d => getAvailableTimesForDate(d).length > 0);
 
             visibleDates.forEach(date => {
@@ -709,7 +719,7 @@
                 document.getElementById('event-name').textContent = service.name;
                 document.getElementById('event-duration').textContent = service.duration;
                 document.getElementById('event-price').textContent = service.price;
-                document.getElementById('event-description').textContent = service.description;
+                // description/features set by the following updateServiceSpecificUI() call (custom per service)
             }
 
             updateServiceSpecificUI();
@@ -780,8 +790,57 @@
 
                 const featuresContainer = document.querySelector('.space-y-1\\.5.text-sm');
                 if (featuresContainer) {
-                    featuresContainer.innerHTML = ''; // no feature bullets
+                    featuresContainer.innerHTML = `
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Dziļā putekļu sūcēja tīrīšana</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Ķīmiskā ekstrakcijas mazgāšana</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Griestu (headliner) dziļā ķīmiskā tīrīšana</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Ventilācijas sistēmas tīrīšana</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Ādas kondicionēšana + plastmasu atjaunošana</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Augstas kvalitātes aromatizēšana</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Durvju paneļu, konsoles un pedāļu detalizēta dziļā tīrīšana</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Bagāžnieka dziļā putekļu sūcēja + ķīmiskā tīrīšana</span>
+                        </div>
+                    `;
                 }
+            } else if (currentService === 'standarta-salona-atra-tirisana') {
+                // Ātrā re-apply for dropdown
+                const descContainer = document.querySelector('.text-sm.text-slate-300.leading-relaxed.mb-4');
+                if (descContainer) descContainer.textContent = 'Ātra un efektīva salona tīrīšana. Ideāli piemērota regulārai apkopei vai viegli netīram salonam.';
+                const featuresContainer = document.querySelector('.space-y-1\\.5.text-sm');
+                if (featuresContainer) {
+                    featuresContainer.innerHTML = `
+                        <div class="flex items-start gap-x-2 text-emerald-400"><i class="fa-solid fa-check mt-0.5"></i><span class="text-slate-300">Visaptveroša tīrīšana ar putekļusūcēju</span></div>
+                        <div class="flex items-start gap-x-2 text-emerald-400"><i class="fa-solid fa-check mt-0.5"></i><span class="text-slate-300">Virsmu noslaucīšana ar profesionāliem līdzekļiem</span></div>
+                        <div class="flex items-start gap-x-2 text-emerald-400"><i class="fa-solid fa-check mt-0.5"></i><span class="text-slate-300">Stiklu tīrīšana no iekšpuses</span></div>
+                        <div class="flex items-start gap-x-2 text-emerald-400"><i class="fa-solid fa-check mt-0.5"></i><span class="text-slate-300">Sliekšņu un durvju apakšējo daļu tīrīšana</span></div>
+                        <div class="text-slate-400 text-xs mt-1">(~ 2h 30min)</div>
+                    `;
+                }
+            } else if (currentService === 'standarta-auto-arpuses-tirisana' || currentService === 'auto-arpuses-detalizeta-tirisana-45') {
+                // virsbūves will be handled by updateServiceSpecificUI which was already called
             }
         }
 
@@ -804,8 +863,8 @@
                 const descContainer = document.querySelector('.text-sm.text-slate-300.leading-relaxed.mb-4');
                 if (descContainer) {
                     descContainer.innerHTML = `Bruģa, terases, fasādes, žoga, dārza mēbeļu, bērnu rotaļu laukumu, betona un akmens tīrīšana.<br><br>
-                    ✅ Bez ķīmijas vai videi draudzīgi līdzekļi<br>
-                    ✅ Ideāli privātmāju pagalmiem un komerciālām teritorijām`;
+Cena: 1,80 €/m². Lielākām platībām cena samazinās.<br>
+Nepieciešams klienta ūdens pieslēgums `;
                 }
 
                 const featuresContainer = document.querySelector('.space-y-1\\.5.text-sm');
@@ -827,6 +886,35 @@
 
                 // Wire up the calculator inputs
                 setupPressureWashCalculator();
+            } else if (currentService === 'standarta-salona-atra-tirisana') {
+                // Ātrā salona tīrīšana - short list as specified
+                const descContainer = document.querySelector('.text-sm.text-slate-300.leading-relaxed.mb-4');
+                if (descContainer) {
+                    descContainer.textContent = 'Ātra un efektīva salona tīrīšana. Ideāli piemērota regulārai apkopei vai viegli netīram salonam.';
+                }
+
+                const featuresContainer = document.querySelector('.space-y-1\\.5.text-sm');
+                if (featuresContainer) {
+                    featuresContainer.innerHTML = `
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Visaptveroša tīrīšana ar putekļusūcēju</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Virsmu noslaucīšana ar profesionāliem līdzekļiem</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Stiklu tīrīšana no iekšpuses</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Sliekšņu un durvju apakšējo daļu tīrīšana</span>
+                        </div>
+                        <div class="text-slate-400 text-xs mt-1">(~ 2h 30min)</div>
+                    `;
+                }
             } else if (currentService === 'mebelu-kimiska-tirisana') {
                 // Furniture chemical cleaning override (keep this)
                 const descContainer = document.querySelector('.text-sm.text-slate-300.leading-relaxed.mb-4');
@@ -893,15 +981,162 @@
 
                 const featuresContainer = document.querySelector('.space-y-1\\.5.text-sm');
                 if (featuresContainer) {
-                    featuresContainer.innerHTML = ''; // no feature bullets
+                    featuresContainer.innerHTML = `
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Dziļā putekļu sūcēja tīrīšana</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Ķīmiskā ekstrakcijas mazgāšana</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Griestu (headliner) dziļā ķīmiskā tīrīšana</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Ventilācijas sistēmas tīrīšana</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Ādas kondicionēšana + plastmasu atjaunošana</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Augstas kvalitātes aromatizēšana</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Durvju paneļu, konsoles un pedāļu detalizēta dziļā tīrīšana</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Bagāžnieka dziļā putekļu sūcēja + ķīmiskā tīrīšana</span>
+                        </div>
+                    `;
                 }
-            } else {
-                // Normal services
+            } else if (currentService === 'standarta-auto-arpuses-tirisana') {
+                // Standarta virsbūves tīrīšana in booking modal
+                const descContainer = document.querySelector('.text-sm.text-slate-300.leading-relaxed.mb-4');
+                if (descContainer) {
+                    descContainer.innerHTML = `Tikai privātīpašumā. Ātra un efektīva virsbūves mazgāšana.<br><br>`;
+                }
+
+                const featuresContainer = document.querySelector('.space-y-1\\.5.text-sm');
+                if (featuresContainer) {
+                    featuresContainer.innerHTML = `
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Rūpīga virsbūves mazgāšana ar profesionālām šampūniem</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Disku un riepu tīrīšana</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Stiklu tīrīšana</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Sliekšņu un durvju ārējo daļu mazgāšana</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Noskalošana un nosusināšana</span>
+                        </div>
+                    `;
+                }
+
+                // Show normal calendar UI
                 if (datesContainer) datesContainer.style.display = '';
                 if (timeSlotsContainer) timeSlotsContainer.style.display = '';
                 if (noTimesMessage) noTimesMessage.style.display = '';
                 if (monthTabs) monthTabs.style.display = '';
                 if (calculator) calculator.style.display = 'none';
+            } else if (currentService === 'auto-arpuses-detalizeta-tirisana-45') {
+                // Detalizētā virsbūves tīrīšana in booking modal
+                const descContainer = document.querySelector('.text-sm.text-slate-300.leading-relaxed.mb-4');
+                if (descContainer) {
+                    descContainer.innerHTML = `Tikai privātīpašumā. Padziļināta virsbūves mazgāšana ar papildu kopšanu.<br><br>`;
+                }
+
+                const featuresContainer = document.querySelector('.space-y-1\\.5.text-sm');
+                if (featuresContainer) {
+                    featuresContainer.innerHTML = `
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Kontaktmazgāšana ar putām</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Rūpīga disku, riepu un arku tīrīšana</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Plastmasas un gumijas atjaunošana</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Ātrā vaskošana + pilna žāvēšana</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Logu un sliekšņu tīrīšana</span>
+                        </div>
+                    `;
+                }
+
+                // Show normal calendar UI
+                if (datesContainer) datesContainer.style.display = '';
+                if (timeSlotsContainer) timeSlotsContainer.style.display = '';
+                if (noTimesMessage) noTimesMessage.style.display = '';
+                if (monthTabs) monthTabs.style.display = '';
+                if (calculator) calculator.style.display = 'none';
+            } else {
+                // Normal services (e.g. Standarta salona 4h uses the 5 interior bullets + cleaned desc from data)
+                if (datesContainer) datesContainer.style.display = '';
+                if (timeSlotsContainer) timeSlotsContainer.style.display = '';
+                if (noTimesMessage) noTimesMessage.style.display = '';
+                if (monthTabs) monthTabs.style.display = '';
+                if (calculator) calculator.style.display = 'none';
+
+                // Ensure the description comes from services data
+                const descEl = document.getElementById('event-description') || document.querySelector('.text-sm.text-slate-300.leading-relaxed.mb-4');
+                if (descEl) {
+                    const svc = services[currentService];
+                    if (svc && svc.description) {
+                        descEl.textContent = svc.description;
+                    }
+                }
+
+                // Reset features to the default interior clean list 
+                const featuresContainer = document.querySelector('.space-y-1\\.5.text-sm');
+                if (featuresContainer) {
+                    featuresContainer.innerHTML = `
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Detalizēta tīrīšana ar putekļu sūcēju</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Virsmu tīrīšana ar neitrāliem ķīmiskajiem līdzekļiem</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Traipu apstrāde uz sēdekļiem un paklājiem</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Durvju iekšējo paneļu un sliekšņu padziļināta tīrīšana</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Stiklu un priekšējā paneļa tīrīšana</span>
+                        </div>
+                    `;
+                }
             }
         }
 
@@ -914,8 +1149,15 @@
 
             const updateCalculator = () => {
                 const m2 = parseFloat(m2Input.value) || 0;
-                const price = (m2 * 1.8).toFixed(0);
-                priceEl.textContent = price + ' €';
+                const rawPrice = m2 * 1.8;
+                // Format as Latvian style with comma. Show decimals only when not a whole number.
+                let priceStr;
+                if (Math.abs(rawPrice % 1) < 0.0001) {
+                    priceStr = Math.round(rawPrice).toString();
+                } else {
+                    priceStr = rawPrice.toFixed(2).replace('.', ',');
+                }
+                priceEl.textContent = priceStr + ' €';
 
                 if (timeEl) {
                     if (m2 > 0) {
@@ -1532,6 +1774,9 @@
                 document.getElementById('event-name').textContent = service.name;
                 document.getElementById('event-duration').textContent = service.duration;
                 document.getElementById('event-price').textContent = service.price;
+                // Note: description (and features) are handled by updateServiceSpecificUI() above,
+                // which sets service-specific rich content for pressure wash, virsbūves, ātrā salona etc.
+                // Do not overwrite here or it clobbers the custom HTML for those services.
             }
 
             // Special handling for Mēbeļu ķīmiskā tīrīšana (override the static car interior bullets)
@@ -1577,7 +1822,7 @@
         }
 
         // Easy way to check which version of the JS is live
-        window.BOOKING_MODAL_JS_VERSION = "2026-06-30-fix-cache-double-encode";
+        window.BOOKING_MODAL_JS_VERSION = "2026-06-30-12h-notice-all-services";
 
         window.onload = init;
     </script>
