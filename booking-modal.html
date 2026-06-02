@@ -342,7 +342,7 @@
                 name: 'Augstspiediena virsmu tīrīšana',
                 duration: 'pēc vienošanās',
                 price: '1,80 €/m²',
-                description: 'Bruģa, terases, fasādes, žoga, dārza mēbeļu, bērnu rotaļu laukumu, betona un akmens tīrīšana.\n\nCena: 1,80 €/m². Lielākām platībām cena samazinās.\n\nNepieciešams klienta ūdens pieslēgums.'
+                description: 'Bruģa, terases, fasādes, žoga, dārza mēbeļu, bērnu rotaļu laukumu, betona un akmens tīrīšana.\n\nCena: 1,80 €/m². Lielākām platībām cena samazinās.\n\nNepieciešams klienta ūdens pieslēgums\n\n✅ Bez ķīmijas vai videi draudzīgi līdzekļi\n✅ Ideāli privātmāju pagalmiem un komerciālām teritorijām\n✅ Iestrādājam kvarca smiltis pēc klienta vēlmes.'
             },
             'automasinu-diagnostika': {
                 name: 'Automašīnu diagnostika',
@@ -864,7 +864,7 @@
                 if (descContainer) {
                     descContainer.innerHTML = `Bruģa, terases, fasādes, žoga, dārza mēbeļu, bērnu rotaļu laukumu, betona un akmens tīrīšana.<br><br>
 Cena: 1,80 €/m². Lielākām platībām cena samazinās.<br>
-Nepieciešams klienta ūdens pieslēgums `;
+<span class="text-amber-400">Nepieciešams klienta ūdens pieslēgums</span> `;
                 }
 
                 const featuresContainer = document.querySelector('.space-y-1\\.5.text-sm');
@@ -877,6 +877,10 @@ Nepieciešams klienta ūdens pieslēgums `;
                         <div class="flex items-start gap-x-2 text-emerald-400">
                             <i class="fa-solid fa-check mt-0.5"></i>
                             <span class="text-slate-300">Ideāli privātmāju pagalmiem un komerciālām teritorijām</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Iestrādājam kvarca smiltis pēc klienta vēlmes</span>
                         </div>
                     `;
                 }
