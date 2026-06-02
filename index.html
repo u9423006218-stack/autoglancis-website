@@ -23,13 +23,22 @@
     <title>PIRMĀ MOBILĀ AUTO TĪRĪŠANA VENTSPILĪ • AutoGlancis</title>
     <meta name="description" content="Mēs nevedam Jūsu auto uz tīrītavu – mēs paši braucam pie Jums! Pirmā un vienīgā mobilā auto tīrīšana Ventspilī un apkārtnē.">
     
-    <!-- Tailwind CSS (Play CDN) - used for rapid development on a static site -->
+    <!-- 
+      Tailwind CSS Play CDN (https://cdn.tailwindcss.com)
+      - ONLY for rapid local development / prototyping on this static site.
+      - The warning "cdn.tailwindcss.com should not be used in production" (logged from the CDN script itself at ~line 64) is EXPECTED and harmless in dev.
+      - For real production: replace this with a built Tailwind CSS file (use Tailwind CLI: npx tailwindcss -i ./input.css -o ./style.css --watch, then link the output CSS and remove this script).
+      See: https://tailwindcss.com/docs/installation
+    -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
+    <!-- Google Fonts: preconnect + stylesheet (with display=swap to avoid invisible text) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Playfair+Display:wght@700&amp;display=swap" rel="stylesheet">
+    
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Playfair+Display:wght@700&amp;display=swap');
-        
         :root {
             --accent: #0ea5e9;
         }
@@ -435,13 +444,12 @@
                     </div>
                 </div>
                 <div class="mt-auto pt-4 text-xs text-slate-300 leading-snug">
-                    Ātra un efektīva salona tīrīšana. Ideāli piemērota regulārai apkopei vai viegli netīram salonam.<br><br>
+                    Rūpīga un padziļināta salona tīrīšana.<br><br>
                     ✅ Detalizēta tīrīšana ar putekļu sūcēju<br>
                     ✅ Virsmu tīrīšana ar neitrāliem ķīmiskajiem līdzekļiem<br>
                     ✅ Traipu apstrāde uz sēdekļiem un paklājiem<br>
                     ✅ Durvju iekšējo paneļu un sliekšņu padziļināta tīrīšana<br>
                     ✅ Stiklu un priekšējā paneļa tīrīšana
-                    <span class="text-amber-400 text-[10px] mt-1 block">Nav pieejami vēlie laiki (no 15:00)</span>
 
                     <div class="mt-3 flex justify-end">
                         <span onclick="event.stopImmediatePropagation(); window.location.href='booking-modal.html?service=auto-salona-tirisana-60'" 
@@ -472,7 +480,6 @@
                     ✅ Durvju paneļu, konsoles un pedāļu detalizēta dziļā tīrīšana<br>
                     ✅ Bagāžnieka dziļā putekļu sūcēja + ķīmiskā tīrīšana<br>
                     <span class="text-amber-400 text-[10px]">Nepieciešama klienta elektrība</span>
-                    <span class="text-amber-400 text-[10px] mt-1 block">Tikai sākuma laiks 9:00 (8h darbs + 1h pauze līdz 18:00)</span>
 
                     <div class="mt-3 flex justify-end">
                         <span onclick="event.stopImmediatePropagation(); window.location.href='booking-modal.html?service=detalizeta-kimiska-apstrade-120'" 
@@ -500,7 +507,6 @@
                     ✅ Stiklu tīrīšana<br>
                     ✅ Sliekšņu un durvju ārējo daļu mazgāšana<br>
                     ✅ Noskalošana un nosusināšana
-                    <span class="text-amber-400 text-[10px] mt-1 block">Nav pieejams laiks 18:00</span>
 
                     <div class="mt-3 flex justify-end">
                         <span onclick="event.stopImmediatePropagation(); window.location.href='booking-modal.html?service=standarta-auto-arpuses-tirisana'" 
@@ -528,7 +534,6 @@
                     ✅ Plastmasas un gumijas atjaunošana<br>
                     ✅ Ātrā vaskošana + pilna žāvēšana<br>
                     ✅ Logu un sliekšņu tīrīšana
-                    <span class="text-amber-400 text-[10px] mt-1 block">Nav pieejami vēlie laiki (no 15:00)</span>
 
                     <div class="mt-3 flex justify-end">
                         <span onclick="event.stopImmediatePropagation(); window.location.href='booking-modal.html?service=auto-arpuses-detalizeta-tirisana-45'" 
@@ -554,7 +559,6 @@
                     ✅ Matrača ķīmiskā tīrīšana – no 35€<br>
                     ✅ Paklāju ķīmiskā tīrīšana – no 35€<br>
                     ✅ Dīvānu ķīmiskā tīrīšana – no 35€
-                    <span class="text-amber-400 text-[10px] mt-1 block">Nav pieejams laiks 18:00</span>
 
                     <div class="mt-3 flex justify-end">
                         <span onclick="event.stopImmediatePropagation(); window.location.href='booking-modal.html?service=mebelu-kimiska-tirisana'" 
@@ -819,9 +823,6 @@
             <!-- Video Modal (YouTube) -->
             <div id="video-modal" onclick="closeReelModal()" class="hidden fixed inset-0 bg-black/90 z-[90] flex items-center justify-center p-4">
                 <div onclick="event.stopImmediatePropagation()" class="relative w-full max-w-md">
-                    <button onclick="closeReelModal()" class="absolute -top-10 right-2 text-white text-3xl hover:text-pink-400 z-10">
-                        <i class="fa-solid fa-times"></i>
-                    </button>
                     <div id="modal-caption" class="text-center text-white mt-3 text-lg font-medium"></div>
                 </div>
             </div>
@@ -1187,7 +1188,9 @@
             initSmoothScroll();
 
             // Preselect a popular service pill on load (optional)
-            console.log('%c[AutoGlancis] Site initialized successfully.', 'color:#64748b');
+            if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+                console.log('%c[AutoGlancis] Site initialized successfully.', 'color:#64748b');
+            }
             
             // Bonus: allow clicking the hero badge to jump to booking
             const heroBadge = document.querySelector('.mobile-badge');
@@ -1268,6 +1271,17 @@
             container.className = 'modal-content relative w-full max-w-md mx-auto';
             container.style.aspectRatio = '9 / 16';
             container.appendChild(iframe);
+
+            // Add clean exit symbol lower on the play screen (over the video, not floating above)
+            const closeBtn = document.createElement('button');
+            closeBtn.className = 'absolute top-8 right-4 text-white text-2xl bg-black/60 hover:bg-black/80 rounded-full w-9 h-9 flex items-center justify-center z-20 transition-all shadow-lg';
+            closeBtn.innerHTML = '<i class="fa-solid fa-times"></i>';
+            closeBtn.setAttribute('aria-label', 'Exit video');
+            closeBtn.onclick = (e) => {
+                e.stopImmediatePropagation();
+                closeReelModal();
+            };
+            container.appendChild(closeBtn);
 
             // Insert before caption
             const captionContainer = captionEl.parentElement;
