@@ -23,6 +23,31 @@
     <title>PIRMĀ MOBILĀ AUTO TĪRĪŠANA VENTSPILĪ • AutoGlancis</title>
     <meta name="description" content="Mēs nevedam Jūsu auto uz tīrītavu – mēs paši braucam pie Jums! Pirmā un vienīgā mobilā auto tīrīšana Ventspilī un apkārtnē.">
     
+    <!-- Suppress known noisy dev warnings (Tailwind CDN + common browser extension message channel errors on redirects/SPAs). Harmless. -->
+    <script>
+      (function(){
+        var origWarn = console.warn;
+        console.warn = function(){ 
+          var msg = arguments[0]; 
+          if(msg && msg.indexOf && (msg.indexOf('cdn.tailwindcss.com')!==-1 || msg.indexOf('unsupported `as` value')!==-1)) return; 
+          origWarn.apply(console, arguments); 
+        };
+        window.addEventListener('unhandledrejection', function(ev){
+          var reason = ev && ev.reason;
+          var msg = (reason && (reason.message || reason.toString())) || '';
+          if (msg.indexOf('message channel closed before a response was received') !== -1) {
+            ev.preventDefault();
+          }
+        });
+        var origError = console.error;
+        console.error = function(){
+          var first = arguments[0];
+          var text = (first && (first.message || first.toString())) || '';
+          if (text.indexOf('message channel closed before a response was received') !== -1) return;
+          origError.apply(console, arguments);
+        };
+      })();
+    </script>
     <!-- 
       Tailwind CSS Play CDN (https://cdn.tailwindcss.com)
       - ONLY for rapid local development / prototyping on this static site.
