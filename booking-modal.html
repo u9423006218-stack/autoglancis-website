@@ -437,7 +437,6 @@
          * vai neatbilst brīdinājuma periodam.
          */
         function getAvailableTimesForDate(date) {
-            console.log('[DEBUG] getAvailableTimesForDate called for date:', date, 'currentService:', currentService, 'pressureWashM2:', pressureWashM2);
             const day = date.getDay();
             let times = [];
 
@@ -491,7 +490,6 @@
                 const liveM2 = m2Input ? parseFloat(m2Input.value) || 0 : pressureWashM2;
 
                 if (liveM2 > 0) {
-                    console.log('[DEBUG] Applying m² filter for pressure wash, liveM2=', liveM2);
                     const estimatedHours = liveM2 / 22; // ~22 m² per hour realistic
 
                     const workStartHour = 9;
@@ -511,7 +509,6 @@
                         // so the job can begin and continue the next day(s)
                         times = times.filter(timeStr => ['09:00', '10:30'].includes(timeStr));
                     }
-                    console.log('[DEBUG] After m² filter, remaining times:', times);
                 }
             }
 
@@ -573,7 +570,6 @@
                 div.dataset.date = date.toISOString();
 
                 div.onclick = () => {
-                    console.log('[DEBUG] Date clicked:', date, 'for service:', currentService);
                     document.querySelectorAll('#upcoming-dates > div').forEach(el => el.classList.remove('border-sky-500', 'bg-sky-900/20'));
                     div.classList.add('border-sky-500', 'bg-sky-900/20');
 
@@ -594,7 +590,6 @@
         }
 
         function renderTimeSlots(date) {
-            console.log('[DEBUG] renderTimeSlots called for date:', date, 'currentService:', currentService);
             const container = document.getElementById('time-slots');
             const noTimes = document.getElementById('no-times-message');
             container.innerHTML = '';
@@ -614,8 +609,6 @@
 
             // Izmantojam mūsu jauno funkciju, lai iegūtu laikus
             const availableTimes = getAvailableTimesForDate(date);
-
-            console.log('[DEBUG pressure] After full filtering for date, availableTimes:', availableTimes, 'length:', availableTimes.length);
 
             if (currentService === 'augstspiediena-virsmu-tirisana-2-m²') {
                 // Force the time slots container to be visible for this service
@@ -663,10 +656,6 @@
                     document.querySelectorAll('#time-slots button').forEach(b => b.classList.remove('selected', 'bg-sky-500', 'border-sky-500'));
                     btn.classList.add('selected', 'bg-sky-500', 'border-sky-500', 'text-white');
                     selectedTime = time;
-
-                    if (currentService === 'augstspiediena-virsmu-tirisana-2-m²') {
-                        console.log('[DEBUG pressure] Time button clicked for pressure wash - forcing booking form visible');
-                    }
 
                     // === ROBUST FORM SHOW FOR PRESSURE WASH (and all services) ===
                     const bookingForm = document.getElementById('booking-form');
@@ -1050,6 +1039,11 @@
 
                 try {
                     result = JSON.parse(text);
+                    // Defense against double-stringified responses (e.g. old cache hits in Apps Script).
+                    // If server sent "\"{...}\"", first parse gives a string; unwrap it.
+                    if (typeof result === 'string') {
+                        try { result = JSON.parse(result); } catch (e2) {}
+                    }
                 } catch (e) {
                     console.error("Failed to parse busy times from Google Calendar:", e);
                     result = null;
@@ -1503,7 +1497,7 @@
             // Update service info in sidebar
             updateServiceSpecificUI();
 
-            // Debug + delegated handler for pressure wash dates (more reliable than per-item onclick)
+            // Delegated handler for pressure wash dates (more reliable than per-item onclick on dynamic content)
             if (currentService === 'augstspiediena-virsmu-tirisana-2-m²') {
                 const datesContainer = document.getElementById('upcoming-dates');
                 if (datesContainer) {
@@ -1511,17 +1505,12 @@
                     datesContainer.onclick = null;
 
                     datesContainer.addEventListener('click', function pressureWashDateClick(e) {
-                        console.log('[DEBUG pressure] Container click for pressure wash. Target:', e.target);
-
                         const dateItem = e.target.closest('#upcoming-dates > div');
                         if (!dateItem) return;
-
-                        console.log('[DEBUG pressure] Date item clicked');
 
                         const dateStr = dateItem.dataset.date;
                         if (dateStr) {
                             const clickedDate = new Date(dateStr);
-                            console.log('[DEBUG pressure] Using data-date for renderTimeSlots:', clickedDate);
 
                             document.querySelectorAll('#upcoming-dates > div').forEach(el => el.classList.remove('border-sky-500', 'bg-sky-900/20'));
                             dateItem.classList.add('border-sky-500', 'bg-sky-900/20');
@@ -1530,7 +1519,6 @@
                             selectedTime = null;
                             renderTimeSlots(clickedDate);
                         } else {
-                            console.warn('[DEBUG pressure] No data-date found on clicked item, falling back to selectedDate if any');
                             if (selectedDate) {
                                 renderTimeSlots(selectedDate);
                             }
@@ -1589,7 +1577,7 @@
         }
 
         // Easy way to check which version of the JS is live
-        window.BOOKING_MODAL_JS_VERSION = "2026-06-02-05-forced";
+        window.BOOKING_MODAL_JS_VERSION = "2026-06-30-fix-cache-double-encode";
 
         window.onload = init;
     </script>
