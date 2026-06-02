@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="lv">
 <head>
-    <!-- v2026-06-02-06-forced -->
+    <!-- v2026-stripe-hosted-flow-cleanup -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rezervēt • AutoGlancis</title>
@@ -11,6 +11,33 @@
     <link rel="icon" type="image/png" sizes="48x48" href="favicons/favicon-96x96.png?v=2">
     <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon.png?v=2">
     <link rel="manifest" href="site.webmanifest">
+    <!-- Suppress known noisy dev warnings (Tailwind CDN + common browser extension message channel errors on redirects/SPAs). Harmless. -->
+    <script>
+      (function(){
+        var origWarn = console.warn;
+        console.warn = function(){ 
+          var msg = arguments[0]; 
+          if(msg && msg.indexOf && (msg.indexOf('cdn.tailwindcss.com')!==-1 || msg.indexOf('unsupported `as` value')!==-1)) return; 
+          origWarn.apply(console, arguments); 
+        };
+        // Swallow the very common "message channel closed before a response" uncaught rejections from extensions (ad blockers, devtools, etc.).
+        // These happen on almost every site during navigation/redirects and do not indicate a bug in our code.
+        window.addEventListener('unhandledrejection', function(ev){
+          var reason = ev && ev.reason;
+          var msg = (reason && (reason.message || reason.toString())) || '';
+          if (msg.indexOf('message channel closed before a response was received') !== -1) {
+            ev.preventDefault();
+          }
+        });
+        var origError = console.error;
+        console.error = function(){
+          var first = arguments[0];
+          var text = (first && (first.message || first.toString())) || '';
+          if (text.indexOf('message channel closed before a response was received') !== -1) return;
+          origError.apply(console, arguments);
+        };
+      })();
+    </script>
     <!-- 
       Tailwind CSS Play CDN (https://cdn.tailwindcss.com)
       - ONLY for rapid local development / prototyping.
@@ -18,6 +45,8 @@
       - For production: build with Tailwind CLI instead of this script.
     -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Stripe.js (add for payments - see README "Stripe Payments Integration" section) -->
+    <!-- <script src="https://js.stripe.com/v3/"></script> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <!-- Google Fonts with preconnect for faster loading -->
@@ -281,12 +310,31 @@
                                 <textarea id="notes" rows="3" placeholder="Papildu informācija, ko vēlaties mums pateikt..."
                                           class="w-full bg-[#0a0a0a] border border-slate-700 rounded-3xl px-4 py-3 text-sm focus:outline-none focus:border-sky-500 resize-y"></textarea>
                             </div>
+
+                            <!-- Payment choice - added for Stripe integration -->
+                            <div>
+                                <label class="text-xs text-slate-400 block mb-2">Maksāšanas veids</label>
+                                <div class="space-y-2 text-sm">
+                                    <label class="flex items-center gap-2 cursor-pointer">
+                                        <input type="radio" name="payment_method" value="later" checked class="accent-sky-500">
+                                        <span>Maksāt vēlāk (uz vietas)</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 cursor-pointer">
+                                        <input type="radio" name="payment_method" value="card" class="accent-sky-500">
+                                        <span>Maksāt ar karti (Stripe Checkout)</span>
+                                    </label>
+                                </div>
+                                <div class="text-[10px] text-slate-500 mt-1">Droša apmaksa caur Stripe. EUR valūta.</div>
+                            </div>
                         </div>
 
                         <button onclick="confirmBooking()" 
                                 class="mt-6 w-full bg-sky-500 hover:bg-sky-600 transition font-semibold py-3.5 rounded-3xl">
                             Apstiprināt rezervāciju
                         </button>
+                        <!-- TODO: Stripe integration will change this button to initiate Checkout session first.
+                             See README.md "Stripe Payments Integration" for exact requirements (keys, flow).
+                             After payment success we will call the existing createBooking logic (or move it server-side). -->
                     </div>
                 </div>
             </div>
@@ -376,6 +424,14 @@
         // 2. Deploy it as a Web App (Anyone access)
         // 3. Copy the /exec URL and paste it below
         const BOOKING_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbymcZ87snNntyaoSapV_kU43_V_Fnr8nYe3MaKQisFfNFch74UShu_YYhwO0NiTre8/exec';
+        // IMPORTANT for Stripe card payments:
+        // - Publishable key (pk_live_... or the mk_... variants) lives in the browser (this file). We just updated it to the one you provided.
+        // - SECRET key (sk_live_...) must ONLY live server-side in the Apps Script (never in this HTML).
+        //   Set it via setupStripeSecretKey() or directly in Project settings > Script properties as STRIPE_SECRET_KEY.
+        // - If you see "Invalid API Key provided: YOUR_STR..." (401), the *deployed* GAS is still using the placeholder for the secret.
+        // - After editing .gs, you MUST redeploy the Web App for code changes (and the property takes effect immediately once set).
+        const STRIPE_PUBLISHABLE_KEY = 'pk_live_51RFtsFJ5RwEYMru3HTTp01PCdPe5C6xux6Err7DBOGFnIqTKnASdX5SzLzLQZTdoxApGqLtLmWUCrR5C5fISXCbf00K77xDN8Z'; // your pk_live_ publishable key (safe to have in browser HTML; not used for the current hosted Checkout redirect flow but kept for reference/future)
+        // previous values were the mk_... ones you provided earlier
 
         function renderUpcomingDates() {
             const container = document.getElementById('upcoming-dates');
@@ -580,12 +636,7 @@
                 div.dataset.date = date.toISOString();
 
                 div.onclick = () => {
-                    document.querySelectorAll('#upcoming-dates > div').forEach(el => el.classList.remove('border-sky-500', 'bg-sky-900/20'));
-                    div.classList.add('border-sky-500', 'bg-sky-900/20');
-
-                    selectedDate = date;
-                    selectedTime = null;
-                    renderTimeSlots(date);
+                    handleDateClick(date, div);
                 };
 
                 container.appendChild(div);
@@ -597,6 +648,41 @@
             selectedDate = date;
             selectedTime = null;
             renderTimeSlots(date);
+        }
+
+        /**
+         * Handle date selection from click (main + pressure paths).
+         * On mobile, automatically scroll to the time selection area
+         * so user sees the available times immediately after tapping a date.
+         */
+        function handleDateClick(date, dateElement) {
+            // Deselect all, select this one
+            document.querySelectorAll('#upcoming-dates > div').forEach(el => el.classList.remove('border-sky-500', 'bg-sky-900/20'));
+            if (dateElement) {
+                dateElement.classList.add('border-sky-500', 'bg-sky-900/20');
+            }
+
+            selectedDate = date;
+            selectedTime = null;
+            renderTimeSlots(date);
+
+            // Auto-scroll to time slots on mobile (user request)
+            if (window.innerWidth < 768) {
+                // Use rAF so the newly rendered time slots are in DOM and layout is updated
+                requestAnimationFrame(() => {
+                    const timeSlots = document.getElementById('time-slots');
+                    if (timeSlots) {
+                        // Scroll the wrapper that contains "Pieejamie laiki" header + the grid
+                        // so the whole time selection space comes into view
+                        const wrapper = timeSlots.parentElement;
+                        if (wrapper) {
+                            wrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        } else {
+                            timeSlots.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    }
+                });
+            }
         }
 
         function renderTimeSlots(date) {
@@ -675,6 +761,22 @@
                     bookingForm.style.display = 'block';
                     bookingForm.style.visibility = 'visible';
                     bookingForm.style.opacity = '1';
+
+                    // Update submit button text based on selected payment method
+                    function updateSubmitButtonText() {
+                        const btn = document.querySelector('#booking-form button');
+                        if (!btn) return;
+                        const method = document.querySelector('input[name="payment_method"]:checked')?.value || 'later';
+                        if (method === 'card') {
+                            btn.textContent = 'Maksāt ar karti un apstiprināt';
+                        } else {
+                            btn.textContent = 'Apstiprināt rezervāciju';
+                        }
+                    }
+                    document.querySelectorAll('input[name="payment_method"]').forEach(radio => {
+                        radio.onchange = updateSubmitButtonText;
+                    });
+                    updateSubmitButtonText();
 
                     // For pressure wash service, prefill notes with m² and days info
                     if (currentService === 'augstspiediena-virsmu-tirisana-2-m²') {
@@ -1446,6 +1548,102 @@ Cena: 1,80 €/m². Lielākām platībām cena samazinās.<br>
             return { valid: true, message: '' };
         }
 
+        function getBookingAmountCents() {
+            let amount = 0;
+            if (currentService === 'augstspiediena-virsmu-tirisana-2-m²') {
+                const m2Input = document.getElementById('pressure-m2');
+                const m2 = (pressureWashM2 > 0 ? pressureWashM2 : 0) || (m2Input ? parseFloat(m2Input.value) || 0 : 0);
+                amount = Math.round(m2 * 1.8 * 100); // 1.80 € / m² → cents
+            } else {
+                const priceStr = services[currentService] ? services[currentService].price : '0';
+                // e.g. "60 €", "1,80 €/m²", "no 35 €", "20 €"
+                const cleaned = (priceStr || '').replace(/[^0-9,]/g, '').replace(',', '.');
+                const num = parseFloat(cleaned) || 0;
+                amount = Math.round(num * 100);
+            }
+            // Always return a safe integer (defensive against float edge cases)
+            amount = Math.round(Number(amount) || 0);
+            console.log('[AmountCents] service=' + currentService + ' m2OrPrice=' + (currentService.indexOf('augstspiediena')>=0 ? (document.getElementById('pressure-m2') ? document.getElementById('pressure-m2').value : pressureWashM2) : 'fixed') + ' => ' + amount + ' cents');
+            return amount;
+        }
+
+        async function initiateCardPayment(name, phone, email, location, notes) {
+            const submitBtn = document.querySelector('#booking-form button');
+            const originalBtnText = submitBtn.textContent;
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sagatavo maksājumu...';
+            submitBtn.classList.add('opacity-70', 'cursor-not-allowed');
+
+            try {
+                let amountCents = getBookingAmountCents();
+                amountCents = Math.round(Number(amountCents) || 0);
+                console.log('[Stripe] initiateCardPayment amountCents=' + amountCents + ' (service=' + currentService + ')');
+                if (amountCents <= 0 || amountCents < 50) {
+                    throw new Error('Nederīga summa maksājumam (' + amountCents + ' centi). Lūdzu pārbaudiet cenu vai m².');
+                }
+
+                const service = services[currentService] || { name: 'Pakalpojums', duration: '3 stundas' };
+                const durationHours = parseFloat(service.duration) || 3;
+
+                const [h, m] = selectedTime.split(':').map(Number);
+                const slotStart = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate(), h, m);
+                const durationMs = durationHours * 60 * 60 * 1000;
+                const slotEnd = new Date(slotStart.getTime() + durationMs);
+
+                const origin = window.location.origin;
+                const payload = {
+                    action: 'createStripeCheckoutSession',
+                    serviceKey: currentService,
+                    serviceName: service.name,
+                    date: formatDateForAPI(selectedDate),
+                    time: selectedTime,
+                    durationHours: durationHours,
+                    amountCents: amountCents,
+                    currency: 'eur',
+                    name: name,
+                    phone: phone,
+                    email: email,
+                    location: location,
+                    notes: notes,
+                    startTime: slotStart.toISOString(),
+                    endTime: slotEnd.toISOString(),
+                    origin: origin,
+                    successUrl: origin + '/booking-modal.html?stripe_success=1&session_id={CHECKOUT_SESSION_ID}',
+                    cancelUrl: origin + '/booking-modal.html?stripe_canceled=1'
+                };
+
+                if (currentService === 'augstspiediena-virsmu-tirisana-2-m²') {
+                    payload.m2 = pressureWashM2 || 0;
+                    payload.durationHours = null;
+                }
+
+                const response = await fetch(BOOKING_SCRIPT_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain' },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+
+                if (data.success && data.url) {
+                    // Redirect to Stripe hosted Checkout
+                    window.location.href = data.url;
+                } else {
+                    throw new Error(data.error || 'Neizdevās izveidot Stripe Checkout sesiju.');
+                }
+            } catch (err) {
+                console.error('Stripe Checkout error:', err);
+                let msg = (err.message || err).toString();
+                if (msg.indexOf('Invalid API Key') >= 0 || msg.indexOf('401') >= 0 || msg.indexOf('nav konfigurēts') >= 0) {
+                    msg += '\n\n→ Pārbaudiet: Apps Script → setupStripeSecretKey() (ielīmējiet reālo sk_live atslēgu, izpildiet, noņemiet no koda, redeploy Web App). Pēc tam atjauniniet BOOKING_SCRIPT_URL šajā failā.';
+                }
+                alert('Kļūda maksājuma sagatavošanā: ' + msg);
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalBtnText;
+                submitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+            }
+        }
+
         function confirmBooking() {
             const nameInput = document.getElementById('name');
             const phoneInput = document.getElementById('phone');
@@ -1522,7 +1720,13 @@ Cena: 1,80 €/m². Lielākām platībām cena samazinās.<br>
                 return;
             }
 
-            // === REAL GOOGLE CALENDAR BOOKING (Option B) ===
+            const paymentMethod = document.querySelector('input[name="payment_method"]:checked')?.value || 'later';
+            if (paymentMethod === 'card') {
+                initiateCardPayment(name, phone, email, location, notes);
+                return;
+            }
+
+            // === REAL GOOGLE CALENDAR BOOKING (Option B) - maksāt vēlāk ===
             if (!BOOKING_SCRIPT_URL || BOOKING_SCRIPT_URL.includes('YOUR_GOOGLE_APPS_SCRIPT_URL_HERE')) {
                 alert('Google Calendar integrācija vēl nav iestatīta.\n\nLūdzu izpildi instrukcijas failā google-apps-script/booking-handler.gs un README.md');
                 return;
@@ -1712,6 +1916,101 @@ Cena: 1,80 €/m². Lielākām platībām cena samazinās.<br>
 
         function init() {
             initTailwind();
+
+            // Handle return from Stripe Checkout (hosted)
+            try {
+                const urlParams = new URLSearchParams(window.location.search);
+                const form = document.getElementById('booking-form');
+
+                if (urlParams.get('stripe_success') === '1') {
+                    const sessionId = urlParams.get('session_id');
+                    if (sessionId) {
+                        // Clear the form area and show loading
+                        if (form) {
+                            form.innerHTML = '<div class="text-center py-8 text-emerald-400">Apstrādājam maksājumu un rezervāciju...</div>';
+                        }
+                        // Verify with backend and create booking if paid
+                        fetch(BOOKING_SCRIPT_URL, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'text/plain' },
+                            body: JSON.stringify({ action: 'verifyStripeAndCreateBooking', sessionId: sessionId })
+                        })
+                        .then(r => r.json())
+                        .then(data => {
+                            if (data.success) {
+                                if (form) {
+                                    form.innerHTML = `
+                                        <div class="text-center py-8">
+                                            <div class="mx-auto w-16 h-16 bg-emerald-500/10 rounded-full flex items-center justify-center mb-6">
+                                                <i class="fa-solid fa-check text-emerald-400 text-3xl"></i>
+                                            </div>
+                                            <div class="text-2xl font-semibold tracking-tight mb-2">Paldies!</div>
+                                            <div class="text-slate-300">Jūsu rezervācija ir apstiprināta un apmaksāta.</div>
+                                            <button onclick="window.location.href='index.html'" class="mt-6 px-6 py-2 bg-sky-500 hover:bg-sky-600 rounded-3xl text-sm">Atpakaļ uz sākumu</button>
+                                        </div>
+                                    `;
+                                }
+                                // Clean the URL (remove query params so refresh doesn't re-verify)
+                                if (history && history.replaceState) {
+                                    const clean = window.location.pathname;
+                                    history.replaceState({}, document.title, clean);
+                                }
+                            } else {
+                                if (form) {
+                                    form.innerHTML = '<div class="text-center py-8 text-red-400">Maksājums veiksmīgs, bet rezervācijas izveide neizdevās: ' + (data.error || 'Nezināma kļūda') + '</div>';
+                                } else {
+                                    alert('Maksājums veiksmīgs, bet rezervācijas izveide neizdevās: ' + (data.error || ''));
+                                }
+                            }
+                        })
+                        .catch(err => {
+                            console.error(err);
+                            if (form) {
+                                form.innerHTML = '<div class="text-center py-8 text-red-400">Kļūda verifikācijā pēc maksājuma. Lūdzu sazinieties ar mums.</div>';
+                            } else {
+                                alert('Kļūda verifikācijā pēc maksājuma.');
+                            }
+                        });
+                        return; // stop normal init for this case
+                    } else {
+                        // Success param without session id - just show generic thank you
+                        if (form) {
+                            form.innerHTML = `
+                                <div class="text-center py-8">
+                                    <div class="mx-auto w-16 h-16 bg-emerald-500/10 rounded-full flex items-center justify-center mb-6">
+                                        <i class="fa-solid fa-check text-emerald-400 text-3xl"></i>
+                                    </div>
+                                    <div class="text-2xl font-semibold tracking-tight mb-2">Paldies!</div>
+                                    <div class="text-slate-300">Maksājums apstrādāts.</div>
+                                </div>
+                            `;
+                        }
+                        if (history && history.replaceState) {
+                            history.replaceState({}, document.title, window.location.pathname);
+                        }
+                        return;
+                    }
+                }
+
+                if (urlParams.get('stripe_canceled') === '1') {
+                    // Show a nice inline message instead of blocking alert
+                    if (form) {
+                        form.innerHTML = `
+                            <div class="text-center py-8">
+                                <div class="text-amber-400 mb-3">Maksājums tika atcelts.</div>
+                                <div class="text-sm text-slate-400">Jūs varat izvēlēties citu laiku vai mēģināt vēlreiz.</div>
+                                <button onclick="location.reload()" class="mt-4 px-5 py-2 bg-slate-700 hover:bg-slate-600 rounded-3xl text-sm">Mēģināt vēlreiz</button>
+                            </div>
+                        `;
+                    } else {
+                        alert('Maksājums atcelts. Jūs varat mēģināt vēlreiz.');
+                    }
+                    if (history && history.replaceState) {
+                        history.replaceState({}, document.title, window.location.pathname);
+                    }
+                    // Do not return here — user may still want to see availability / pick another slot
+                }
+            } catch(e) { console.warn('Stripe return handling error', e); }
             
             // Strong loading state for the entire availability section until we have real data from Google
             const datesContainer = document.getElementById('upcoming-dates');
@@ -1757,13 +2056,7 @@ Cena: 1,80 €/m². Lielākām platībām cena samazinās.<br>
                         const dateStr = dateItem.dataset.date;
                         if (dateStr) {
                             const clickedDate = new Date(dateStr);
-
-                            document.querySelectorAll('#upcoming-dates > div').forEach(el => el.classList.remove('border-sky-500', 'bg-sky-900/20'));
-                            dateItem.classList.add('border-sky-500', 'bg-sky-900/20');
-
-                            selectedDate = clickedDate;
-                            selectedTime = null;
-                            renderTimeSlots(clickedDate);
+                            handleDateClick(clickedDate, dateItem);
                         } else {
                             if (selectedDate) {
                                 renderTimeSlots(selectedDate);
@@ -1826,7 +2119,7 @@ Cena: 1,80 €/m². Lielākām platībām cena samazinās.<br>
         }
 
         // Easy way to check which version of the JS is live
-        window.BOOKING_MODAL_JS_VERSION = "2026-06-30-12h-notice-all-services";
+        window.BOOKING_MODAL_JS_VERSION = "2026-06-30-stripe-amount-fix-mute-exceptions";
 
         window.onload = init;
     </script>
