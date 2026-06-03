@@ -219,7 +219,7 @@
                         
                         <div id="month-tabs" class="flex gap-2 mb-1 overflow-x-auto pb-1"></div>
                         
-                        <div id="upcoming-dates" class="space-y-2 max-h-[260px] sm:max-h-[320px] overflow-auto pr-2" style="border: 1px dashed red;"></div>
+                        <div id="upcoming-dates" class="space-y-2 max-h-[260px] sm:max-h-[320px] overflow-auto pr-2"></div>
                     </div>
 
                     <!-- Time slots -->
@@ -312,7 +312,7 @@
                             </div>
 
                             <!-- Payment choice - added for Stripe integration -->
-                            <div>
+                            <div id="payment-section">
                                 <label class="text-xs text-slate-400 block mb-2">Maksāšanas veids</label>
                                 <div class="space-y-2 text-sm">
                                     <label class="flex items-center gap-2 cursor-pointer">
@@ -397,6 +397,12 @@
                 duration: '45 min',
                 price: '20 €',
                 description: 'Pilna OBD diagnostika ar profesionālo skeneri.'
+            },
+            'majaslapu-izstrade-uznemumiem': {
+                name: 'Mājaslapu izstrāde uzņēmumiem',
+                duration: '1 stunda',
+                price: 'Bezmaksas konsultācija',
+                description: 'Bezmaksas konsultācija (1 stunda).\n\nMēs izveidojām šo profesionālo mājaslapu sev ar rezervācijas sistēmu un modernu dizainu. Tagad palīdzam arī citiem vietējiem uzņēmumiem iegūt tādu pašu kvalitāti — ātri, saprotami un par godīgu cenu.\n\nVienkāršā mājaslapa (Landing page / Vizītkarte)\nno 490€\n\nIdeāli piemērota maziem uzņēmumiem un pakalpojumu sniedzējiem, kuri vēlas modernu un uzticamu klātbūtni internetā.\n\n✅ Mobilajām ierīcēm pielāgots, ātrs dizains\n✅ Kontaktforma + WhatsApp poga\n✅ Google Analytics un SEO pamati\n✅ Sociālo tīklu integrācija (Instagram, Facebook)\n✅ 1 mēneša bezmaksas atbalsts pēc nodošanas\n✅ Gatava 2–3 nedēļu laikā\n\nStandarta biznesa mājaslapa\nno 890€\n\nPilnvērtīga mājaslapa ar vairākām lapām, perfektā izskatā un labu meklētājprogrammu redzamību.\n\n✅ 5–8 lapas (Sākums, Pakalpojumi, Par mums, Kontakti u.c.)\n✅ Profesionāls, Jūsu zīmolam pielāgots dizains\n✅ Rezervācijas / pieteikuma forma\n✅ Google Maps, Analytics un SEO optimizācija\n✅ Ātra ielāde un drošība\n✅ 2 mēnešu bezmaksas atbalsts\n\nPremium mājaslapa ar rezervācijas sistēmu\nno 1290€\n\nMaksimāla funkcionalitāte — tieši tāda kā mūsu pašu mājaslapa, tikai Jūsu biznesam.\n\n✅ Pilnībā pielāgots dizains un struktūra\n✅ Tiešsaistes rezervācijas sistēma\n✅ Maksājumu integrācija (depozīts vai pilna apmaksa)\n✅ Klientu datu bāze un automatizēti paziņojumi\n✅ Pilna SEO optimizācija + Google Business Profile iestatīšana\n✅ 3 mēnešu bezmaksas atbalsts + uzturēšanas iespēja\n\nPapildu pakalpojums: Mēneša uzturēšana un atjauninājumi — no 39€/mēnesī'
             }
         };
 
@@ -614,7 +620,7 @@
                 const hasBookings = hasGoogleBookingsOnDay(date);
 
                 const div = document.createElement('div');
-                div.className = `flex justify-between items-center p-3 rounded-2xl border border-slate-700 hover:border-sky-500 cursor-pointer transition`;
+                div.className = `flex justify-between items-center p-2.5 sm:p-3 rounded-2xl border border-slate-700 hover:border-sky-500 cursor-pointer transition`;
 
                 let noteHtml = '';
                 if (hasBookings) {
@@ -738,7 +744,7 @@
 
             availableTimes.forEach(time => {
                 const btn = document.createElement('button');
-                btn.className = `time-slot border border-slate-700 hover:border-slate-500 rounded-2xl py-3 px-4 text-sm font-medium`;
+                btn.className = `time-slot border border-slate-700 hover:border-slate-500 rounded-2xl py-2.5 px-3 sm:py-3 sm:px-4 text-sm font-medium`;
                 btn.textContent = time;
 
                 btn.onclick = () => {
@@ -753,30 +759,32 @@
                     btn.classList.add('selected', 'bg-sky-500', 'border-sky-500', 'text-white');
                     selectedTime = time;
 
-                    // === ROBUST FORM SHOW FOR PRESSURE WASH (and all services) ===
-                    const bookingForm = document.getElementById('booking-form');
-                    
-                    // Force visibility - override any special hiding for pressure wash or other services
-                    bookingForm.classList.remove('hidden');
-                    bookingForm.style.display = 'block';
-                    bookingForm.style.visibility = 'visible';
-                    bookingForm.style.opacity = '1';
+                    // Show the Jūsu dati form (centralized so it works reliably for all services incl. consultation)
+                    showBookingForm();
 
-                    // Update submit button text based on selected payment method
-                    function updateSubmitButtonText() {
-                        const btn = document.querySelector('#booking-form button');
-                        if (!btn) return;
-                        const method = document.querySelector('input[name="payment_method"]:checked')?.value || 'later';
-                        if (method === 'card') {
-                            btn.textContent = 'Maksāt ar karti un apstiprināt';
-                        } else {
-                            btn.textContent = 'Apstiprināt rezervāciju';
+                    // For consultation there is no payment choice UI (radios are hidden), always use "Apstiprināt rezervāciju".
+                    // For other services, wire the radios to update the button label.
+                    const isMajasConsult = currentService === 'majaslapu-izstrade-uznemumiem';
+                    if (!isMajasConsult) {
+                        function updateSubmitButtonText() {
+                            const btn = document.querySelector('#booking-form button');
+                            if (!btn) return;
+                            const method = document.querySelector('input[name="payment_method"]:checked')?.value || 'later';
+                            if (method === 'card') {
+                                btn.textContent = 'Maksāt ar karti un apstiprināt';
+                            } else {
+                                btn.textContent = 'Apstiprināt rezervāciju';
+                            }
                         }
+                        document.querySelectorAll('input[name="payment_method"]').forEach(radio => {
+                            radio.onchange = updateSubmitButtonText;
+                        });
+                        updateSubmitButtonText();
+                    } else {
+                        // Ensure correct label for consultation (no payment radios visible)
+                        const btn = document.querySelector('#booking-form button');
+                        if (btn) btn.textContent = 'Apstiprināt rezervāciju';
                     }
-                    document.querySelectorAll('input[name="payment_method"]').forEach(radio => {
-                        radio.onchange = updateSubmitButtonText;
-                    });
-                    updateSubmitButtonText();
 
                     // For pressure wash service, prefill notes with m² and days info
                     if (currentService === 'augstspiediena-virsmu-tirisana-2-m²') {
@@ -788,13 +796,25 @@
                             notesInput.value = notesInput.value ? notesInput.value + '\n' + extraNote : extraNote;
                         }
                     }
-
-                    // Scroll to the form so user sees the next step (name, phone, email etc.)
-                    bookingForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 };
 
                 container.appendChild(btn);
             });
+        }
+
+        // Centralized helper so the "Jūsu dati" form reliably appears after picking a time slot
+        // for every service (including the consultation one). Called from time button click handlers.
+        function showBookingForm() {
+            const bookingForm = document.getElementById('booking-form');
+            if (!bookingForm) return;
+
+            bookingForm.classList.remove('hidden');
+            bookingForm.style.display = 'block';
+            bookingForm.style.visibility = 'visible';
+            bookingForm.style.opacity = '1';
+
+            // Scroll to the form so user sees name / email / phone / location / notes
+            bookingForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
         function changeMonth(delta) {
@@ -817,7 +837,7 @@
             currentService = select.value;
             const service = services[currentService];
             
-            if (service) {
+            if (service && currentService !== 'majaslapu-izstrade-uznemumiem') {
                 document.getElementById('event-name').textContent = service.name;
                 document.getElementById('event-duration').textContent = service.duration;
                 document.getElementById('event-price').textContent = service.price;
@@ -827,6 +847,9 @@
             updateServiceSpecificUI();
 
             // Re-apply special features if user changes service in the dropdown
+            if (currentService === 'majaslapu-izstrade-uznemumiem' && typeof applyMajaslapuConsultationUI === 'function') {
+                applyMajaslapuConsultationUI();
+            }
             if (currentService === 'mebelu-kimiska-tirisana') {
                 const descContainer = document.querySelector('.text-sm.text-slate-300.leading-relaxed.mb-4');
                 if (descContainer) {
@@ -1201,23 +1224,24 @@ Cena: 1,80 €/m². Lielākām platībām cena samazinās.<br>
                 if (monthTabs) monthTabs.style.display = '';
                 if (calculator) calculator.style.display = 'none';
             } else {
-                // Normal services (e.g. Standarta salona 4h uses the 5 interior bullets + cleaned desc from data)
+                // Normal services (including Mājaslapu izstrāde uzņēmumiem consultation which now uses full date+time picker + Jūsu dati form like others)
                 if (datesContainer) datesContainer.style.display = '';
                 if (timeSlotsContainer) timeSlotsContainer.style.display = '';
                 if (noTimesMessage) noTimesMessage.style.display = '';
                 if (monthTabs) monthTabs.style.display = '';
                 if (calculator) calculator.style.display = 'none';
 
-                // Ensure the description comes from services data
+                // Ensure the description comes from services data (for majas this will be the clean tiers text)
                 const descEl = document.getElementById('event-description') || document.querySelector('.text-sm.text-slate-300.leading-relaxed.mb-4');
                 if (descEl) {
                     const svc = services[currentService];
                     if (svc && svc.description) {
+                        // Use textContent for plain, but majas post-override will upgrade to rich HTML
                         descEl.textContent = svc.description;
                     }
                 }
 
-                // Reset features to the default interior clean list 
+                // Reset features to the default interior clean list (majas post-override will hide this and put ✅ inside description)
                 const featuresContainer = document.querySelector('.space-y-1\\.5.text-sm');
                 if (featuresContainer) {
                     featuresContainer.innerHTML = `
@@ -1243,6 +1267,128 @@ Cena: 1,80 €/m². Lielākām platībām cena samazinās.<br>
                         </div>
                     `;
                 }
+            }
+
+            // Post-processing overrides for the website consultation service (uses calendar like normal services, but custom header + Apraksts without car bullets + no payment radios)
+            if (currentService === 'majaslapu-izstrade-uznemumiem') {
+                applyMajaslapuConsultationUI();
+            }
+        }
+
+        function applyMajaslapuConsultationUI() {
+            // Merge the two pills into one on top
+            const catPill = document.querySelector('.cal-card .text-xs.text-sky-400.font-medium');
+            if (catPill) {
+                catPill.textContent = 'Mājaslapu izstrāde uzņēmumiem konsultācija';
+                catPill.classList.remove('tracking-wider');
+            }
+
+            // Add a clear "free consultation" badge/note directly under the pill in the left sidebar
+            if (catPill && catPill.parentElement) {
+                let freeNote = catPill.parentElement.querySelector('.free-consult-badge');
+                if (!freeNote) {
+                    freeNote = document.createElement('div');
+                    freeNote.className = 'free-consult-badge mt-1.5 text-emerald-400 text-sm font-medium flex items-center gap-x-1.5';
+                    catPill.parentElement.appendChild(freeNote);
+                }
+                freeNote.innerHTML = `<i class="fa-solid fa-check"></i> <span>Bezmaksas konsultācija • 1 stunda</span>`;
+            }
+
+            // Merge: hide the big name and the duration/price rows (info lives in the merged top pill + badge now).
+            const nameEl = document.getElementById('event-name');
+            if (nameEl) {
+                nameEl.style.display = 'none';
+            }
+
+            const durationEl = document.getElementById('event-duration');
+            if (durationEl) {
+                const durRow = durationEl.closest('.flex.items-center');
+                if (durRow) durRow.style.display = 'none';
+            }
+
+            const priceEl = document.getElementById('event-price');
+            if (priceEl) {
+                const priceRow = priceEl.closest('.flex.items-center');
+                if (priceRow) priceRow.style.display = 'none';
+            }
+
+            // Replace Apraksts content with clean tiers (no car cleaning bullets)
+            const descEl = document.getElementById('event-description') || document.querySelector('.text-sm.text-slate-300.leading-relaxed.mb-4');
+            if (descEl) {
+                descEl.innerHTML = `<span class="inline-block bg-emerald-500/10 text-emerald-400 text-xs font-medium px-2.5 py-0.5 rounded-full mb-2">Bezmaksas konsultācija (1 stunda)</span><br><br>Mēs izveidojām šo profesionālo mājaslapu sev ar rezervācijas sistēmu un modernu dizainu. Tagad palīdzam arī citiem vietējiem uzņēmumiem iegūt tādu pašu kvalitāti — ātri, saprotami un par godīgu cenu.<br><br>
+<b>Vienkāršā mājaslapa (Landing page / Vizītkarte)</b><br>
+no 490€<br><br>
+Ideāli piemērota maziem uzņēmumiem un pakalpojumu sniedzējiem, kuri vēlas modernu un uzticamu klātbūtni internetā.<br><br>
+✅ Mobilajām ierīcēm pielāgots, ātrs dizains<br>
+✅ Kontaktforma + WhatsApp poga<br>
+✅ Google Analytics un SEO pamati<br>
+✅ Sociālo tīklu integrācija (Instagram, Facebook)<br>
+✅ 1 mēneša bezmaksas atbalsts pēc nodošanas<br>
+✅ Gatava 2–3 nedēļu laikā<br><br>
+<b>Standarta biznesa mājaslapa</b><br>
+no 890€<br><br>
+Pilnvērtīga mājaslapa ar vairākām lapām, perfektā izskatā un labu meklētājprogrammu redzamību.<br><br>
+✅ 5–8 lapas (Sākums, Pakalpojumi, Par mums, Kontakti u.c.)<br>
+✅ Profesionāls, Jūsu zīmolam pielāgots dizains<br>
+✅ Rezervācijas / pieteikuma forma<br>
+✅ Google Maps, Analytics un SEO optimizācija<br>
+✅ Ātra ielāde un drošība<br>
+✅ 2 mēnešu bezmaksas atbalsts<br><br>
+<b>Premium mājaslapa ar rezervācijas sistēmu</b><br>
+no 1290€<br><br>
+Maksimāla funkcionalitāte — tieši tāda kā mūsu pašu mājaslapa, tikai Jūsu biznesam.<br><br>
+✅ Pilnībā pielāgots dizains un struktūra<br>
+✅ Tiešsaistes rezervācijas sistēma<br>
+✅ Maksājumu integrācija (depozīts vai pilna apmaksa)<br>
+✅ Klientu datu bāze un automatizēti paziņojumi<br>
+✅ Pilna SEO optimizācija + Google Business Profile iestatīšana<br>
+✅ 3 mēnešu bezmaksas atbalsts + uzturēšanas iespēja<br><br>
+Papildu pakalpojums: Mēneša uzturēšana un atjauninājumi — no 39€/mēnesī`;
+            }
+
+            // Hide the car bullets list under Apraksts (tiers are self-contained with ✅)
+            const bulletsContainer = document.querySelector('.cal-card .space-y-1\\.5.text-sm');
+            if (bulletsContainer) {
+                bulletsContainer.style.display = 'none';
+            }
+
+            // Completely remove/hide the "Maksāšanas veids" radios + Stripe hint for consultation.
+            // Use precise ID (added to HTML) so we don't accidentally hide ancestor containers
+            // via broad textContent checks (which was causing Jūsu dati fields to stay invisible).
+            const paymentSection = document.getElementById('payment-section');
+            if (paymentSection) {
+                paymentSection.style.display = 'none';
+            }
+
+            // Hide any leftover Stripe hint texts (defensive)
+            const stripeHints = document.querySelectorAll('.text-\\[10px\\], div.text-\\[10px\\]');
+            stripeHints.forEach(h => {
+                if ((h.textContent || '').toLowerCase().includes('stripe')) {
+                    h.style.display = 'none';
+                }
+            });
+
+            // Small note inside the (initially hidden) form so when it appears after time selection the user sees it's free
+            const formEl = document.getElementById('booking-form');
+            if (formEl) {
+                let formNote = formEl.querySelector('.form-free-note');
+                if (!formNote) {
+                    formNote = document.createElement('div');
+                    formNote.className = 'form-free-note mb-2 -mt-1 text-emerald-400 text-xs font-medium';
+                    const jurasHeader = formEl.querySelector('.font-semibold.mb-4');
+                    if (jurasHeader && jurasHeader.parentNode) {
+                        jurasHeader.parentNode.insertBefore(formNote, jurasHeader);
+                    } else {
+                        formEl.prepend(formNote);
+                    }
+                }
+                formNote.textContent = '✓ Šī konsultācija ir bez maksas';
+            }
+
+            // Ensure submit button says "Apstiprināt rezervāciju"
+            const submitBtn = document.querySelector('#booking-form button');
+            if (submitBtn) {
+                submitBtn.textContent = 'Apstiprināt rezervāciju';
             }
         }
 
@@ -1715,13 +1861,16 @@ Cena: 1,80 €/m². Lielākām platībām cena samazinās.<br>
                 return;
             }
 
+            const isConsultation = currentService === 'majaslapu-izstrade-uznemumiem';
+
+            // Now consultation also requires choosing date + time (form same as other services)
             if (!selectedDate || !selectedTime) {
                 alert('Lūdzu, izvēlieties datumu un laiku!');
                 return;
             }
 
             const paymentMethod = document.querySelector('input[name="payment_method"]:checked')?.value || 'later';
-            if (paymentMethod === 'card') {
+            if (!isConsultation && paymentMethod === 'card') {
                 initiateCardPayment(name, phone, email, location, notes);
                 return;
             }
@@ -1733,23 +1882,12 @@ Cena: 1,80 €/m². Lielākām platībām cena samazinās.<br>
             }
 
             const service = services[currentService] || { name: 'Pakalpojums', duration: '3 stundas' };
-            const durationHours = parseFloat(service.duration) || 3;
-
-            // Compute proper start/end times for the Apps Script
-            const [h, m] = selectedTime.split(':').map(Number);
-            const slotStart = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate(), h, m);
-            const durationMs = durationHours * 60 * 60 * 1000;
-            const slotEnd = new Date(slotStart.getTime() + durationMs);
+            const durationHours = isConsultation ? 1 : (parseFloat(service.duration) || 3);
 
             const payload = {
-                action: 'createBooking',
+                action: isConsultation ? 'createConsultation' : 'createBooking',
                 serviceKey: currentService,
                 serviceName: service.name,
-                date: formatDateForAPI(selectedDate),
-                time: selectedTime,
-                durationHours: durationHours,
-                startTime: slotStart.toISOString(),
-                endTime: slotEnd.toISOString(),
                 name: name,
                 phone: phone,
                 email: email,
@@ -1757,8 +1895,20 @@ Cena: 1,80 €/m². Lielākām platībām cena samazinās.<br>
                 notes: notes
             };
 
-            // Special handling for pressure washing service
-            if (currentService === 'augstspiediena-virsmu-tirisana-2-m²') {
+            // Send date/time for BOTH regular bookings and the timed consultation (consultation now books a real calendar slot)
+            const [h, m] = selectedTime.split(':').map(Number);
+            const slotStart = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate(), h, m);
+            const durationMs = durationHours * 60 * 60 * 1000;
+            const slotEnd = new Date(slotStart.getTime() + durationMs);
+
+            payload.date = formatDateForAPI(selectedDate);
+            payload.time = selectedTime;
+            payload.durationHours = durationHours;
+            payload.startTime = slotStart.toISOString();
+            payload.endTime = slotEnd.toISOString();
+
+            // Special handling for pressure washing service (not for consultation)
+            if (!isConsultation && currentService === 'augstspiediena-virsmu-tirisana-2-m²') {
                 const m2 = pressureWashM2 || 0;
                 const daysNeeded = m2 > 0 ? Math.ceil(m2 / 200) : 1;
                 payload.m2 = m2;
@@ -1780,6 +1930,7 @@ Cena: 1,80 €/m². Lielākām platībām cena samazinās.<br>
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
+                    // Mark the chosen slot busy in local cache for immediate UI update (works for consultation too)
                     const [h, m] = selectedTime.split(':').map(Number);
                     const slotStart = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate(), h, m);
                     const durationMs = durationHours * 60 * 60 * 1000;
@@ -1792,6 +1943,28 @@ Cena: 1,80 €/m². Lielākām platībām cena samazinās.<br>
 
                     renderUpcomingDates();
                     if (selectedDate) renderTimeSlots(selectedDate);
+
+                    if (isConsultation) {
+                        const formContainer = document.getElementById('booking-form');
+                        if (formContainer) {
+                            // Compute friendly date for message
+                            const dayNames = ['Svētdiena', 'Pirmdiena', 'Otrdiena', 'Trešdiena', 'Ceturtdiena', 'Piektdiena', 'Sestdiena'];
+                            const dayName = dayNames[slotStart.getDay()];
+                            const dateStr = slotStart.toLocaleDateString('lv-LV', { day: 'numeric', month: 'long' });
+                            formContainer.innerHTML = `
+                                <div class="text-center py-8">
+                                    <div class="mx-auto w-16 h-16 bg-emerald-500/10 rounded-full flex items-center justify-center mb-6">
+                                        <i class="fa-solid fa-check text-emerald-400 text-3xl"></i>
+                                    </div>
+                                    <div class="text-2xl font-semibold tracking-tight mb-2">Konsultācija rezervēta!</div>
+                                    <div class="text-slate-300">Jūsu <span class="text-emerald-400">bezmaksas</span> konsultācija par mājaslapu izstrādi uzņēmumiem ir rezervēta ${dayName}, ${dateStr} plkst. ${selectedTime}.</div>
+                                    <div class="text-slate-400 text-sm mt-2">Apstiprinājums un detaļas nosūtītas uz e-pastu. Lūdzu pārbaudiet iesūtni (arī spam).</div>
+                                    <button onclick="window.location.href='index.html'" class="mt-6 px-6 py-2 bg-sky-500 hover:bg-sky-600 rounded-3xl text-sm">Atpakaļ uz sākumu</button>
+                                </div>
+                            `;
+                        }
+                        return;
+                    }
 
                     showBookingSuccess(name, service.name, selectedDate, selectedTime);
                 } else {
@@ -2067,7 +2240,7 @@ Cena: 1,80 €/m². Lielākām platībām cena samazinās.<br>
             }
 
             const service = services[currentService];
-            if (service) {
+            if (service && currentService !== 'majaslapu-izstrade-uznemumiem') {
                 document.getElementById('event-name').textContent = service.name;
                 document.getElementById('event-duration').textContent = service.duration;
                 document.getElementById('event-price').textContent = service.price;
@@ -2102,6 +2275,11 @@ Cena: 1,80 €/m². Lielākām platībām cena samazinās.<br>
                 }
             }
 
+            // Re-apply website consultation UI overrides at end of init (ensures merged pill + clean Apraksts + no payment radios even if other code ran)
+            if (currentService === 'majaslapu-izstrade-uznemumiem' && typeof applyMajaslapuConsultationUI === 'function') {
+                applyMajaslapuConsultationUI();
+            }
+
             // Refresh availability button (useful on live site after someone books)
             const refreshBtn = document.getElementById('refresh-availability-btn');
             if (refreshBtn) {
@@ -2119,7 +2297,7 @@ Cena: 1,80 €/m². Lielākām platībām cena samazinās.<br>
         }
 
         // Easy way to check which version of the JS is live
-        window.BOOKING_MODAL_JS_VERSION = "2026-06-30-stripe-amount-fix-mute-exceptions";
+        window.BOOKING_MODAL_JS_VERSION = "2026-06-30-majaslapu-consult-free-badge-centered-card";
 
         window.onload = init;
     </script>
