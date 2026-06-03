@@ -311,6 +311,14 @@
                                           class="w-full bg-[#0a0a0a] border border-slate-700 rounded-3xl px-4 py-3 text-sm focus:outline-none focus:border-sky-500 resize-y"></textarea>
                             </div>
 
+                            <!-- Discount code field - only for Detalizētā salona tīrīšana + ķīmiskā apstrāde -->
+                            <div id="discount-code-container" style="display: none;">
+                                <label class="text-xs text-slate-400 block mb-1">Atlaižu kods</label>
+                                <input id="discount-code" type="text" placeholder=" " 
+                                       class="w-full bg-[#0a0a0a] border border-slate-700 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:border-sky-500">
+                                <div id="discount-message" style="font-size:11px; color:#22c55e; margin-top:4px; display:none;">21% atlaide piemērota! (94,80 €)</div>
+                            </div>
+
                             <!-- Payment choice - added for Stripe integration -->
                             <div id="payment-section">
                                 <label class="text-xs text-slate-400 block mb-2">Maksāšanas veids</label>
@@ -977,6 +985,23 @@
             const calculator = document.getElementById('pressure-wash-calculator');
             const monthTabs = document.getElementById('month-tabs');
 
+            const discountContainer = document.getElementById('discount-code-container');
+            const discountMessage = document.getElementById('discount-message');
+            if (discountContainer) discountContainer.style.display = 'none';
+            if (discountMessage) discountMessage.style.display = 'none';
+
+            const discountInput = document.getElementById('discount-code');
+            if (discountInput) {
+                discountInput.oninput = function() {
+                    const msg = document.getElementById('discount-message');
+                    if (currentService === 'detalizeta-kimiska-apstrade-120' && this.value.trim() === 'AutoG2026') {
+                        if (msg) msg.style.display = '';
+                    } else {
+                        if (msg) msg.style.display = 'none';
+                    }
+                };
+            }
+
             if (isPressureWash) {
                 // Hide normal calendar UI until m² is entered
                 if (datesContainer) datesContainer.style.display = 'none';
@@ -1145,6 +1170,10 @@ Cena: 1,80 €/m². Lielākām platībām cena samazinās.<br>
                         </div>
                     `;
                 }
+
+                // Show discount code field only for this service
+                if (discountContainer) discountContainer.style.display = '';
+                if (discountMessage) discountMessage.style.display = 'none';
             } else if (currentService === 'standarta-auto-arpuses-tirisana') {
                 // Standarta virsbūves tīrīšana in booking modal
                 const descContainer = document.querySelector('.text-sm.text-slate-300.leading-relaxed.mb-4');
@@ -1707,6 +1736,13 @@ Papildu pakalpojums: Mēneša uzturēšana un atjauninājumi — no 39€/mēnes
                 const num = parseFloat(cleaned) || 0;
                 amount = Math.round(num * 100);
             }
+            // Discount code support for Detalizētā salona tīrīšana + ķīmiskā apstrāde
+            if (currentService === 'detalizeta-kimiska-apstrade-120') {
+                const dcode = document.getElementById('discount-code') ? document.getElementById('discount-code').value.trim() : '';
+                if (dcode === 'AutoG2026') {
+                    amount = Math.round(120 * 0.79 * 100); // 21% off → 94.80 €
+                }
+            }
             // Always return a safe integer (defensive against float edge cases)
             amount = Math.round(Number(amount) || 0);
             console.log('[AmountCents] service=' + currentService + ' m2OrPrice=' + (currentService.indexOf('augstspiediena')>=0 ? (document.getElementById('pressure-m2') ? document.getElementById('pressure-m2').value : pressureWashM2) : 'fixed') + ' => ' + amount + ' cents');
@@ -1802,7 +1838,12 @@ Papildu pakalpojums: Mēneša uzturēšana un atjauninājumi — no 39€/mēnes
             const phone = phoneInput.value.trim();
             const location = locationInput.value.trim();
             const email = emailInput ? emailInput.value.trim() : '';
-            const notes = notesInput ? notesInput.value.trim() : '';
+            let notes = notesInput ? notesInput.value.trim() : '';
+            const discountCode = document.getElementById('discount-code') ? document.getElementById('discount-code').value.trim() : '';
+            if (currentService === 'detalizeta-kimiska-apstrade-120' && discountCode === 'AutoG2026') {
+                if (notes) notes += '\n';
+                notes += 'Atlaižu kods: AutoG2026 (21% atlaide piemērota - gala cena 94,80 €)';
+            }
 
             const nameError = document.getElementById('name-error');
             const phoneError = document.getElementById('phone-error');
