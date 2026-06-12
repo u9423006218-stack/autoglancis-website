@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /cdn-cgi/
 
 # Sitemap location
 Sitemap: https://www.autoglancis.lv/sitemap.xml
