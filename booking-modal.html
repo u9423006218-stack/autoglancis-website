@@ -359,10 +359,10 @@
         // Services data
         const services = {
             'standarta-salona-atra-tirisana': {
-                name: 'Paklājiņu tīrīšana',
+                name: 'Ātrā salona tīrīšana',
                 duration: '2.5 stundas',
                 price: '35 €',
-                description: 'Ātra un efektīva(mitrā)salona tīrīšana. Ideāli piemērota regulārai apkopei vai viegli netīram salonam.'
+                description: 'Ātra un efektīva salona tīrīšana. Ideāli piemērota regulārai apkopei vai viegli netīram salonam.'
             },
             'auto-salona-tirisana-60': {
                 name: 'Standarta salona tīrīšana',
@@ -959,9 +959,9 @@
                     `;
                 }
             } else if (currentService === 'standarta-salona-atra-tirisana') {
-                // Paklājiņu tīrīšana (ātrā salona) re-apply for dropdown
+                // Ātrā re-apply for dropdown
                 const descContainer = document.querySelector('.text-sm.text-slate-300.leading-relaxed.mb-4');
-                if (descContainer) descContainer.textContent = 'Ātra un efektīva (mitrā) salona tīrīšana. Ideāli piemērota regulārai apkopei vai viegli netīram salonam.';
+                if (descContainer) descContainer.textContent = 'Ātra un efektīva salona tīrīšana. Ideāli piemērota regulārai apkopei vai viegli netīram salonam.';
                 const featuresContainer = document.querySelector('.space-y-1\\.5.text-sm');
                 if (featuresContainer) {
                     featuresContainer.innerHTML = `
@@ -1041,11 +1041,10 @@ Cena: 1,80 €/m². Lielākām platībām cena samazinās.<br>
                 // Wire up the calculator inputs
                 setupPressureWashCalculator();
             } else if (currentService === 'standarta-salona-atra-tirisana') {
-                // Ātrā salona
-tīrīšana - short list (4 green check features) as specified
+                // Ātrā salona tīrīšana - short list as specified
                 const descContainer = document.querySelector('.text-sm.text-slate-300.leading-relaxed.mb-4');
                 if (descContainer) {
-                    descContainer.textContent = 'Ātra un efektīva(mitrā)salona tīrīšana. Ideāli piemērota regulārai apkopei vai viegli netīram salonam.';
+                    descContainer.textContent = 'Ātra un efektīva salona tīrīšana. Ideāli piemērota regulārai apkopei vai viegli netīram salonam.';
                 }
 
                 const featuresContainer = document.querySelector('.space-y-1\\.5.text-sm');
