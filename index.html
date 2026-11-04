@@ -650,6 +650,37 @@
 
         </div>
 
+        <!-- Centered 9th card: Mājaslapu izstrāde uzņēmumiem -->
+        <div class="mt-5 flex justify-center">
+            <div onclick="window.location.href='booking-modal.html?service=majaslapu-izstrade-uznemumiem'" 
+                 class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col cursor-pointer w-full max-w-sm">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="font-semibold text-xl leading-none tracking-tight">Mājaslapu<br>izstrāde uzņēmumiem</h3>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-emerald-400 font-semibold text-base sm:text-lg">Bezmaksas</div>
+                        <div class="text-[10px] text-slate-400">konsultācija • 1h</div>
+                    </div>
+                </div>
+                <div class="mt-auto pt-4 text-xs text-slate-300 leading-snug">
+                    <div class="text-[11px] text-emerald-400 font-medium mb-2">Sākotnējā konsultācija bez maksas.</div>
+                    Mēs izveidojām šo profesionālo mājaslapu sev ar rezervācijas sistēmu un modernu dizainu. Tagad palīdzam arī citiem vietējiem uzņēmumiem iegūt tādu pašu kvalitāti — ātri, saprotami un par godīgu cenu.<br><br>
+                    ✅ Vienkārša no 400€ (Landing/vizītkarte)<br>
+                    ✅ Standarta no 800€ (5-8 lapas)<br>
+                    ✅ Premium no 1200€ (ar rezervācijas sistēmu)<br>
+                    ✅ Mēneša uzturēšana no 30€
+
+                    <div class="mt-3 flex justify-end">
+                        <span onclick="event.stopImmediatePropagation(); window.location.href='booking-modal.html?service=majaslapu-izstrade-uznemumiem'" 
+                              class="cursor-pointer text-[10px] font-medium text-sky-400 hover:text-sky-300 flex items-center gap-x-1 transition">
+                            Rezervēt konsultāciju <i class="fa-solid fa-arrow-right text-[9px]"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <p class="text-xs text-center text-slate-500 mt-6">Cenas orientējošas. Precīza cena atkarīga no auto stāvokļa un izmēra.</p>
     </section>
 
@@ -1415,7 +1446,8 @@
             'auto-arpuses-detalizeta-tirisana-45': { name: 'Detalizētā virsbūves tīrīšana', price: '45€', duration: '2.5 h' },
             'mebelu-kimiska-tirisana': { name: 'Mēbeļu ķīmiskā tīrīšana', price: 'no 35€', duration: '2 h' },
             'augstspiediena-virsmu-tirisana-2-m²': { name: 'Augstspiediena virsmu tīrīšana', price: '1,80 €/m²', duration: 'pēc vienošanās' },
-            'automasinu-diagnostika': { name: 'Automašīnu diagnostika', price: '20€', duration: '45 min' }
+            'automasinu-diagnostika': { name: 'Automašīnu diagnostika', price: '20€', duration: '45 min' },
+            'majaslapu-izstrade-uznemumiem': { name: 'Mājaslapu izstrāde uzņēmumiem', price: 'Bezmaksas', duration: '1 h' }
         };
 
         let currentServiceSlug = null;

@@ -349,6 +349,13 @@
                 duration: '45 min',
                 price: '20 €',
                 description: 'Pilna OBD diagnostika ar profesionālo skeneri.'
+            },
+            'majaslapu-izstrade-uznemumiem': {
+                name: 'Mājaslapu izstrāde uzņēmumiem',
+                duration: '1 stunda',
+                durationHours: 1,
+                price: 'Bezmaksas',
+                description: 'Sākotnējā konsultācija bez maksas.\n\nMēs izveidojām šo profesionālo mājaslapu sev ar rezervācijas sistēmu un modernu dizainu. Tagad palīdzam arī citiem vietējiem uzņēmumiem iegūt tādu pašu kvalitāti — ātri, saprotami un par godīgu cenu.'
             }
         };
 
@@ -780,6 +787,34 @@
                         </div>
                     `;
                 }
+            } else if (currentService === 'majaslapu-izstrade-uznemumiem') {
+                // Mājaslapu izstrāde uzņēmumiem override
+                const descContainer = document.querySelector('.text-sm.text-slate-300.leading-relaxed.mb-4');
+                if (descContainer) {
+                    descContainer.innerHTML = `<span class="text-emerald-400 font-medium">Sākotnējā konsultācija bez maksas.</span><br><br>Mēs izveidojām šo profesionālo mājaslapu sev ar rezervācijas sistēmu un modernu dizainu. Tagad palīdzam arī citiem vietējiem uzņēmumiem iegūt tādu pašu kvalitāti — ātri, saprotami un par godīgu cenu.`;
+                }
+
+                const featuresContainer = document.querySelector('.space-y-1\\.5.text-sm');
+                if (featuresContainer) {
+                    featuresContainer.innerHTML = `
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Vienkārša no 400€ (Landing/vizītkarte)</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Standarta no 800€ (5-8 lapas)</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Premium no 1200€ (ar rezervācijas sistēmu)</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Mēneša uzturēšana no 30€</span>
+                        </div>
+                    `;
+                }
             } else if (currentService === 'detalizeta-kimiska-apstrade-120') {
                 // Detalizētā salona tīrīšana + ķīmiskā override in dropdown
                 const descContainer = document.querySelector('.text-sm.text-slate-300.leading-relaxed.mb-4');
@@ -975,6 +1010,40 @@ Cena: 1,80 €/m². Lielākām platībām cena samazinās.<br>
                         </div>
                     `;
                 }
+            } else if (currentService === 'majaslapu-izstrade-uznemumiem') {
+                // Mājaslapu izstrāde uzņēmumiem override
+                const descContainer = document.querySelector('.text-sm.text-slate-300.leading-relaxed.mb-4');
+                if (descContainer) {
+                    descContainer.innerHTML = `<span class="text-emerald-400 font-medium">Sākotnējā konsultācija bez maksas.</span><br><br>Mēs izveidojām šo profesionālo mājaslapu sev ar rezervācijas sistēmu un modernu dizainu. Tagad palīdzam arī citiem vietējiem uzņēmumiem iegūt tādu pašu kvalitāti — ātri, saprotami un par godīgu cenu.`;
+                }
+
+                const featuresContainer = document.querySelector('.space-y-1\\.5.text-sm');
+                if (featuresContainer) {
+                    featuresContainer.innerHTML = `
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Vienkārša no 400€ (Landing/vizītkarte)</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Standarta no 800€ (5-8 lapas)</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Premium no 1200€ (ar rezervācijas sistēmu)</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Mēneša uzturēšana no 30€</span>
+                        </div>
+                    `;
+                }
+
+                if (datesContainer) datesContainer.style.display = '';
+                if (timeSlotsContainer) timeSlotsContainer.style.display = '';
+                if (noTimesMessage) noTimesMessage.style.display = '';
+                if (monthTabs) monthTabs.style.display = '';
+                if (calculator) calculator.style.display = 'none';
             } else if (currentService === 'detalizeta-kimiska-apstrade-120') {
                 // Detalizētā salona tīrīšana + ķīmiskā apstrāde override
                 const descContainer = document.querySelector('.text-sm.text-slate-300.leading-relaxed.mb-4');
