@@ -107,7 +107,8 @@ const SERVICE_DURATIONS = {
   'detalizeta-kimiska-apstrade-120': 8,
   'standarta-auto-arpuses-tirisana': 1,
   'auto-arpuses-detalizeta-tirisana-45': 2.5,
-  'majaslapu-izstrade-uznemumiem': 1
+  'majaslapu-izstrade-uznemumiem': 1,
+  'virs-uz-stundu': 2
 };
 
 // Required notice period (in hours) before the service start time.

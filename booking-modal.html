@@ -350,6 +350,13 @@
                 price: '20 €',
                 description: 'Pilna OBD diagnostika ar profesionālo skeneri.'
             },
+            'virs-uz-stundu': {
+                name: 'Vīrs uz stundu',
+                duration: '1–2 stundas',
+                durationHours: 2,
+                price: 'no 25 €/h',
+                description: 'Profesionāli saimnieciskie, montāžas un remonta darbi mājoklī vai birojā ar meistara instrumentiem.'
+            },
             'majaslapu-izstrade-uznemumiem': {
                 name: 'Mājaslapu izstrāde uzņēmumiem',
                 duration: '1 stunda',
@@ -1035,6 +1042,44 @@ Cena: 1,80 €/m². Lielākām platībām cena samazinās.<br>
                         <div class="flex items-start gap-x-2 text-emerald-400">
                             <i class="fa-solid fa-check mt-0.5"></i>
                             <span class="text-slate-300">Mēneša uzturēšana no 30€</span>
+                        </div>
+                    `;
+                }
+
+                if (datesContainer) datesContainer.style.display = '';
+                if (timeSlotsContainer) timeSlotsContainer.style.display = '';
+                if (noTimesMessage) noTimesMessage.style.display = '';
+                if (monthTabs) monthTabs.style.display = '';
+                if (calculator) calculator.style.display = 'none';
+            } else if (currentService === 'virs-uz-stundu') {
+                // Vīrs uz stundu override
+                const descContainer = document.querySelector('.text-sm.text-slate-300.leading-relaxed.mb-4');
+                if (descContainer) {
+                    descContainer.innerHTML = `Profesionāli saimnieciskie, montāžas un remonta darbi mājoklī vai birojā ar meistara instrumentiem.<br><br><span class="text-amber-400">Minimālais izsaukums: 1 stunda</span>`;
+                }
+
+                const featuresContainer = document.querySelector('.space-y-1\\.5.text-sm');
+                if (featuresContainer) {
+                    featuresContainer.innerHTML = `
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Mēbeļu montāža, demontāža un labošana (IKEA, Jysk u.c.)</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Santehnikas darbi (jaucējkrāni, sifoni, podi, pieslēgšana)</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Elektromontāža (gaismekļi, rozetes, slēdži, tehnika)</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Plauktu, karnīžu, spoguļu un TV stiprināšana</span>
+                        </div>
+                        <div class="flex items-start gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-check mt-0.5"></i>
+                            <span class="text-slate-300">Sīkie sadzīves remonta darbi un demontāža</span>
                         </div>
                     `;
                 }
