@@ -115,7 +115,7 @@
             <div class="lg:col-span-2">
                 <div class="cal-card rounded-3xl p-6 lg:p-8 lg:sticky lg:top-8">
                     <div class="mb-6">
-                        <div class="text-xs text-sky-400 font-medium tracking-wider mb-1">MOBILĀ AUTO TĪRĪŠANA</div>
+                        <div id="event-category" class="text-xs text-sky-400 font-medium tracking-wider mb-1">MOBILĀ AUTO TĪRĪŠANA</div>
                         <div id="event-name" class="text-3xl font-semibold tracking-tight">Standarta salona tīrīšana</div>
                     </div>
 
@@ -276,8 +276,18 @@
                                 <span id="location-error" class="hidden text-red-400 text-xs mt-1">Lūdzu, norādiet savu atrašanās vietu</span>
                             </div>
 
+                            <div id="handyman-duration-container" class="hidden">
+                                <label class="text-xs text-slate-400 block mb-1">Plānotais darba ilgums</label>
+                                <select id="handyman-duration" class="w-full bg-[#0a0a0a] border border-slate-700 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:border-sky-500 text-slate-200">
+                                    <option value="1">1 stunda (sīki darbi) — 25 €</option>
+                                    <option value="2.5" selected>2-3 stundas (vidējs apjoms) — ~50-75 €</option>
+                                    <option value="4">4+ stundas (liels apjoms / diena) — no 100 €</option>
+                                    <option value="2">Neesmu pārliecināts</option>
+                                </select>
+                            </div>
+
                             <div>
-                                <label class="text-xs text-slate-400 block mb-1">Papildu piezīmes</label>
+                                <label id="notes-label" class="text-xs text-slate-400 block mb-1">Papildu piezīmes</label>
                                 <textarea id="notes" rows="3" placeholder="Papildu informācija, ko vēlaties mums pateikt..."
                                           class="w-full bg-[#0a0a0a] border border-slate-700 rounded-3xl px-4 py-3 text-sm focus:outline-none focus:border-sky-500 resize-y"></textarea>
                             </div>
@@ -352,7 +362,7 @@
             },
             'virs-uz-stundu': {
                 name: 'Vīrs uz stundu',
-                duration: '1–2 stundas',
+                duration: 'No 1h līdz pilnai dienai',
                 durationHours: 2,
                 price: 'no 25 €/h',
                 description: 'Profesionāli saimnieciskie, montāžas un remonta darbi mājoklī vai birojā ar meistara instrumentiem.'
@@ -894,6 +904,33 @@
             const calculator = document.getElementById('pressure-wash-calculator');
             const monthTabs = document.getElementById('month-tabs');
 
+            // Category badge update (MOBILĀ AUTO TĪRĪŠANA vs MEISTARA PAKALPOJUMI vs MĀJASLAPU IZSTRĀDE)
+            const categoryEl = document.getElementById('event-category');
+            if (categoryEl) {
+                if (currentService === 'virs-uz-stundu') {
+                    categoryEl.textContent = 'MEISTARA PAKALPOJUMI';
+                } else if (currentService === 'majaslapu-izstrade-uznemumiem') {
+                    categoryEl.textContent = 'MĀJASLAPU IZSTRĀDE';
+                } else {
+                    categoryEl.textContent = 'MOBILĀ AUTO TĪRĪŠANA';
+                }
+            }
+
+            // Handyman duration selector and custom notes placeholder
+            const handymanDurationBox = document.getElementById('handyman-duration-container');
+            const notesInput = document.getElementById('notes');
+            const notesLabel = document.getElementById('notes-label');
+
+            if (currentService === 'virs-uz-stundu') {
+                if (handymanDurationBox) handymanDurationBox.classList.remove('hidden');
+                if (notesInput) notesInput.placeholder = 'Īsi aprakstiet, kas jādara (piem., IKEA skapja montāža, jaucējkrāna maiņa)...';
+                if (notesLabel) notesLabel.textContent = 'Darba apraksts *';
+            } else {
+                if (handymanDurationBox) handymanDurationBox.classList.add('hidden');
+                if (notesInput) notesInput.placeholder = 'Papildu informācija, ko vēlaties mums pateikt...';
+                if (notesLabel) notesLabel.textContent = 'Papildu piezīmes';
+            }
+
             if (isPressureWash) {
                 // Hide normal calendar UI until m² is entered
                 if (datesContainer) datesContainer.style.display = 'none';
@@ -1053,9 +1090,14 @@ Cena: 1,80 €/m². Lielākām platībām cena samazinās.<br>
                 if (calculator) calculator.style.display = 'none';
             } else if (currentService === 'virs-uz-stundu') {
                 // Vīrs uz stundu override
+                const durEl = document.getElementById('event-duration');
+                const priceEl = document.getElementById('event-price');
+                if (durEl) durEl.textContent = 'No 1 stundas līdz pilnai dienai';
+                if (priceEl) priceEl.textContent = 'no 25 €/h';
+
                 const descContainer = document.querySelector('.text-sm.text-slate-300.leading-relaxed.mb-4');
                 if (descContainer) {
-                    descContainer.innerHTML = `Profesionāli saimnieciskie, montāžas un remonta darbi mājoklī vai birojā ar meistara instrumentiem.<br><br><span class="text-amber-400">Minimālais izsaukums: 1 stunda</span>`;
+                    descContainer.innerHTML = `<span class="text-amber-400 font-medium">Minimālais izsaukums: 1 stunda (25 €)</span><br>Katra nākamā stunda: 25 €/h. Apmaksa uz vietas pēc faktiski nostrādātā laika.<br><br>Profesionāli saimnieciskie, montāžas un remonta darbi mājoklī vai birojā ar meistara instrumentiem.`;
                 }
 
                 const featuresContainer = document.querySelector('.space-y-1\\.5.text-sm');
@@ -1643,7 +1685,18 @@ Cena: 1,80 €/m². Lielākām platībām cena samazinās.<br>
             }
 
             const service = services[currentService] || { name: 'Pakalpojums', duration: '3 stundas' };
-            const durationHours = parseFloat(service.duration) || 3;
+            let durationHours = parseFloat(service.durationHours || service.duration) || 3;
+            let finalNotes = notes;
+
+            // Special handling for handyman (Vīrs uz stundu)
+            if (currentService === 'virs-uz-stundu') {
+                const durationSelect = document.getElementById('handyman-duration');
+                if (durationSelect) {
+                    durationHours = parseFloat(durationSelect.value) || 2;
+                    const durationText = durationSelect.options[durationSelect.selectedIndex].text;
+                    finalNotes = 'Plānotais darba ilgums: ' + durationText + (notes ? '\nDarba apraksts: ' + notes : '');
+                }
+            }
 
             // Compute proper start/end times for the Apps Script
             const [h, m] = selectedTime.split(':').map(Number);
@@ -1664,7 +1717,7 @@ Cena: 1,80 €/m². Lielākām platībām cena samazinās.<br>
                 phone: phone,
                 email: email,
                 location: location,
-                notes: notes
+                notes: finalNotes
             };
 
             // Special handling for pressure washing service
