@@ -1,6 +1,6 @@
 {
   "name": "AutoGlancis",
-  "description": "Pirmā un vienīgā mobilā auto tīrīšana Ventspilī un apkārtnē.",
+  "description": "Mobilā auto tīrīšana, mēbeļu un āra virsmu mazgāšana, meistars uz stundu un mājaslapu izstrāde Ventspilī un Kurzemē.",
   "permissions": [],
   "capabilities": [
     "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
