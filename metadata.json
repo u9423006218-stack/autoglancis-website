@@ -1,0 +1,8 @@
+{
+  "name": "AutoGlancis",
+  "description": "Pirmā un vienīgā mobilā auto tīrīšana Ventspilī un apkārtnē.",
+  "permissions": [],
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
