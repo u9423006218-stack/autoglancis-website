@@ -354,12 +354,6 @@
                 price: '1,80 €/m²',
                 description: 'Bruģa, terases, fasādes, žoga, dārza mēbeļu, bērnu rotaļu laukumu, betona un akmens tīrīšana.\n\nCena: 1,80 €/m². Lielākām platībām cena samazinās.\n\nNepieciešams klienta ūdens pieslēgums\n\n✅ Bez ķīmijas vai videi draudzīgi līdzekļi\n✅ Ideāli privātmāju pagalmiem un komerciālām teritorijām\n✅ Iestrādājam kvarca smiltis pēc klienta vēlmes.'
             },
-            'automasinu-diagnostika': {
-                name: 'Automašīnu diagnostika',
-                duration: '45 min',
-                price: '20 €',
-                description: 'Pilna OBD diagnostika ar profesionālo skeneri.'
-            },
             'virs-uz-stundu': {
                 name: 'Vīrs uz stundu',
                 duration: 'No 1h līdz pilnai dienai',
@@ -772,38 +766,6 @@
                         </div>
                     `;
                 }
-            } else if (currentService === 'automasinu-diagnostika') {
-                // Automašīnu diagnostika override in dropdown
-                const descContainer = document.querySelector('.text-sm.text-slate-300.leading-relaxed.mb-4');
-                if (descContainer) {
-                    descContainer.textContent = 'Pilna OBD diagnostika ar profesionālo skeneri.';
-                }
-
-                const featuresContainer = document.querySelector('.space-y-1\\.5.text-sm');
-                if (featuresContainer) {
-                    featuresContainer.innerHTML = `
-                        <div class="flex items-start gap-x-2 text-emerald-400">
-                            <i class="fa-solid fa-check mt-0.5"></i>
-                            <span class="text-slate-300">Pilna OBD diagnostika ar profesionālo skeneri</span>
-                        </div>
-                        <div class="flex items-start gap-x-2 text-emerald-400">
-                            <i class="fa-solid fa-check mt-0.5"></i>
-                            <span class="text-slate-300">Kļūdu kodu nolasīšana un dzēšana</span>
-                        </div>
-                        <div class="flex items-start gap-x-2 text-emerald-400">
-                            <i class="fa-solid fa-check mt-0.5"></i>
-                            <span class="text-slate-300">Reāllaika datu monitorings (dzinējs, sensori, akumulators u.c.)</span>
-                        </div>
-                        <div class="flex items-start gap-x-2 text-emerald-400">
-                            <i class="fa-solid fa-check mt-0.5"></i>
-                            <span class="text-slate-300">Ieteikumi turpmākajām darbībām</span>
-                        </div>
-                        <div class="flex items-start gap-x-2 text-emerald-400">
-                            <i class="fa-solid fa-check mt-0.5"></i>
-                            <span class="text-slate-300">Protokola izdruka vai nosūtīšana uz e-pastu</span>
-                        </div>
-                    `;
-                }
             } else if (currentService === 'majaslapu-izstrade-uznemumiem') {
                 // Mājaslapu izstrāde uzņēmumiem override
                 const descContainer = document.querySelector('.text-sm.text-slate-300.leading-relaxed.mb-4');
@@ -904,13 +866,15 @@
             const calculator = document.getElementById('pressure-wash-calculator');
             const monthTabs = document.getElementById('month-tabs');
 
-            // Category badge update (MOBILĀ AUTO TĪRĪŠANA vs MEISTARA PAKALPOJUMI vs MĀJASLAPU IZSTRĀDE)
+            // Category badge update (MOBILĀ AUTO TĪRĪŠANA vs MĒBEĻU & VIRSMU TĪRĪŠANA vs MEISTARA PAKALPOJUMI vs MĀJASLAPU IZSTRĀDE)
             const categoryEl = document.getElementById('event-category');
             if (categoryEl) {
                 if (currentService === 'virs-uz-stundu') {
                     categoryEl.textContent = 'MEISTARA PAKALPOJUMI';
                 } else if (currentService === 'majaslapu-izstrade-uznemumiem') {
                     categoryEl.textContent = 'MĀJASLAPU IZSTRĀDE';
+                } else if (currentService === 'mebelu-kimiska-tirisana' || currentService === 'augstspiediena-virsmu-tirisana-2-m²') {
+                    categoryEl.textContent = 'MĒBEĻU & VIRSMU TĪRĪŠANA';
                 } else {
                     categoryEl.textContent = 'MOBILĀ AUTO TĪRĪŠANA';
                 }
@@ -1019,38 +983,6 @@ Cena: 1,80 €/m². Lielākām platībām cena samazinās.<br>
                         <div class="flex items-start gap-x-2 text-emerald-400">
                             <i class="fa-solid fa-check mt-0.5"></i>
                             <span class="text-slate-300">Dīvānu ķīmiskā tīrīšana – no 35€</span>
-                        </div>
-                    `;
-                }
-            } else if (currentService === 'automasinu-diagnostika') {
-                // Automašīnu diagnostika override
-                const descContainer = document.querySelector('.text-sm.text-slate-300.leading-relaxed.mb-4');
-                if (descContainer) {
-                    descContainer.textContent = 'Pilna OBD diagnostika ar profesionālo skeneri.';
-                }
-
-                const featuresContainer = document.querySelector('.space-y-1\\.5.text-sm');
-                if (featuresContainer) {
-                    featuresContainer.innerHTML = `
-                        <div class="flex items-start gap-x-2 text-emerald-400">
-                            <i class="fa-solid fa-check mt-0.5"></i>
-                            <span class="text-slate-300">Pilna OBD diagnostika ar profesionālo skeneri</span>
-                        </div>
-                        <div class="flex items-start gap-x-2 text-emerald-400">
-                            <i class="fa-solid fa-check mt-0.5"></i>
-                            <span class="text-slate-300">Kļūdu kodu nolasīšana un dzēšana</span>
-                        </div>
-                        <div class="flex items-start gap-x-2 text-emerald-400">
-                            <i class="fa-solid fa-check mt-0.5"></i>
-                            <span class="text-slate-300">Reāllaika datu monitorings (dzinējs, sensori, akumulators u.c.)</span>
-                        </div>
-                        <div class="flex items-start gap-x-2 text-emerald-400">
-                            <i class="fa-solid fa-check mt-0.5"></i>
-                            <span class="text-slate-300">Ieteikumi turpmākajām darbībām</span>
-                        </div>
-                        <div class="flex items-start gap-x-2 text-emerald-400">
-                            <i class="fa-solid fa-check mt-0.5"></i>
-                            <span class="text-slate-300">Protokola izdruka vai nosūtīšana uz e-pastu</span>
                         </div>
                     `;
                 }

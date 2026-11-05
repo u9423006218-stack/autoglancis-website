@@ -77,6 +77,10 @@
         }
 
         #services,
+        #services-auto,
+        #services-cleaning,
+        #services-handyman,
+        #services-web,
         #how,
         #gallery {
             scroll-margin-top: 72px;
@@ -248,11 +252,13 @@
                 </div>
 
                 <!-- Desktop Menu -->
-                <div class="hidden md:flex items-center gap-x-8 text-sm font-medium">
-                    <a href="#services" class="nav-link text-slate-300 hover:text-white px-1">Pakalpojumi</a>
+                <div class="hidden lg:flex items-center gap-x-6 text-sm font-medium">
+                    <a href="#services-auto" class="nav-link text-slate-300 hover:text-white px-1">Auto tīrīšana</a>
+                    <a href="#services-cleaning" class="nav-link text-slate-300 hover:text-white px-1">Mēbeles & Bruģis</a>
+                    <a href="#services-handyman" class="nav-link text-slate-300 hover:text-white px-1">Vīrs uz stundu</a>
+                    <a href="#services-web" class="nav-link text-slate-300 hover:text-white px-1">Mājaslapas</a>
                     <a href="#how" class="nav-link text-slate-300 hover:text-white px-1">Kā tas strādā</a>
                     <a href="#gallery" class="nav-link text-slate-300 hover:text-white px-1">Galerija</a>
-                    <a href="#services" class="nav-link text-slate-300 hover:text-white px-1">Rezervēt</a>
                 </div>
 
                 <div class="flex items-center gap-x-2 sm:gap-x-3">
@@ -264,15 +270,15 @@
                     </a>
 
                     <!-- Book CTA (desktop only) -->
-                    <a href="#services" id="nav-book-btn"
+                    <a href="#services-auto" id="nav-book-btn"
                        class="hidden md:flex glossy-btn text-white text-sm font-semibold px-6 py-2.5 rounded-2xl items-center gap-x-2 hover:scale-[1.02]">
-                        <span>Rezervēt tagad</span>
+                        <span>Rezervēt</span>
                         <i class="fa-solid fa-arrow-right text-xs"></i>
                     </a>
 
                     <!-- Mobile menu -->
                     <button id="mobile-menu-btn"
-                            class="md:hidden w-10 h-10 flex items-center justify-center text-xl text-slate-400 hover:text-white">
+                            class="lg:hidden w-10 h-10 flex items-center justify-center text-xl text-slate-400 hover:text-white">
                         <i class="fa-solid fa-bars"></i>
                     </button>
                 </div>
@@ -281,12 +287,14 @@
     </nav>
 
     <!-- MOBILE MENU -->
-    <div id="mobile-menu" class="hidden md:hidden bg-[#0a0a0a] border-b border-slate-800">
+    <div id="mobile-menu" class="hidden lg:hidden bg-[#0a0a0a] border-b border-slate-800">
         <div class="px-6 py-4 flex flex-col gap-y-1 text-sm">
-            <a href="#services" class="py-2.5 px-3 mobile-nav-link">Pakalpojumi</a>
-            <a href="#how" class="py-2.5 px-3 mobile-nav-link">Kā tas strādā</a>
-            <a href="#gallery" class="py-2.5 px-3 mobile-nav-link">Galerija</a>
-            <a href="#services" class="py-2.5 px-3 mobile-nav-link">Rezervēt</a>
+            <a href="#services-auto" class="py-2.5 px-3 mobile-nav-link flex items-center gap-2"><i class="fa-solid fa-car text-sky-400 w-4"></i> Auto tīrīšana</a>
+            <a href="#services-cleaning" class="py-2.5 px-3 mobile-nav-link flex items-center gap-2"><i class="fa-solid fa-couch text-sky-400 w-4"></i> Mēbeļu un āra tīrīšana</a>
+            <a href="#services-handyman" class="py-2.5 px-3 mobile-nav-link flex items-center gap-2"><i class="fa-solid fa-wrench text-sky-400 w-4"></i> Vīrs uz stundu</a>
+            <a href="#services-web" class="py-2.5 px-3 mobile-nav-link flex items-center gap-2"><i class="fa-solid fa-laptop-code text-sky-400 w-4"></i> Mājaslapu izstrāde</a>
+            <a href="#how" class="py-2.5 px-3 mobile-nav-link flex items-center gap-2"><i class="fa-solid fa-circle-question text-slate-400 w-4"></i> Kā tas strādā</a>
+            <a href="#gallery" class="py-2.5 px-3 mobile-nav-link flex items-center gap-2"><i class="fa-solid fa-images text-slate-400 w-4"></i> Galerija</a>
             <div class="pt-2 border-t border-slate-800 mt-1">
                 <a href="https://wa.me/37125689885" target="_blank" class="flex items-center gap-2 py-2.5 px-3 font-medium">
                     <i class="fa-solid fa-phone text-emerald-400"></i>
@@ -417,301 +425,578 @@
     </div>
 
     <!-- SERVICES -->
-    <section id="services" class="max-w-screen-2xl mx-auto px-6 lg:px-10 pt-16 pb-12">
-        <div class="flex justify-between items-end mb-9">
+    <section id="services" class="max-w-screen-2xl mx-auto px-6 lg:px-10 pt-16 pb-16">
+        <!-- Main Section Header -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4">
             <div>
                 <div class="uppercase tracking-[3px] text-xs text-sky-400 font-semibold mb-2">PAKALPOJUMI</div>
-                <h2 class="text-5xl heading-font tracking-tight">Mūsu pakalpojumi</h2>
+                <h2 class="text-4xl sm:text-5xl heading-font tracking-tight">Mūsu pakalpojumi</h2>
+                <p class="text-slate-400 text-sm mt-2 max-w-2xl">
+                    Izvēlieties sev nepieciešamo pakalpojumu un ērti piesakiet laiku tiešsaistē ar dažu klikšķu palīdzību.
+                </p>
             </div>
-            <a href="#services" class="hidden md:flex items-center text-sm text-sky-400 hover:text-sky-300 font-medium">
-                Rezervēt jebkuru pakalpojumu <i class="ml-2 fa-solid fa-arrow-right"></i>
-            </a>
+            <!-- Quick Category Jump Chips -->
+            <div class="flex flex-wrap gap-2 text-xs">
+                <a href="#services-auto" class="px-3.5 py-1.5 rounded-full bg-sky-950/80 hover:bg-sky-900 border border-sky-800 text-sky-300 font-medium transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-car"></i> Auto tīrīšana
+                </a>
+                <a href="#services-cleaning" class="px-3.5 py-1.5 rounded-full bg-slate-800/90 hover:bg-slate-700 border border-slate-700 text-slate-300 font-medium transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-couch"></i> Mēbeles & Bruģis
+                </a>
+                <a href="#services-handyman" class="px-3.5 py-1.5 rounded-full bg-slate-800/90 hover:bg-slate-700 border border-slate-700 text-slate-300 font-medium transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-wrench"></i> Vīrs uz stundu
+                </a>
+                <a href="#services-web" class="px-3.5 py-1.5 rounded-full bg-slate-800/90 hover:bg-slate-700 border border-slate-700 text-slate-300 font-medium transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-laptop-code"></i> Mājaslapas
+                </a>
+            </div>
         </div>
 
-        <div class="grid md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-5">
-            
-            <!-- Service 1: STANDARTA SALONA ĀTRĀ TĪRĪŠANA -->
-            <div onclick="window.location.href='booking-modal.html?service=standarta-salona-atra-tirisana'" class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col cursor-pointer">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <div class="service-pill mb-4 inline-block">POPULĀRĀKAIS</div>
-                        <h3 class="font-semibold text-xl leading-none tracking-tight">Ātrā salona<br>tīrīšana</h3>
+        <!-- ========================================== -->
+        <!-- CATEGORY 1: MOBILĀ AUTO TĪRĪŠANA           -->
+        <!-- ========================================== -->
+        <div id="services-auto" class="mb-14 pt-4 border-t border-slate-800/80">
+            <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-2 mb-6">
+                <div>
+                    <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-500/30 text-sky-400 text-xs font-semibold uppercase tracking-wider mb-2">
+                        <i class="fa-solid fa-truck-pickup"></i> Galvenais pakalpojums • Braucam pie Jums
                     </div>
-                    <div class="text-right">
-                        <div class="text-3xl font-semibold tabular-nums">35€</div>
-                    </div>
-                </div>
-                <div class="mt-auto pt-4 text-xs text-slate-300 leading-snug">
-                    Ātra un efektīva(mitrā)salona tīrīšana. Ideāli piemērota regulārai apkopei vai viegli netīram salonam.<br><br>
-                    ✅ Visaptveroša tīrīšana ar putekļusūcēju<br>
-                    ✅ Virsmu noslaucīšana ar profesionāliem līdzekļiem<br>
-                    ✅ Stiklu tīrīšana no iekšpuses<br>
-                    ✅ Sliekšņu un durvju apakšējo daļu tīrīšana<br>
-                    <span class="text-slate-400">(~ 2h 30min)</span>
-
-                    <div class="mt-3 flex justify-end">
-                        <span onclick="event.stopImmediatePropagation(); window.location.href='booking-modal.html?service=standarta-salona-atra-tirisana'" 
-                              class="cursor-pointer text-[10px] font-medium text-sky-400 hover:text-sky-300 flex items-center gap-x-1 transition">
-                            Rezervēt <i class="fa-solid fa-arrow-right text-[9px]"></i>
-                        </span>
-                    </div>
+                    <h3 class="text-2xl sm:text-3xl font-bold tracking-tight">Mobilā auto tīrīšana un aprūpe</h3>
+                    <p class="text-xs sm:text-sm text-slate-400 mt-1 max-w-3xl">
+                        Mēs atvedam visu nepieciešamo tehniku un profesionālos līdzekļus pie Jūsu mājām vai darbavietā Ventspilī un novadā.
+                    </p>
                 </div>
             </div>
 
-            <!-- Service 2: STANDARTA SALONA TĪRĪŠANA -->
-            <div onclick="window.location.href='booking-modal.html?service=auto-salona-tirisana-60'" class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col cursor-pointer">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <h3 class="font-semibold text-xl leading-none tracking-tight">Standarta salona<br>tīrīšana</h3>
-                    </div>
-                    <div class="text-right">
-                        <div class="text-3xl font-semibold tabular-nums">60€</div>
-                    </div>
+            <!-- Subgroup: Salona tīrīšana (Interior) -->
+            <div class="mb-6">
+                <div class="flex items-center gap-2 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">
+                    <i class="fa-solid fa-spray-can-sparkles text-sky-400"></i>
+                    <span>Salona uzkopšana un ķīmiskā apstrāde</span>
                 </div>
-                <div class="mt-auto pt-4 text-xs text-slate-300 leading-snug">
-                    Rūpīga un padziļināta salona tīrīšana.<br><br>
-                    ✅ Detalizēta tīrīšana ar putekļu sūcēju<br>
-                    ✅ Virsmu tīrīšana ar neitrāliem ķīmiskajiem līdzekļiem<br>
-                    ✅ Traipu apstrāde uz sēdekļiem un paklājiem<br>
-                    ✅ Durvju iekšējo paneļu un sliekšņu padziļināta tīrīšana<br>
-                    ✅ Stiklu un priekšējā paneļa tīrīšana
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+                    
+                    <!-- Service 1: Ātrā salona tīrīšana -->
+                    <div onclick="window.location.href='booking-modal.html?service=standarta-salona-atra-tirisana'" 
+                         class="service-card group card border border-slate-700 hover:border-sky-600 rounded-3xl p-6 flex flex-col cursor-pointer transition">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <span class="text-[10px] uppercase font-bold tracking-wider px-2.5 py-0.5 rounded-full bg-sky-500/20 text-sky-300 border border-sky-500/30 mb-3 inline-block">
+                                    Populārākais ikdienai
+                                </span>
+                                <h4 class="font-semibold text-xl leading-tight tracking-tight">Ātrā salona<br>tīrīšana</h4>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-3xl font-semibold tabular-nums text-white">35€</div>
+                                <div class="text-[11px] text-slate-400">~ 2h 30min</div>
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-slate-800 text-xs text-slate-300 leading-relaxed flex-1 flex flex-col justify-between">
+                            <div>
+                                <p class="text-slate-400 mb-3">Ātra un efektīva mitrā salona uzkopšana. Ideāli piemērota regulārai apkopei un viegli netīram salonam.</p>
+                                <div class="space-y-1.5">
+                                    <div class="flex items-start gap-2">
+                                        <i class="fa-solid fa-check text-emerald-400 mt-0.5 text-[11px]"></i>
+                                        <span>Visaptveroša tīrīšana ar jaudīgu putekļusūcēju</span>
+                                    </div>
+                                    <div class="flex items-start gap-2">
+                                        <i class="fa-solid fa-check text-emerald-400 mt-0.5 text-[11px]"></i>
+                                        <span>Virsmu noslaucīšana ar profesionāliem kopšanas līdzekļiem</span>
+                                    </div>
+                                    <div class="flex items-start gap-2">
+                                        <i class="fa-solid fa-check text-emerald-400 mt-0.5 text-[11px]"></i>
+                                        <span>Stiklu tīrīšana no iekšpuses</span>
+                                    </div>
+                                    <div class="flex items-start gap-2">
+                                        <i class="fa-solid fa-check text-emerald-400 mt-0.5 text-[11px]"></i>
+                                        <span>Sliekšņu un durvju iekšējo daļu tīrīšana</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-4 pt-3 flex justify-end items-center border-t border-slate-800/60">
+                                <span class="text-xs font-semibold text-sky-400 group-hover:text-sky-300 flex items-center gap-1.5 transition">
+                                    Izvēlēties un rezervēt <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
 
-                    <div class="mt-3 flex justify-end">
-                        <span onclick="event.stopImmediatePropagation(); window.location.href='booking-modal.html?service=auto-salona-tirisana-60'" 
-                              class="cursor-pointer text-[10px] font-medium text-sky-400 hover:text-sky-300 flex items-center gap-x-1 transition">
-                            Rezervēt <i class="fa-solid fa-arrow-right text-[9px]"></i>
-                        </span>
+                    <!-- Service 2: Standarta salona tīrīšana -->
+                    <div onclick="window.location.href='booking-modal.html?service=auto-salona-tirisana-60'" 
+                         class="service-card group card border border-slate-700 hover:border-sky-600 rounded-3xl p-6 flex flex-col cursor-pointer transition">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <span class="text-[10px] uppercase font-bold tracking-wider px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700 mb-3 inline-block">
+                                    Padziļināta aprūpe
+                                </span>
+                                <h4 class="font-semibold text-xl leading-tight tracking-tight">Standarta salona<br>tīrīšana</h4>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-3xl font-semibold tabular-nums text-white">60€</div>
+                                <div class="text-[11px] text-slate-400">~ 4 stundas</div>
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-slate-800 text-xs text-slate-300 leading-relaxed flex-1 flex flex-col justify-between">
+                            <div>
+                                <p class="text-slate-400 mb-3">Rūpīga un padziļināta salona tīrīšana ar traipu pirmapstrādi un rūpīgu detaļu kopšanu.</p>
+                                <div class="space-y-1.5">
+                                    <div class="flex items-start gap-2">
+                                        <i class="fa-solid fa-check text-emerald-400 mt-0.5 text-[11px]"></i>
+                                        <span>Detalizēta tīrīšana ar putekļu sūcēju</span>
+                                    </div>
+                                    <div class="flex items-start gap-2">
+                                        <i class="fa-solid fa-check text-emerald-400 mt-0.5 text-[11px]"></i>
+                                        <span>Virsmu tīrīšana ar neitrāliem ķīmiskajiem līdzekļiem</span>
+                                    </div>
+                                    <div class="flex items-start gap-2">
+                                        <i class="fa-solid fa-check text-emerald-400 mt-0.5 text-[11px]"></i>
+                                        <span>Traipu apstrāde uz sēdekļiem un grīdas paklājiem</span>
+                                    </div>
+                                    <div class="flex items-start gap-2">
+                                        <i class="fa-solid fa-check text-emerald-400 mt-0.5 text-[11px]"></i>
+                                        <span>Durvju paneļu, sliekšņu un stiklu padziļināta tīrīšana</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-4 pt-3 flex justify-end items-center border-t border-slate-800/60">
+                                <span class="text-xs font-semibold text-sky-400 group-hover:text-sky-300 flex items-center gap-1.5 transition">
+                                    Izvēlēties un rezervēt <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                                </span>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
 
-            <!-- Service 3: DETALIZĒTĀ SALONA TĪRĪŠANA + ĶĪMISKĀ APSTRĀDE -->
-            <div onclick="window.location.href='booking-modal.html?service=detalizeta-kimiska-apstrade-120'" class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col cursor-pointer">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <h3 class="font-semibold text-xl leading-none tracking-tight">Detalizētā salona tīrīšana<br>+ ķīmiskā apstrāde</h3>
+                    <!-- Service 3: Detalizētā salona tīrīšana + ķīmiskā apstrāde -->
+                    <div onclick="window.location.href='booking-modal.html?service=detalizeta-kimiska-apstrade-120'" 
+                         class="service-card group card border border-slate-700 hover:border-sky-600 rounded-3xl p-6 flex flex-col cursor-pointer transition">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <span class="text-[10px] uppercase font-bold tracking-wider px-2.5 py-0.5 rounded-full bg-amber-500/10 text-amber-300 border border-amber-500/30 mb-3 inline-block">
+                                    Pilns detailing komplekss
+                                </span>
+                                <h4 class="font-semibold text-xl leading-tight tracking-tight">Detalizētā tīrīšana<br>+ ķīmiskā apstrāde</h4>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-3xl font-semibold tabular-nums text-white">120€</div>
+                                <div class="text-[11px] text-slate-400">~ 8 stundas</div>
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-slate-800 text-xs text-slate-300 leading-relaxed flex-1 flex flex-col justify-between">
+                            <div>
+                                <p class="text-slate-400 mb-2">Maksimāla salona atjaunošana: ekstrakcija, sēdekļu mazgāšana un salona sterilizācija.</p>
+                                <div class="text-[11px] text-amber-400 mb-2.5 flex items-center gap-1">
+                                    <i class="fa-solid fa-plug text-[10px]"></i> Nepieciešama klienta elektrība
+                                </div>
+                                <div class="space-y-1.5">
+                                    <div class="flex items-start gap-2">
+                                        <i class="fa-solid fa-check text-emerald-400 mt-0.5 text-[11px]"></i>
+                                        <span>Ķīmiskā ekstrakcijas mazgāšana sēdekļiem un grīdai</span>
+                                    </div>
+                                    <div class="flex items-start gap-2">
+                                        <i class="fa-solid fa-check text-emerald-400 mt-0.5 text-[11px]"></i>
+                                        <span>Griestu (headliner) dziļā saudzīgā tīrīšana</span>
+                                    </div>
+                                    <div class="flex items-start gap-2">
+                                        <i class="fa-solid fa-check text-emerald-400 mt-0.5 text-[11px]"></i>
+                                        <span>Ventilācijas sistēmas un gaisa lūku tīrīšana</span>
+                                    </div>
+                                    <div class="flex items-start gap-2">
+                                        <i class="fa-solid fa-check text-emerald-400 mt-0.5 text-[11px]"></i>
+                                        <span>Ādas kondicionēšana + plastmasu atjaunošana un aromatizēšana</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-4 pt-3 flex justify-end items-center border-t border-slate-800/60">
+                                <span class="text-xs font-semibold text-sky-400 group-hover:text-sky-300 flex items-center gap-1.5 transition">
+                                    Izvēlēties un rezervēt <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                                </span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="text-right">
-                        <div class="text-3xl font-semibold tabular-nums">120€</div>
-                    </div>
-                </div>
-                <div class="mt-auto pt-4 text-xs text-slate-300 leading-snug">
-                    ✅ Dziļā putekļu sūcēja tīrīšana<br>
-                    ✅ Ķīmiskā ekstrakcijas mazgāšana<br>
-                    ✅ Griestu (headliner) dziļā ķīmiskā tīrīšana<br>
-                    ✅ Ventilācijas sistēmas tīrīšana<br>
-                    ✅ Ādas kondicionēšana + plastmasu atjaunošana<br>
-                    ✅ Augstas kvalitātes aromatizēšana<br>
-                    ✅ Durvju paneļu, konsoles un pedāļu detalizēta dziļā tīrīšana<br>
-                    ✅ Bagāžnieka dziļā putekļu sūcēja + ķīmiskā tīrīšana<br>
-                    <span class="text-amber-400 text-[10px]">Nepieciešama klienta elektrība</span>
 
-                    <div class="mt-3 flex justify-end">
-                        <span onclick="event.stopImmediatePropagation(); window.location.href='booking-modal.html?service=detalizeta-kimiska-apstrade-120'" 
-                              class="cursor-pointer text-[10px] font-medium text-sky-400 hover:text-sky-300 flex items-center gap-x-1 transition">
-                            Rezervēt <i class="fa-solid fa-arrow-right text-[9px]"></i>
-                        </span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Service 4: STANDARTA VIRSBŪVES TĪRĪŠANA -->
-            <div onclick="window.location.href='booking-modal.html?service=standarta-auto-arpuses-tirisana'" class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col cursor-pointer">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <h3 class="font-semibold text-xl leading-none tracking-tight">Standarta virsbūves<br>tīrīšana</h3>
-                    </div>
-                    <div class="text-right">
-                        <div class="text-3xl font-semibold tabular-nums">15€</div>
-                    </div>
-                </div>
-                <div class="mt-auto pt-4 text-xs text-slate-300 leading-snug">
-                    <span class="text-amber-400 text-[10px]">Tikai privātīpašumā</span>. Ātra un efektīva virsbūves mazgāšana.<br><br>
-                    ✅ Rūpīga virsbūves mazgāšana ar profesionālām šampūniem<br>
-                    ✅ Disku un riepu tīrīšana<br>
-                    ✅ Stiklu tīrīšana<br>
-                    ✅ Sliekšņu un durvju ārējo daļu mazgāšana<br>
-                    ✅ Noskalošana un nosusināšana
-
-                    <div class="mt-3 flex justify-end">
-                        <span onclick="event.stopImmediatePropagation(); window.location.href='booking-modal.html?service=standarta-auto-arpuses-tirisana'" 
-                              class="cursor-pointer text-[10px] font-medium text-sky-400 hover:text-sky-300 flex items-center gap-x-1 transition">
-                            Rezervēt <i class="fa-solid fa-arrow-right text-[9px]"></i>
-                        </span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Service 5: DETALIZĒTĀ VIRSBŪVES TĪRĪŠANA -->
-            <div onclick="window.location.href='booking-modal.html?service=auto-arpuses-detalizeta-tirisana-45'" class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col cursor-pointer">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <h3 class="font-semibold text-xl leading-none tracking-tight">Detalizētā virsbūves<br>tīrīšana</h3>
-                    </div>
-                    <div class="text-right">
-                        <div class="text-3xl font-semibold tabular-nums">45€</div>
-                    </div>
-                </div>
-                <div class="mt-auto pt-4 text-xs text-slate-300 leading-snug">
-                    <span class="text-amber-400 text-[10px]">Tikai privātīpašumā</span>. Padziļināta virsbūves mazgāšana ar papildu kopšanu.<br><br>
-                    ✅ Kontaktmazgāšana ar putām<br>
-                    ✅ Rūpīga disku, riepu un arku tīrīšana<br>
-                    ✅ Plastmasas un gumijas atjaunošana<br>
-                    ✅ Ātrā vaskošana + pilna žāvēšana<br>
-                    ✅ Logu un sliekšņu tīrīšana
-
-                    <div class="mt-3 flex justify-end">
-                        <span onclick="event.stopImmediatePropagation(); window.location.href='booking-modal.html?service=auto-arpuses-detalizeta-tirisana-45'" 
-                              class="cursor-pointer text-[10px] font-medium text-sky-400 hover:text-sky-300 flex items-center gap-x-1 transition">
-                            Rezervēt <i class="fa-solid fa-arrow-right text-[9px]"></i>
-                        </span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Service 6: MĒBEĻU ĶĪMISKĀ TĪRĪŠANA -->
-            <div onclick="window.location.href='booking-modal.html?service=mebelu-kimiska-tirisana'" class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col cursor-pointer">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <h3 class="font-semibold text-xl leading-none tracking-tight">Mēbeļu<br>ķīmiskā tīrīšana</h3>
-                    </div>
-                    <div class="text-right">
-                        <div class="text-3xl font-semibold tabular-nums">no 35€</div>
-                    </div>
-                </div>
-                <div class="mt-auto pt-4 text-xs text-slate-300 leading-snug">
-                    Matrača, paklāju un dīvānu ķīmiskā tīrīšana.<br><br>
-                    ✅ Matrača ķīmiskā tīrīšana – no 35€<br>
-                    ✅ Paklāju ķīmiskā tīrīšana – no 35€<br>
-                    ✅ Dīvānu ķīmiskā tīrīšana – no 35€
-
-                    <div class="mt-3 flex justify-end">
-                        <span onclick="event.stopImmediatePropagation(); window.location.href='booking-modal.html?service=mebelu-kimiska-tirisana'" 
-                              class="cursor-pointer text-[10px] font-medium text-sky-400 hover:text-sky-300 flex items-center gap-x-1 transition">
-                            Rezervēt <i class="fa-solid fa-arrow-right text-[9px]"></i>
-                        </span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Service 7: Augstspiediena virsmu tīrīšana -->
-            <div onclick="window.location.href='booking-modal.html?service=augstspiediena-virsmu-tirisana-2-m²'" class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col cursor-pointer">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <h3 class="font-semibold text-xl leading-none tracking-tight">Augstspiediena<br>virsmu tīrīšana</h3>
-                    </div>
-                    <div class="text-right">
-                        <div class="text-sm font-semibold tabular-nums">1,80 €/m²</div>
-                    </div>
-                </div>
-                <div class="mt-auto pt-4 text-xs text-slate-300 leading-snug">
-                    Bruģa, terases, fasādes, žoga, dārza mēbeļu, bērnu rotaļu laukumu, betona un akmens tīrīšana.<br><br>
-                    Cena: 1,80 €/m². Lielākām platībām cena samazinās.<br>
-                    <span class="text-amber-400">Nepieciešams klienta ūdens pieslēgums</span><br>
-                    ✅ Bez ķīmijas vai videi draudzīgi līdzekļi<br>
-                    ✅ Ideāli privātmāju pagalmiem un komerciālām teritorijām<br>
-                    ✅ Iestrādājam kvarca smiltis pēc klienta vēlmes
-
-                    <div class="mt-3 flex justify-end">
-                        <span onclick="event.stopImmediatePropagation(); window.location.href='booking-modal.html?service=augstspiediena-virsmu-tirisana-2-m²'" 
-                              class="cursor-pointer text-[10px] font-medium text-sky-400 hover:text-sky-300 flex items-center gap-x-1 transition">
-                            Rezervēt <i class="fa-solid fa-arrow-right text-[9px]"></i>
-                        </span>
-                    </div>
                 </div>
             </div>
 
-            <!-- Service 8: Automašīnu diagnostika -->
-            <div onclick="window.location.href='booking-modal.html?service=automasinu-diagnostika'" class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col cursor-pointer">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <h3 class="font-semibold text-xl leading-none tracking-tight">Automašīnu<br>diagnostika</h3>
-                    </div>
-                    <div class="text-right">
-                        <div class="text-3xl font-semibold tabular-nums">20€</div>
-                    </div>
+            <!-- Subgroup: Virsbūves mazgāšana (Exterior) -->
+            <div>
+                <div class="flex items-center gap-2 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">
+                    <i class="fa-solid fa-car-side text-sky-400"></i>
+                    <span>Virsbūves un ārējā mazgāšana (privātīpašumā)</span>
                 </div>
-                <div class="mt-auto pt-4 text-xs text-slate-300 leading-snug">
-                    Profesionāla automašīnu diagnostika ar mūsdienīgu OBD iekārtu.<br><br>
-                    ✅ Pilna OBD diagnostika ar profesionālo skeneri<br>
-                    ✅ Kļūdu kodu nolasīšana un dzēšana<br>
-                    ✅ Reāllaika datu monitorings (dzinējs, sensori, akumulators u.c.)<br>
-                    ✅ Ieteikumi turpmākajām darbībām<br>
-                    ✅ Protokola izdruka vai nosūtīšana uz e-pastu
-
-                    <div class="mt-3 flex justify-end">
-                        <span onclick="event.stopImmediatePropagation(); window.location.href='booking-modal.html?service=automasinu-diagnostika'" 
-                              class="cursor-pointer text-[10px] font-medium text-sky-400 hover:text-sky-300 flex items-center gap-x-1 transition">
-                            Rezervēt <i class="fa-solid fa-arrow-right text-[9px]"></i>
-                        </span>
+                <div class="grid md:grid-cols-2 gap-5">
+                    
+                    <!-- Service 4: Standarta virsbūves tīrīšana -->
+                    <div onclick="window.location.href='booking-modal.html?service=standarta-auto-arpuses-tirisana'" 
+                         class="service-card group card border border-slate-700 hover:border-sky-600 rounded-3xl p-6 flex flex-col cursor-pointer transition">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <span class="text-[10px] uppercase font-bold tracking-wider px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700 mb-3 inline-block">
+                                    Ātrā mazgāšana
+                                </span>
+                                <h4 class="font-semibold text-xl leading-tight tracking-tight">Standarta virsbūves tīrīšana</h4>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-3xl font-semibold tabular-nums text-white">15€</div>
+                                <div class="text-[11px] text-slate-400">~ 1 stunda</div>
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-slate-800 text-xs text-slate-300 leading-relaxed flex-1 flex flex-col justify-between">
+                            <div>
+                                <div class="text-[11px] text-amber-400 mb-2 flex items-center gap-1">
+                                    <i class="fa-solid fa-house text-[10px]"></i> Tikai privātīpašumā
+                                </div>
+                                <p class="text-slate-400 mb-2.5">Ātra un saudzīga virsbūves roku mazgāšana ar kvalitatīvu auto šampūnu.</p>
+                                <div class="space-y-1.5">
+                                    <div class="flex items-start gap-2">
+                                        <i class="fa-solid fa-check text-emerald-400 mt-0.5 text-[11px]"></i>
+                                        <span>Rūpīga virsbūves mazgāšana ar pH neitrāliem šampūniem</span>
+                                    </div>
+                                    <div class="flex items-start gap-2">
+                                        <i class="fa-solid fa-check text-emerald-400 mt-0.5 text-[11px]"></i>
+                                        <span>Disku un riepu pamata tīrīšana</span>
+                                    </div>
+                                    <div class="flex items-start gap-2">
+                                        <i class="fa-solid fa-check text-emerald-400 mt-0.5 text-[11px]"></i>
+                                        <span>Logu tīrīšana no ārpuses, noskalošana un nosusināšana</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-4 pt-3 flex justify-end items-center border-t border-slate-800/60">
+                                <span class="text-xs font-semibold text-sky-400 group-hover:text-sky-300 flex items-center gap-1.5 transition">
+                                    Izvēlēties un rezervēt <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                                </span>
+                            </div>
+                        </div>
                     </div>
+
+                    <!-- Service 5: Detalizētā virsbūves tīrīšana -->
+                    <div onclick="window.location.href='booking-modal.html?service=auto-arpuses-detalizeta-tirisana-45'" 
+                         class="service-card group card border border-slate-700 hover:border-sky-600 rounded-3xl p-6 flex flex-col cursor-pointer transition">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <span class="text-[10px] uppercase font-bold tracking-wider px-2.5 py-0.5 rounded-full bg-sky-500/20 text-sky-300 border border-sky-500/30 mb-3 inline-block">
+                                    Padziļināta + Vaskošana
+                                </span>
+                                <h4 class="font-semibold text-xl leading-tight tracking-tight">Detalizētā virsbūves tīrīšana</h4>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-3xl font-semibold tabular-nums text-white">45€</div>
+                                <div class="text-[11px] text-slate-400">~ 2h 30min</div>
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-slate-800 text-xs text-slate-300 leading-relaxed flex-1 flex flex-col justify-between">
+                            <div>
+                                <div class="text-[11px] text-amber-400 mb-2 flex items-center gap-1">
+                                    <i class="fa-solid fa-house text-[10px]"></i> Tikai privātīpašumā
+                                </div>
+                                <p class="text-slate-400 mb-2.5">Padziļināta virsbūves mazgāšana ar putu kontaktu, arku tīrīšanu un aizsargslāņa uzklāšanu.</p>
+                                <div class="space-y-1.5">
+                                    <div class="flex items-start gap-2">
+                                        <i class="fa-solid fa-check text-emerald-400 mt-0.5 text-[11px]"></i>
+                                        <span>Aktīvo putu kontaktmazgāšana un disku/arku dziļā tīrīšana</span>
+                                    </div>
+                                    <div class="flex items-start gap-2">
+                                        <i class="fa-solid fa-check text-emerald-400 mt-0.5 text-[11px]"></i>
+                                        <span>Ātrā vaskošana ar hidrofobo spīduma efektu</span>
+                                    </div>
+                                    <div class="flex items-start gap-2">
+                                        <i class="fa-solid fa-check text-emerald-400 mt-0.5 text-[11px]"></i>
+                                        <span>Ārējo plastmasu un gumiju atjaunošana un žāvēšana</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-4 pt-3 flex justify-end items-center border-t border-slate-800/60">
+                                <span class="text-xs font-semibold text-sky-400 group-hover:text-sky-300 flex items-center gap-1.5 transition">
+                                    Izvēlēties un rezervēt <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
-
         </div>
 
-        <!-- Additional services row: Vīrs uz stundu & Mājaslapu izstrāde -->
-        <div class="mt-5 flex flex-wrap justify-center gap-5">
-            <!-- Service: Vīrs uz stundu (vrs.lv stils) -->
+        <!-- ========================================== -->
+        <!-- CATEGORY 2: MĒBEĻU UN PAGALMA TĪRĪŠANA     -->
+        <!-- ========================================== -->
+        <div id="services-cleaning" class="mb-14 pt-8 border-t border-slate-800/80">
+            <div class="mb-6">
+                <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold uppercase tracking-wider mb-2">
+                    <i class="fa-solid fa-house-chimney-window"></i> Mājai, Pagalmam un Terasei
+                </div>
+                <h3 class="text-2xl sm:text-3xl font-bold tracking-tight">Mēbeļu un āra virsmu tīrīšana</h3>
+                <p class="text-xs sm:text-sm text-slate-400 mt-1 max-w-3xl">
+                    Dziļā ekstrakcijas tīrīšana dīvāniem un matračiem mājoklī, kā arī jaudīga augstspiediena mazgāšana bruģim, terasēm un fasādēm.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                
+                <!-- Service 6: Mēbeļu ķīmiskā tīrīšana -->
+                <div onclick="window.location.href='booking-modal.html?service=mebelu-kimiska-tirisana'" 
+                     class="service-card group card border border-slate-700 hover:border-emerald-600 rounded-3xl p-6 sm:p-7 flex flex-col cursor-pointer transition">
+                    <div class="flex justify-between items-start">
+                        <div class="flex items-center gap-3">
+                            <div class="w-11 h-11 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-lg">
+                                <i class="fa-solid fa-couch"></i>
+                            </div>
+                            <div>
+                                <span class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Mīkstās mēbeles</span>
+                                <h4 class="font-semibold text-xl sm:text-2xl mt-1 tracking-tight">Mēbeļu ķīmiskā tīrīšana</h4>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-2xl sm:text-3xl font-semibold tabular-nums text-emerald-400">no 35€</div>
+                            <div class="text-[11px] text-slate-400">~ 2 stundas</div>
+                        </div>
+                    </div>
+                    <div class="mt-5 pt-4 border-t border-slate-800 text-xs text-slate-300 leading-relaxed flex-1 flex flex-col justify-between">
+                        <div>
+                            <p class="text-slate-300 mb-3 text-sm">
+                                Profesionāla matraču, paklāju un dīvānu dziļā ķīmiskā mazgāšana ar ekstrakcijas iekārtu. Noņem traipus, putekļu ērcītes un smakas.
+                            </p>
+                            <div class="space-y-2 bg-slate-900/60 p-3.5 rounded-2xl border border-slate-800">
+                                <div class="flex items-center justify-between text-xs">
+                                    <span class="text-slate-300 font-medium">🛋️ Dīvānu ķīmiskā tīrīšana</span>
+                                    <span class="text-emerald-400 font-semibold">no 35 €</span>
+                                </div>
+                                <div class="flex items-center justify-between text-xs">
+                                    <span class="text-slate-300 font-medium">🛏️ Matraču dziļā tīrīšana</span>
+                                    <span class="text-emerald-400 font-semibold">no 35 €</span>
+                                </div>
+                                <div class="flex items-center justify-between text-xs">
+                                    <span class="text-slate-300 font-medium">🧶 Paklāju un mīksto segumu mazgāšana</span>
+                                    <span class="text-emerald-400 font-semibold">no 35 €</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-5 pt-3 flex justify-between items-center border-t border-slate-800/60">
+                            <span class="text-[11px] text-slate-400">Ierodamies ar visu aprīkojumu</span>
+                            <span class="text-xs font-semibold text-emerald-400 group-hover:text-emerald-300 flex items-center gap-1.5 transition">
+                                Rezervēt mēbeļu tīrīšanu <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service 7: Augstspiediena virsmu tīrīšana -->
+                <div onclick="window.location.href='booking-modal.html?service=augstspiediena-virsmu-tirisana-2-m²'" 
+                     class="service-card group card border border-slate-700 hover:border-emerald-600 rounded-3xl p-6 sm:p-7 flex flex-col cursor-pointer transition">
+                    <div class="flex justify-between items-start">
+                        <div class="flex items-center gap-3">
+                            <div class="w-11 h-11 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-lg">
+                                <i class="fa-solid fa-water"></i>
+                            </div>
+                            <div>
+                                <span class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Bruģis & Terases</span>
+                                <h4 class="font-semibold text-xl sm:text-2xl mt-1 tracking-tight">Augstspiediena virsmu tīrīšana</h4>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-2xl sm:text-3xl font-semibold tabular-nums text-emerald-400">1,80 €<span class="text-sm font-normal text-slate-400">/m²</span></div>
+                            <div class="text-[11px] text-slate-400">pēc platības</div>
+                        </div>
+                    </div>
+                    <div class="mt-5 pt-4 border-t border-slate-800 text-xs text-slate-300 leading-relaxed flex-1 flex flex-col justify-between">
+                        <div>
+                            <p class="text-slate-300 mb-3 text-sm">
+                                Bruģa, koka un kompozīta terases, ēku fasāžu, žogu, dārza mēbeļu, betona un akmens dziļā attīrīšana no sūnām, netīrumiem un eļļas traipiem.
+                            </p>
+                            <div class="space-y-1.5">
+                                <div class="flex items-start gap-2">
+                                    <i class="fa-solid fa-check text-emerald-400 mt-0.5 text-[11px]"></i>
+                                    <span>Videi draudzīgi risinājumi bez agresīvas ķīmijas</span>
+                                </div>
+                                <div class="flex items-start gap-2">
+                                    <i class="fa-solid fa-check text-emerald-400 mt-0.5 text-[11px]"></i>
+                                    <span>Ideāli piemērots privātmāju pagalmiem un komerctelpu teritorijām</span>
+                                </div>
+                                <div class="flex items-start gap-2">
+                                    <i class="fa-solid fa-check text-emerald-400 mt-0.5 text-[11px]"></i>
+                                    <span>Pēc klienta vēlmes iestrādājam kvarca smiltis bruģa šuvēs</span>
+                                </div>
+                                <div class="text-[11px] text-amber-400 mt-1 flex items-center gap-1">
+                                    <i class="fa-solid fa-faucet-drip text-[10px]"></i> Nepieciešams klienta ūdens pieslēgums • Lielākām platībām atlaides
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-5 pt-3 flex justify-between items-center border-t border-slate-800/60">
+                            <span class="text-[11px] text-slate-400">Iebūvēts m² kalkulators</span>
+                            <span class="text-xs font-semibold text-emerald-400 group-hover:text-emerald-300 flex items-center gap-1.5 transition">
+                                Aprēķināt un rezervēt <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- CATEGORY 3: MEISTARA PAKALPOJUMI (VĪRS UZ STUNDU) -->
+        <!-- ========================================== -->
+        <div id="services-handyman" class="mb-14 pt-8 border-t border-slate-800/80">
+            <div class="mb-6">
+                <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold uppercase tracking-wider mb-2">
+                    <i class="fa-solid fa-wrench"></i> Mājas un Biroja Aprūpe
+                </div>
+                <h3 class="text-2xl sm:text-3xl font-bold tracking-tight">Vīrs uz stundu — meistara pakalpojumi</h3>
+                <p class="text-xs sm:text-sm text-slate-400 mt-1 max-w-3xl">
+                    Profesionāls un uzticams meistars ar saviem instrumentiem saimnieciskajiem, montāžas un remonta darbiem Ventspilī.
+                </p>
+            </div>
+
+            <!-- Handyman Featured Showcase Card -->
             <div onclick="window.location.href='booking-modal.html?service=virs-uz-stundu'" 
-                 class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col cursor-pointer w-full max-w-sm">
-                <div class="flex justify-between items-start">
+                 class="service-card group card border border-slate-700 hover:border-amber-500 rounded-3xl p-6 sm:p-8 flex flex-col cursor-pointer transition relative overflow-hidden">
+                <div class="flex flex-col lg:flex-row justify-between lg:items-center gap-4 pb-6 border-b border-slate-800">
                     <div>
-                        <h3 class="font-semibold text-xl leading-none tracking-tight">Vīrs uz stundu<br><span class="text-base font-normal text-slate-300">meistara pakalpojumi</span></h3>
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 text-2xl">
+                                <i class="fa-solid fa-screwdriver-wrench"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-2xl sm:text-3xl font-bold tracking-tight text-white">Vīrs uz stundu Ventspilī</h4>
+                                <div class="text-xs text-slate-400">Mājokļa montāža, santehnika, elektrība un remonti</div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="text-right">
-                        <div class="text-3xl font-semibold tabular-nums">no 25€</div>
-                        <div class="text-[10px] text-slate-400">/ stundā</div>
-                    </div>
-                </div>
-                <div class="mt-auto pt-4 text-xs text-slate-300 leading-snug">
-                    Profesionāli saimnieciskie, montāžas un remonta darbi mājoklī vai birojā ar meistara instrumentiem.<br><br>
-                    ✅ Mēbeļu montāža, demontāža un labošana (IKEA, Jysk u.c.)<br>
-                    ✅ Santehnikas darbi (jaucējkrāni, sifoni, podi, pieslēgumi)<br>
-                    ✅ Elektromontāža (gaismekļi, rozetes, slēdži, sadzīves tehnika)<br>
-                    ✅ Plauktu, karnīžu, spoguļu un TV kronšteinu stiprināšana<br>
-                    ✅ Sīkie sadzīves remonta darbi un demontāža
-
-                    <div class="mt-3 flex justify-end">
-                        <span onclick="event.stopImmediatePropagation(); window.location.href='booking-modal.html?service=virs-uz-stundu'" 
-                              class="cursor-pointer text-[10px] font-medium text-sky-400 hover:text-sky-300 flex items-center gap-x-1 transition">
-                            Rezervēt <i class="fa-solid fa-arrow-right text-[9px]"></i>
-                        </span>
+                    <div class="flex items-baseline gap-2 bg-slate-900/90 px-5 py-3 rounded-2xl border border-slate-800 self-start lg:self-center">
+                        <span class="text-xs text-slate-400">Likme:</span>
+                        <span class="text-3xl font-bold text-amber-400 tabular-nums">no 25€</span>
+                        <span class="text-xs text-slate-400">/ stundā</span>
                     </div>
                 </div>
-            </div>
 
-            <!-- Service: Mājaslapu izstrāde uzņēmumiem -->
-            <div onclick="window.location.href='booking-modal.html?service=majaslapu-izstrade-uznemumiem'" 
-                 class="service-card group card border border-slate-700 hover:border-sky-700 rounded-3xl p-6 flex flex-col cursor-pointer w-full max-w-sm">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <h3 class="font-semibold text-xl leading-none tracking-tight">Mājaslapu<br>izstrāde uzņēmumiem</h3>
+                <!-- 5 Logical Specializations Grid -->
+                <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-3.5 my-6">
+                    <div class="bg-slate-900/60 p-4 rounded-2xl border border-slate-800 hover:border-slate-700 transition">
+                        <div class="text-amber-400 text-lg mb-2"><i class="fa-solid fa-couch"></i></div>
+                        <div class="font-semibold text-sm text-white mb-1">Mēbeļu montāža</div>
+                        <div class="text-[11px] text-slate-400 leading-snug">Skapji, gultas, kumodes, galdi, virtuves iekārtas (IKEA, Jysk u.c.)</div>
                     </div>
-                    <div class="text-right">
-                        <div class="text-emerald-400 font-semibold text-base sm:text-lg">Bezmaksas</div>
-                        <div class="text-[10px] text-slate-400">konsultācija • 1h</div>
+                    <div class="bg-slate-900/60 p-4 rounded-2xl border border-slate-800 hover:border-slate-700 transition">
+                        <div class="text-amber-400 text-lg mb-2"><i class="fa-solid fa-faucet"></i></div>
+                        <div class="font-semibold text-sm text-white mb-1">Santehnika</div>
+                        <div class="text-[11px] text-slate-400 leading-snug">Jaucējkrānu maiņa, sifoni, podu mehānismi, veļasmašīnu pieslēgums</div>
+                    </div>
+                    <div class="bg-slate-900/60 p-4 rounded-2xl border border-slate-800 hover:border-slate-700 transition">
+                        <div class="text-amber-400 text-lg mb-2"><i class="fa-solid fa-bolt"></i></div>
+                        <div class="font-semibold text-sm text-white mb-1">Elektromontāža</div>
+                        <div class="text-[11px] text-slate-400 leading-snug">Lustru, gaismekļu, rozešu, slēdžu maiņa un sadzīves tehnikas pieslēgums</div>
+                    </div>
+                    <div class="bg-slate-900/60 p-4 rounded-2xl border border-slate-800 hover:border-slate-700 transition">
+                        <div class="text-amber-400 text-lg mb-2"><i class="fa-solid fa-hammer"></i></div>
+                        <div class="font-semibold text-sm text-white mb-1">Stiprināšana</div>
+                        <div class="text-[11px] text-slate-400 leading-snug">TV sienas kronšteini, karnīzes, spoguļi, plaukti, gleznas, žalūzijas</div>
+                    </div>
+                    <div class="bg-slate-900/60 p-4 rounded-2xl border border-slate-800 hover:border-slate-700 transition sm:col-span-2 lg:col-span-1">
+                        <div class="text-amber-400 text-lg mb-2"><i class="fa-solid fa-toolbox"></i></div>
+                        <div class="font-semibold text-sm text-white mb-1">Sīkie remonti</div>
+                        <div class="text-[11px] text-slate-400 leading-snug">Durvju rokturi, slēdzenes, šuvju silikonēšana, eņģu regulēšana</div>
                     </div>
                 </div>
-                <div class="mt-auto pt-4 text-xs text-slate-300 leading-snug">
-                    <div class="text-[11px] text-emerald-400 font-medium mb-2">Sākotnējā konsultācija bez maksas.</div>
-                    Mēs izveidojām šo profesionālo mājaslapu sev ar rezervācijas sistēmu un modernu dizainu. Tagad palīdzam arī citiem vietējiem uzņēmumiem iegūt tādu pašu kvalitāti — ātri, saprotami un par godīgu cenu.<br><br>
-                    ✅ Vienkārša no 400€ (Landing/vizītkarte)<br>
-                    ✅ Standarta no 800€ (5-8 lapas)<br>
-                    ✅ Premium no 1200€ (ar rezervācijas sistēmu)<br>
-                    ✅ Mēneša uzturēšana no 30€
 
-                    <div class="mt-3 flex justify-end">
-                        <span onclick="event.stopImmediatePropagation(); window.location.href='booking-modal.html?service=majaslapu-izstrade-uznemumiem'" 
-                              class="cursor-pointer text-[10px] font-medium text-sky-400 hover:text-sky-300 flex items-center gap-x-1 transition">
-                            Rezervēt konsultāciju <i class="fa-solid fa-arrow-right text-[9px]"></i>
-                        </span>
+                <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-3 pt-5 border-t border-slate-800 text-xs">
+                    <div class="text-slate-400">
+                        <span class="text-amber-400 font-medium">Minimālais pasūtījums: 1 stunda (25 €).</span> Apmaksa uz vietas pēc faktiski nostrādātā laika.
+                    </div>
+                    <div class="flex items-center gap-2 text-amber-400 group-hover:text-amber-300 font-semibold">
+                        <span>Pieteikt meistaru tiešsaistē</span>
+                        <i class="fa-solid fa-arrow-right"></i>
                     </div>
                 </div>
             </div>
         </div>
 
-        <p class="text-xs text-center text-slate-500 mt-6">Cenas orientējošas. Precīza cena atkarīga no auto stāvokļa un izmēra.</p>
+        <!-- ========================================== -->
+        <!-- CATEGORY 4: MĀJASLAPU IZSTRĀDE (DIGITAL)    -->
+        <!-- ========================================== -->
+        <div id="services-web" class="mb-8 pt-8 border-t border-slate-800/80">
+            <div class="mb-6">
+                <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 text-xs font-semibold uppercase tracking-wider mb-2">
+                    <i class="fa-solid fa-code"></i> Digitālie Risinājumi Biznesam
+                </div>
+                <h3 class="text-2xl sm:text-3xl font-bold tracking-tight">Mājaslapu izstrāde uzņēmumiem</h3>
+                <p class="text-xs sm:text-sm text-slate-400 mt-1 max-w-3xl">
+                    Mēs izveidojām šo profesionālo AutoGlancis vietni ar tiešsaistes rezervāciju un modernu dizainu. Tagad palīdzam arī citiem uzņēmumiem iegūt mūsdienīgu digitālo klātbūtni.
+                </p>
+            </div>
+
+            <!-- Website Dev Showcase Card -->
+            <div onclick="window.location.href='booking-modal.html?service=majaslapu-izstrade-uznemumiem'" 
+                 class="service-card group card border border-slate-700 hover:border-indigo-500 rounded-3xl p-6 sm:p-8 flex flex-col cursor-pointer transition">
+                <div class="flex flex-col lg:flex-row justify-between lg:items-center gap-4 pb-6 border-b border-slate-800">
+                    <div>
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="w-12 h-12 rounded-2xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 text-2xl">
+                                <i class="fa-solid fa-laptop-code"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-2xl sm:text-3xl font-bold tracking-tight text-white">Moderna vietne ar rezervācijas sistēmu</h4>
+                                <div class="text-xs text-slate-400">Pielāgots dizains, ātra ielāde un integrācija ar kalendāru & WhatsApp</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 px-4 py-2.5 rounded-2xl self-start lg:self-center">
+                        <i class="fa-solid fa-circle-check text-emerald-400"></i>
+                        <div>
+                            <div class="text-xs font-semibold text-emerald-400">Sākotnējā konsultācija</div>
+                            <div class="text-[11px] text-slate-300">1 stunda • Bez maksas</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4 Pricing Packages Grid -->
+                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 my-6">
+                    <div class="bg-slate-900/60 p-4 rounded-2xl border border-slate-800 flex flex-col justify-between">
+                        <div>
+                            <div class="text-xs text-slate-400 font-semibold uppercase tracking-wider mb-1">Vizītkarte / Landing</div>
+                            <div class="text-2xl font-bold text-white mb-2">no 400 €</div>
+                            <div class="text-xs text-slate-300 leading-relaxed mb-3">Vienas lapas ātra un eleganta vietne konkrētam pakalpojumam ar zvanīšanas un WhatsApp pogām.</div>
+                        </div>
+                        <div class="text-[11px] text-sky-400 font-medium">✓ Gatavs 3–5 dienās</div>
+                    </div>
+                    <div class="bg-slate-900/60 p-4 rounded-2xl border border-slate-800 flex flex-col justify-between">
+                        <div>
+                            <div class="text-xs text-slate-400 font-semibold uppercase tracking-wider mb-1">Standarta vietne</div>
+                            <div class="text-2xl font-bold text-white mb-2">no 800 €</div>
+                            <div class="text-xs text-slate-300 leading-relaxed mb-3">5–8 sadaļas, pilns pakalpojumu katalogs, foto galerija un pamata SEO optimizācija Google.</div>
+                        </div>
+                        <div class="text-[11px] text-sky-400 font-medium">✓ Pilns biznesa profils</div>
+                    </div>
+                    <div class="bg-slate-900/60 p-4 rounded-2xl border border-slate-800 flex flex-col justify-between ring-1 ring-indigo-500/30">
+                        <div>
+                            <div class="text-xs text-indigo-400 font-semibold uppercase tracking-wider mb-1">Premium ar rezervāciju</div>
+                            <div class="text-2xl font-bold text-indigo-400 mb-2">no 1200 €</div>
+                            <div class="text-xs text-slate-300 leading-relaxed mb-3">Pilna tiešsaistes rezervācija ar kalendāru (kā AutoGlancis!), pielāgotiem laika slotiem un paziņojumiem.</div>
+                        </div>
+                        <div class="text-[11px] text-indigo-400 font-medium">✓ Automātiska klientu plūsma</div>
+                    </div>
+                    <div class="bg-slate-900/60 p-4 rounded-2xl border border-slate-800 flex flex-col justify-between">
+                        <div>
+                            <div class="text-xs text-slate-400 font-semibold uppercase tracking-wider mb-1">Uzturēšana & Atbalsts</div>
+                            <div class="text-2xl font-bold text-white mb-2">no 30 €<span class="text-xs font-normal text-slate-400">/mēn</span></div>
+                            <div class="text-xs text-slate-300 leading-relaxed mb-3">Stabila servera darbība, drošības atjauninājumi, satura korekcijas un tehniskā palīdzība.</div>
+                        </div>
+                        <div class="text-[11px] text-sky-400 font-medium">✓ Mierīgs prāts</div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-3 pt-5 border-t border-slate-800 text-xs">
+                    <div class="text-slate-400">
+                        Reāls piemērs: šī pati AutoGlancis vietne ir mūsu pašu roku darbs.
+                    </div>
+                    <div class="flex items-center gap-2 text-indigo-400 group-hover:text-indigo-300 font-semibold">
+                        <span>Pieteikties bezmaksas konsultācijai</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <p class="text-xs text-center text-slate-500 mt-6">Cenas orientējošas. Precīza cena auto tīrīšanai atkarīga no transportlīdzekļa stāvokļa un izmēra.</p>
     </section>
 
     <!-- HOW IT WORKS -->
@@ -1083,8 +1368,7 @@
                 "Standarta ārpuses tīrīšana — 15€",
                 "Detalizētā virsbūves tīrīšana — 45€",
                 "Mēbeļu ķīmiskā tīrīšana — no 35€",
-                "Augstspiediena virsmu tīrīšana — 1,80 €/m²",
-                "Automašīnu diagnostika — 20€"
+                "Augstspiediena virsmu tīrīšana — 1,80 €/m²"
             ];
             
             serviceSelect.value = serviceNames[index];
@@ -1476,7 +1760,6 @@
             'auto-arpuses-detalizeta-tirisana-45': { name: 'Detalizētā virsbūves tīrīšana', price: '45€', duration: '2.5 h' },
             'mebelu-kimiska-tirisana': { name: 'Mēbeļu ķīmiskā tīrīšana', price: 'no 35€', duration: '2 h' },
             'augstspiediena-virsmu-tirisana-2-m²': { name: 'Augstspiediena virsmu tīrīšana', price: '1,80 €/m²', duration: 'pēc vienošanās' },
-            'automasinu-diagnostika': { name: 'Automašīnu diagnostika', price: '20€', duration: '45 min' },
             'virs-uz-stundu': { name: 'Vīrs uz stundu', price: 'no 25€/h', duration: '2 h' },
             'majaslapu-izstrade-uznemumiem': { name: 'Mājaslapu izstrāde uzņēmumiem', price: 'Bezmaksas', duration: '1 h' }
         };
