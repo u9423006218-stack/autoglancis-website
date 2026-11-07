@@ -15,6 +15,23 @@ app.use(express.static(__dirname, {
   index: 'index.html'
 }));
 
+// Dedicated landing routes
+app.get(['/mebeles', '/mebeles.html', '/mebelu-tirisana'], (req, res) => {
+  res.sendFile(path.join(__dirname, 'mebeles.html'));
+});
+
+app.get(['/augstspiediens', '/augstspiediens.html', '/augstspiediena-tirisana'], (req, res) => {
+  res.sendFile(path.join(__dirname, 'augstspiediens.html'));
+});
+
+app.get(['/meistars', '/meistars.html'], (req, res) => {
+  res.sendFile(path.join(__dirname, 'meistars.html'));
+});
+
+app.get(['/web-izstrade', '/web-izstrade.html'], (req, res) => {
+  res.sendFile(path.join(__dirname, 'web-izstrade.html'));
+});
+
 // Route fallback for booking modal
 app.get('/booking-modal', (req, res) => {
   res.sendFile(path.join(__dirname, 'booking-modal.html'));
