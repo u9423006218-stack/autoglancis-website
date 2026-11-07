@@ -79,11 +79,12 @@
         #services,
         #services-auto,
         #services-cleaning,
+        #services-pressure,
         #services-handyman,
         #services-web,
         #how,
         #gallery {
-            scroll-margin-top: 72px;
+            scroll-margin-top: 80px;
         }
         
         .heading-font {
@@ -254,9 +255,17 @@
                 <!-- Desktop Menu -->
                 <div class="hidden lg:flex items-center gap-x-5 text-sm font-medium">
                     <a href="#services-auto" class="nav-link text-slate-300 hover:text-white px-1">Auto tīrīšana</a>
-                    <a href="#partner-ads" class="nav-link text-slate-300 hover:text-white px-1 flex items-center gap-1.5">
-                        <span>Partneru Reklāmas</span>
-                        <span class="text-[9px] px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-400 font-bold uppercase border border-amber-500/30">Reklāma</span>
+                    <a href="#services-cleaning" class="nav-link text-slate-300 hover:text-white px-1 flex items-center gap-1">
+                        <span>Mēbeles & Bruģis</span>
+                        <span class="text-[9px] px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-400 font-bold uppercase border border-emerald-500/30">Reklāma</span>
+                    </a>
+                    <a href="#services-handyman" class="nav-link text-slate-300 hover:text-white px-1 flex items-center gap-1">
+                        <span>Vīrs uz stundu</span>
+                        <span class="text-[9px] px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-400 font-bold uppercase border border-amber-500/30">Reklāma</span>
+                    </a>
+                    <a href="#services-web" class="nav-link text-slate-300 hover:text-white px-1 flex items-center gap-1">
+                        <span>Mājaslapas</span>
+                        <span class="text-[9px] px-1.5 py-0.2 rounded bg-indigo-500/20 text-indigo-400 font-bold uppercase border border-indigo-500/30">Reklāma</span>
                     </a>
                     <a href="#how" class="nav-link text-slate-300 hover:text-white px-1">Kā tas strādā</a>
                     <a href="#gallery" class="nav-link text-slate-300 hover:text-white px-1">Galerija</a>
@@ -473,19 +482,26 @@
                     Izvēlieties sev nepieciešamo pakalpojumu un ērti piesakiet laiku tiešsaistē ar dažu klikšķu palīdzību.
                 </p>
             </div>
-            <!-- Quick Category Jump Chips -->
-            <div class="flex flex-wrap gap-2 text-xs">
-                <a href="#services-auto" class="px-3.5 py-1.5 rounded-full bg-sky-950/80 hover:bg-sky-900 border border-sky-800 text-sky-300 font-medium transition flex items-center gap-1.5">
-                    <i class="fa-solid fa-car"></i> Auto tīrīšana
+            <!-- Quick Category Jump Chips (Mobile horizontally scrollable, desktop flex-wrap) -->
+            <div class="flex items-center gap-2 overflow-x-auto pb-2 sm:pb-0 sm:flex-wrap text-xs w-full max-w-full">
+                <a href="#services-auto" class="px-3.5 py-2 rounded-full bg-sky-950/90 hover:bg-sky-900 border border-sky-600/70 text-sky-200 font-semibold transition shrink-0 flex items-center gap-1.5 shadow-sm">
+                    <i class="fa-solid fa-car text-sky-400"></i> Auto tīrīšana
                 </a>
-                <a href="#services-cleaning" class="px-3.5 py-1.5 rounded-full bg-slate-800/90 hover:bg-slate-700 border border-slate-700 text-slate-300 font-medium transition flex items-center gap-1.5">
-                    <i class="fa-solid fa-couch"></i> Mēbeles & Bruģis
+                <a href="#services-cleaning" class="px-3.5 py-2 rounded-full bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-600/70 text-emerald-200 font-semibold transition shrink-0 flex items-center gap-1.5 shadow-sm">
+                    <i class="fa-solid fa-couch text-emerald-400"></i> Mēbeļu tīrīšana
+                    <span class="text-[9px] px-1 py-0.2 rounded bg-emerald-500/30 text-emerald-300 font-bold uppercase">Reklāma</span>
                 </a>
-                <a href="#services-handyman" class="px-3.5 py-1.5 rounded-full bg-slate-800/90 hover:bg-slate-700 border border-slate-700 text-slate-300 font-medium transition flex items-center gap-1.5">
-                    <i class="fa-solid fa-wrench"></i> Vīrs uz stundu
+                <a href="#services-pressure" class="px-3.5 py-2 rounded-full bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-600/70 text-cyan-200 font-semibold transition shrink-0 flex items-center gap-1.5 shadow-sm">
+                    <i class="fa-solid fa-water text-cyan-400"></i> Bruģis & Terases
+                    <span class="text-[9px] px-1 py-0.2 rounded bg-cyan-500/30 text-cyan-300 font-bold uppercase">Reklāma</span>
                 </a>
-                <a href="#services-web" class="px-3.5 py-1.5 rounded-full bg-slate-800/90 hover:bg-slate-700 border border-slate-700 text-slate-300 font-medium transition flex items-center gap-1.5">
-                    <i class="fa-solid fa-laptop-code"></i> Mājaslapas
+                <a href="#services-handyman" class="px-3.5 py-2 rounded-full bg-amber-950/80 hover:bg-amber-900 border border-amber-600/70 text-amber-200 font-semibold transition shrink-0 flex items-center gap-1.5 shadow-sm">
+                    <i class="fa-solid fa-wrench text-amber-400"></i> Vīrs uz stundu
+                    <span class="text-[9px] px-1 py-0.2 rounded bg-amber-500/30 text-amber-300 font-bold uppercase">Reklāma</span>
+                </a>
+                <a href="#services-web" class="px-3.5 py-2 rounded-full bg-indigo-950/80 hover:bg-indigo-900 border border-indigo-600/70 text-indigo-200 font-semibold transition shrink-0 flex items-center gap-1.5 shadow-sm">
+                    <i class="fa-solid fa-laptop-code text-indigo-400"></i> Mājaslapas
+                    <span class="text-[9px] px-1 py-0.2 rounded bg-indigo-500/30 text-indigo-300 font-bold uppercase">Reklāma</span>
                 </a>
             </div>
         </div>
@@ -497,7 +513,7 @@
             <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-2 mb-6">
                 <div>
                     <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-500/30 text-sky-400 text-xs font-semibold uppercase tracking-wider mb-2">
-                        <i class="fa-solid fa-truck-pickup"></i> Galvenais pakalpojums • Braucam pie Jums
+                        <i class="fa-solid fa-truck-pickup"></i> Pakalpojums 1 • Mobilā auto tīrīšana • Braucam pie Jums
                     </div>
                     <h3 class="text-2xl sm:text-3xl font-bold tracking-tight">Mobilā auto tīrīšana un aprūpe</h3>
                     <p class="text-xs sm:text-sm text-slate-400 mt-1 max-w-3xl">
@@ -756,29 +772,29 @@
         </div>
 
         <!-- ========================================== -->
-        <!-- PARTNER ADVERTISEMENTS SECTION             -->
+        <!-- OTHER SERVICES & ADVERTISEMENTS            -->
         <!-- ========================================== -->
-        <div id="partner-ads" class="mt-14 pt-10 border-t-2 border-dashed border-slate-800">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-8">
+        <div id="partner-ads" class="mt-16 pt-8 border-t border-slate-800">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-8 pb-4 border-b border-slate-800/60">
                 <div>
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-bold uppercase tracking-wider mb-2">
-                        <i class="fa-solid fa-rectangle-ad"></i> Partneru Reklāma & Sadarbības Piedāvājumi
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-bold uppercase tracking-wider mb-1.5">
+                        <i class="fa-solid fa-rectangle-ad"></i> Specializētie Servisi & Reklāmas Piedāvājumi
                     </div>
-                    <h3 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">Ieteicamie pakalpojumi Ventspilī un apkārtnē</h3>
+                    <h3 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">Citi piedāvātie pakalpojumi Ventspilī un apkārtnē</h3>
                     <p class="text-xs sm:text-sm text-slate-400 mt-1 max-w-2xl">
-                        Uzticami un pārbaudīti vietējie servisi ar savām specializētajām vietnēm un tiešo pieteikšanos.
+                        Mēbeļu ķīmiskā tīrīšana, augstspiediena virsmu mazgāšana, meistara pakalpojumi un mājaslapu izstrāde. Katram pakalpojumam izveidota atsevišķa specializēta vietne.
                     </p>
                 </div>
-                <div class="text-[11px] text-slate-400 bg-slate-900/90 px-3.5 py-2 rounded-xl border border-slate-800 self-start sm:self-center flex items-center gap-2">
+                <div class="text-[11px] text-slate-300 bg-slate-900/90 px-3.5 py-2 rounded-xl border border-slate-800 self-start sm:self-center flex items-center gap-2 shrink-0">
                     <i class="fa-solid fa-arrow-up-right-from-square text-amber-400"></i>
-                    <span>Novirza uz atsevišķām specializētām vietnēm</span>
+                    <span>Atsevišķas specializētas vietnes</span>
                 </div>
             </div>
 
             <!-- ========================================== -->
-            <!-- AD 1: MĒBEĻU UN DĪVĀNU TĪRĪŠANA (AD)       -->
+            <!-- CATEGORY 2: MĒBEĻU UN ĀRA VIRSMU TĪRĪŠANA  -->
             <!-- ========================================== -->
-            <div id="services-cleaning" class="mb-10">
+            <div id="services-cleaning" class="mb-12">
                 <div onclick="window.open('/mebeles.html', '_blank')" 
                      class="group card relative overflow-hidden rounded-3xl p-6 sm:p-8 cursor-pointer transition-all duration-300 border-2 border-emerald-500/40 hover:border-emerald-400 hover:shadow-2xl hover:shadow-emerald-500/15 bg-gradient-to-br from-[#0c1a14] via-[#091510] to-[#060e0a]">
                     
@@ -870,9 +886,9 @@
             </div>
 
             <!-- ========================================== -->
-            <!-- AD 2: AUGSTSPIEDIENA VIRSMU TĪRĪŠANA (AD)  -->
+            <!-- CATEGORY 3: AUGSTSPIEDIENA VIRSMU TĪRĪŠANA -->
             <!-- ========================================== -->
-            <div id="services-pressure" class="mb-10">
+            <div id="services-pressure" class="mb-12">
                 <div onclick="window.open('/augstspiediens.html', '_blank')" 
                      class="group card relative overflow-hidden rounded-3xl p-6 sm:p-8 cursor-pointer transition-all duration-300 border-2 border-cyan-500/40 hover:border-cyan-400 hover:shadow-2xl hover:shadow-cyan-500/15 bg-gradient-to-br from-[#0b1d28] via-[#081620] to-[#050f16]">
                     
@@ -964,9 +980,9 @@
             </div>
 
             <!-- ========================================== -->
-            <!-- AD 1: MEISTARS VENTSPILĪ UN APKĀRTNĒ (AD)  -->
+            <!-- CATEGORY 4: MEISTARS VENTSPILĪ UN APKĀRTNĒ -->
             <!-- ========================================== -->
-            <div id="services-handyman" class="mb-10">
+            <div id="services-handyman" class="mb-12">
                 <div onclick="window.open('/meistars.html', '_blank')" 
                      class="group card relative overflow-hidden rounded-3xl p-6 sm:p-8 cursor-pointer transition-all duration-300 border-2 border-amber-500/40 hover:border-amber-400 hover:shadow-2xl hover:shadow-amber-500/10 bg-gradient-to-br from-[#121824] via-[#0d121c] to-[#0a0e16]">
                     
@@ -1064,9 +1080,9 @@
             </div>
 
             <!-- ========================================== -->
-            <!-- AD 2: MĀJASLAPU IZSTRĀDE UZŅĒMUMIEM (AD)   -->
+            <!-- CATEGORY 5: MĀJASLAPU IZSTRĀDE UZŅĒMUMIEM   -->
             <!-- ========================================== -->
-            <div id="services-web" class="mb-8">
+            <div id="services-web" class="mb-10">
                 <div onclick="window.open('/web-izstrade.html', '_blank')" 
                      class="group card relative overflow-hidden rounded-3xl p-6 sm:p-8 cursor-pointer transition-all duration-300 border-2 border-indigo-500/40 hover:border-indigo-400 hover:shadow-2xl hover:shadow-indigo-500/15 bg-gradient-to-br from-[#0f1422] via-[#0b0e18] to-[#07090e]">
                     
@@ -1390,12 +1406,6 @@
                 <div onclick="event.stopImmediatePropagation()" class="relative w-full max-w-md">
                     <div id="modal-caption" class="text-center text-white mt-3 text-lg font-medium"></div>
                 </div>
-            </div>
-
-
-
-
-
             </div>
 
             <div class="text-center mt-6">
@@ -1754,14 +1764,29 @@
             }
         }
 
-        // Smooth scroll for all anchor links
+        // Smooth scroll for all anchor links with navbar offset
         function initSmoothScroll() {
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function(e) {
-                    const target = document.querySelector(this.getAttribute('href'));
-                    if (target) {
-                        e.preventDefault();
-                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    const href = this.getAttribute('href');
+                    if (!href || href === '#') return;
+                    try {
+                        const target = document.querySelector(href);
+                        if (target) {
+                            e.preventDefault();
+                            const nav = document.querySelector('nav');
+                            const navHeight = nav ? nav.offsetHeight : 68;
+                            const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - navHeight - 16;
+                            window.scrollTo({
+                                top: Math.max(0, targetPosition),
+                                behavior: 'smooth'
+                            });
+                            if (window.history && window.history.pushState) {
+                                window.history.pushState(null, null, href);
+                            }
+                        }
+                    } catch (err) {
+                        // In case href is not a valid CSS selector
                     }
                 });
             });
