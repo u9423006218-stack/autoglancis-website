@@ -915,10 +915,13 @@
                                 </p>
                             </div>
                         </div>
-                        <div class="flex items-baseline gap-2 bg-slate-900/90 px-5 py-3 rounded-2xl border border-slate-800 self-start lg:self-center shrink-0">
-                            <span class="text-xs text-slate-400">Cena:</span>
-                            <span class="text-3xl font-bold text-cyan-400 tabular-nums">1,80 €</span>
-                            <span class="text-xs text-slate-400">/ m²</span>
+                        <div class="flex flex-col sm:items-end bg-slate-900/90 px-5 py-3 rounded-2xl border border-slate-800 self-start lg:self-center shrink-0">
+                            <div class="flex items-baseline gap-2">
+                                <span class="text-xs text-slate-400">Cena:</span>
+                                <span class="text-3xl font-bold text-cyan-400 tabular-nums">1,80 €</span>
+                                <span class="text-xs text-slate-400">/ m²</span>
+                            </div>
+                            <div class="text-[11px] text-cyan-400/90 font-medium mt-0.5">Min. pasūtījums: 40 €</div>
                         </div>
                     </div>
 
@@ -949,7 +952,7 @@
                     <!-- Action Bar -->
                     <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 pt-5 border-t border-slate-800/80">
                         <div class="text-xs text-slate-400">
-                            Iebūvēts m² kalkulators • Nepieciešams klienta ūdens pieslēgums • Lielākām platībām atlaides.
+                            Iebūvēts m² kalkulators • Min. pasūtījums 40 € • Nepieciešams klienta ūdens pieslēgums • Lielākām platībām atlaides.
                         </div>
                         <div class="flex items-center gap-3">
                             <a href="/augstspiediens.html" target="_blank" 
@@ -1588,7 +1591,7 @@
                 "Standarta ārpuses tīrīšana — 15€",
                 "Detalizētā virsbūves tīrīšana — 45€",
                 "Mēbeļu ķīmiskā tīrīšana — no 35€",
-                "Augstspiediena virsmu tīrīšana — 1,80 €/m²"
+                "Augstspiediena virsmu tīrīšana — 1,80 €/m² (min. 40€)"
             ];
             
             serviceSelect.value = serviceNames[index];
@@ -1994,7 +1997,7 @@
             'standarta-auto-arpuses-tirisana': { name: 'Standarta virsbūves tīrīšana', price: '15€', duration: '1 h' },
             'auto-arpuses-detalizeta-tirisana-45': { name: 'Detalizētā virsbūves tīrīšana', price: '45€', duration: '2.5 h' },
             'mebelu-kimiska-tirisana': { name: 'Mēbeļu ķīmiskā tīrīšana', price: 'no 35€', duration: '2 h' },
-            'augstspiediena-virsmu-tirisana-2-m²': { name: 'Augstspiediena virsmu tīrīšana', price: '1,80 €/m²', duration: 'pēc vienošanās' },
+            'augstspiediena-virsmu-tirisana-2-m²': { name: 'Augstspiediena virsmu tīrīšana', price: '1,80 €/m² (min. 40€)', duration: 'pēc vienošanās' },
             'virs-uz-stundu': { name: 'Vīrs uz stundu', price: 'no 25€/h', duration: '2 h' },
             'majaslapu-izstrade-uznemumiem': { name: 'Mājaslapu izstrāde uzņēmumiem', price: 'Bezmaksas', duration: '1 h' }
         };

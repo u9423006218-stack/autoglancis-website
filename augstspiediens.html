@@ -134,16 +134,16 @@
                         <div class="text-slate-400">Bāzes cena</div>
                     </div>
                     <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800 text-xs">
+                        <div class="text-cyan-400 font-bold text-base mb-0.5">Min. 40 €</div>
+                        <div class="text-slate-400">Izsaukuma slieksnis</div>
+                    </div>
+                    <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800 text-xs">
                         <div class="text-cyan-400 font-bold text-base mb-0.5">Bez šļakatām</div>
                         <div class="text-slate-400">Rotējošā virsmu birste</div>
                     </div>
                     <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800 text-xs">
                         <div class="text-cyan-400 font-bold text-base mb-0.5">Kvarca smiltis</div>
                         <div class="text-slate-400">Šuvju pildīšana</div>
-                    </div>
-                    <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800 text-xs">
-                        <div class="text-cyan-400 font-bold text-base mb-0.5">Lielām platībām</div>
-                        <div class="text-slate-400">Apjoma atlaides</div>
                     </div>
                 </div>
 
@@ -179,9 +179,13 @@
                             Aptuvenais laukums (m²):
                         </label>
                         <div class="relative">
-                            <input id="calc-area" type="number" min="10" max="2000" value="75" oninput="calculatePressureWashPrice()" 
+                            <input id="calc-area" type="number" min="1" max="2000" value="75" oninput="calculatePressureWashPrice()" 
                                    class="w-full bg-slate-950 border border-slate-700 rounded-2xl px-5 py-3 text-2xl font-bold text-white focus:outline-none focus:border-cyan-400">
                             <span class="absolute right-5 top-3.5 text-slate-400 font-bold">m²</span>
+                        </div>
+                        <div class="text-[11px] text-cyan-400/90 font-medium mt-2 flex items-center gap-1.5">
+                            <i class="fa-solid fa-circle-info text-xs"></i>
+                            <span>Minimālais pasūtījums / izsaukums: <strong>40 €</strong> (ietver līdz ~22 m²)</span>
                         </div>
 
                         <!-- Checkbox for quartz sand -->
@@ -197,6 +201,9 @@
                         <div class="text-xs text-slate-400 uppercase font-semibold mb-1">Aprēķinātā cena:</div>
                         <div id="calc-total" class="text-4xl sm:text-5xl font-black text-cyan-400 tabular-nums">135 €</div>
                         <div id="calc-breakdown" class="text-[11px] text-slate-400 mt-2">1,80 € / m² bāzes likme</div>
+                        <div id="calc-min-note" class="hidden text-[11px] text-amber-300 font-medium mt-1">
+                            <i class="fa-solid fa-shield-halved text-xs mr-1"></i>Piemērots minimālais izsaukums: 40 €
+                        </div>
                         <a id="calc-book-btn" href="#" target="_blank" class="mt-4 w-full cyan-glow-btn text-slate-950 font-bold py-2.5 rounded-xl text-xs sm:text-sm inline-flex items-center justify-center gap-2">
                             <i class="fa-brands fa-whatsapp text-base"></i>
                             <span>Pieteikt šo platību</span>
@@ -235,7 +242,7 @@
                     </div>
                     <div class="pt-4 border-t border-slate-800 flex items-center justify-between text-xs">
                         <span class="text-slate-400">Cena:</span>
-                        <span class="text-cyan-400 font-bold">1,80 € / m²</span>
+                        <span class="text-cyan-400 font-bold">1,80 € / m² <span class="text-[10px] text-slate-400 font-normal">(min. 40 €)</span></span>
                     </div>
                 </div>
 
@@ -257,7 +264,7 @@
                     </div>
                     <div class="pt-4 border-t border-slate-800 flex items-center justify-between text-xs">
                         <span class="text-slate-400">Cena:</span>
-                        <span class="text-cyan-400 font-bold">1,80 € / m²</span>
+                        <span class="text-cyan-400 font-bold">1,80 € / m² <span class="text-[10px] text-slate-400 font-normal">(min. 40 €)</span></span>
                     </div>
                 </div>
 
@@ -279,7 +286,7 @@
                     </div>
                     <div class="pt-4 border-t border-slate-800 flex items-center justify-between text-xs">
                         <span class="text-slate-400">Cena:</span>
-                        <span class="text-cyan-400 font-bold">no 1,80 € / m²</span>
+                        <span class="text-cyan-400 font-bold">no 1,80 € / m² <span class="text-[10px] text-slate-400 font-normal">(min. 40 €)</span></span>
                     </div>
                 </div>
 
@@ -301,7 +308,7 @@
                     </div>
                     <div class="pt-4 border-t border-slate-800 flex items-center justify-between text-xs">
                         <span class="text-slate-400">Cena:</span>
-                        <span class="text-cyan-400 font-bold">no 1,80 € / m²</span>
+                        <span class="text-cyan-400 font-bold">no 1,80 € / m² <span class="text-[10px] text-slate-400 font-normal">(min. 40 €)</span></span>
                     </div>
                 </div>
 
@@ -423,6 +430,7 @@
             var sandInput = document.getElementById('calc-sand');
             var totalEl = document.getElementById('calc-total');
             var breakdownEl = document.getElementById('calc-breakdown');
+            var minNoteEl = document.getElementById('calc-min-note');
             var bookBtn = document.getElementById('calc-book-btn');
 
             var area = parseFloat(areaInput.value) || 0;
@@ -436,12 +444,23 @@
 
             var sandRate = sandInput.checked ? 0.40 : 0;
             var finalRate = baseRate + sandRate;
-            var total = Math.round(area * finalRate);
+            var calculated = Math.round(area * finalRate);
+            var minOrder = 40; // Minimālais pasūtījums / izsaukums 40 €
+            var isMinApplied = calculated < minOrder;
+            var total = isMinApplied ? minOrder : calculated;
 
             totalEl.textContent = total + " €";
-            breakdownEl.textContent = finalRate.toFixed(2) + " € / m² " + (sandInput.checked ? "(ar kvarca smiltīm)" : "") + (area >= 100 ? " • Iekļauta apjoma atlaide" : "");
 
-            var msg = "Labdien! Interesē augstspiediena mazgāšana " + area + " m² platībai (" + total + " €" + (sandInput.checked ? " ar kvarca smiltīm" : "") + ").";
+            if (isMinApplied) {
+                if (minNoteEl) minNoteEl.classList.remove('hidden');
+                var coverageM2 = Math.floor(minOrder / finalRate);
+                breakdownEl.textContent = "Minimālā izsaukuma summa: 40 € (līdz " + coverageM2 + " m²)";
+            } else {
+                if (minNoteEl) minNoteEl.classList.add('hidden');
+                breakdownEl.textContent = finalRate.toFixed(2) + " € / m² " + (sandInput.checked ? "(ar kvarca smiltīm)" : "") + (area >= 100 ? " • Iekļauta apjoma atlaide" : "");
+            }
+
+            var msg = "Labdien! Interesē augstspiediena mazgāšana " + (area > 0 ? area + " m² platībai" : "") + " (" + total + " €" + (isMinApplied ? " - min. izsaukums" : "") + (sandInput.checked ? " ar kvarca smiltīm" : "") + ").";
             bookBtn.href = "https://wa.me/37125689885?text=" + encodeURIComponent(msg);
         }
 
